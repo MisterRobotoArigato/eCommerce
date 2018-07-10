@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using MisterRobotoArigato.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,5 +14,6 @@ namespace MisterRobotoArigato.Data
 
         }
 
+        DbSet<Product> Products { get; set; }
     }
 }
