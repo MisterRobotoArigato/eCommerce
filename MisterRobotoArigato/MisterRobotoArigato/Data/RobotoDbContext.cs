@@ -13,6 +13,5 @@ namespace MisterRobotoArigato.Data
 
         }
 
-
     }
 }
