@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace MisterRobotoArigato.Models
 {
-    public interface IProductRepo
+    public interface IRobotoRepo
     {
         Task<IActionResult> CreateProduct(Product product);
 

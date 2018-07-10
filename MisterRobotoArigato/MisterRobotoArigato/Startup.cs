@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using MisterRobotoArigato.Data;
+using MisterRobotoArigato.Models;
 
 namespace MisterRobotoArigato
 {
@@ -28,6 +29,8 @@ namespace MisterRobotoArigato
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
+
+            services.AddScoped<IRobotoRepo, DevRobototRepo>();
             services.AddDbContext<RobotoDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
         }

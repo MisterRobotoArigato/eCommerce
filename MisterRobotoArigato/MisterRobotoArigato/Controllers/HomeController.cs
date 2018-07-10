@@ -10,9 +10,9 @@ namespace MisterRobotoArigato.Controllers
 {
     public class HomeController : Controller
     {
-        private IProductRepo _repo;
+        private IRobotoRepo _repo;
 
-        public HomeController(IProductRepo repo)
+        public HomeController(IRobotoRepo repo)
         {
             _repo = repo;
         }

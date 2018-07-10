@@ -7,11 +7,11 @@ using MisterRobotoArigato.Data;
 
 namespace MisterRobotoArigato.Models
 {
-    public class DevProductRepo : IProductRepo
+    public class DevRobototRepo : IRobotoRepo
     {
         private RobotoDbContext _context;
 
-        public DevProductRepo(RobotoDbContext context)
+        public DevRobototRepo(RobotoDbContext context)
         {
             _context = context;
         }
