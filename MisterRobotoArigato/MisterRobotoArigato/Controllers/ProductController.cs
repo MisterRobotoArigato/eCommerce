@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using MisterRobotoArigato.Data;
+using MisterRobotoArigato.Models;
 
 namespace MisterRobotoArigato.Controllers
 {
@@ -21,8 +22,10 @@ namespace MisterRobotoArigato.Controllers
 
         public IActionResult Index()
         {
-            var products = _context.Products;
-            return View();
+            List<Product> products = _context.Products.ToList();
+            ProductListingVM productListVM = new ProductListingVM();
+            productListVM.Products = products;
+            return View(productListVM);
         }
     }
 }

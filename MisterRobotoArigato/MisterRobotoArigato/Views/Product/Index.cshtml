@@ -1,2 +1,11 @@
-﻿
+﻿@model  ProductListingVM;
 HELLO in Product View
+
+@foreach(var product in Model.Products)
+{
+    <p>@product.Name</p>
+    <p>@product.Description</p>
+    <p>@product.SKU</p>
+    <p>@product.Price</p>
+    <img src="@product.ImgUrl"/>
+}
