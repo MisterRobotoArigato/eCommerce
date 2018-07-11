@@ -30,7 +30,6 @@ namespace MisterRobotoArigato
                     logger.LogError(ex, "An error occurred seeding the DB. Sad face.");
                 }
             }
-
             host.Run();
         }
 

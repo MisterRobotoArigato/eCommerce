@@ -21,6 +21,7 @@ namespace MisterRobotoArigato.Controllers
 
         public IActionResult Index()
         {
+            var products = _context.Products;
             return View();
         }
     }
