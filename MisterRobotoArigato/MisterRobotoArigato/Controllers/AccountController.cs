@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using MisterRobotoArigato.Models;
 using MisterRobotoArigato.Models.ViewModel;
@@ -9,6 +10,7 @@ using System.Threading.Tasks;
 
 namespace MisterRobotoArigato.Controllers
 {
+    [Authorize]
     public class AccountController : Controller
     {
         private UserManager<ApplicationUser> _userManager;
@@ -25,12 +27,14 @@ namespace MisterRobotoArigato.Controllers
             return View();
         }
 
+        [AllowAnonymous]
         [HttpGet]
         public IActionResult Register()
         {
             return View();
         }
 
+        [AllowAnonymous]
         [HttpPost]
         public async Task<IActionResult> Register(RegisterViewModel rvm)
         {
@@ -47,7 +51,42 @@ namespace MisterRobotoArigato.Controllers
             if (result.Succeeded)
             {
             }
+            return View(rvm);
+        }
+
+        [AllowAnonymous]
+        [HttpGet]
+        public IActionResult Login()
+        {
             return View();
+        }
+
+        [AllowAnonymous]
+        [HttpPost]
+        public async Task<IActionResult> Login(LoginViewModel lvm)
+        {
+            if (ModelState.IsValid)
+            {
+                var result = await _signInManager.PasswordSignInAsync(lvm.Email, lvm.Password, false, false);
+                if (result.Succeeded)
+                {
+                    return RedirectToAction("Index", "Home");
+                }
+                else
+                {
+                    ModelState.AddModelError(string.Empty, "You don't know your credentials.");
+                }
+            }
+
+            return View(lvm);
+        }
+
+        public async Task<IActionResult> Logout()
+        {
+            await _signInManager.SignOutAsync();
+            TempData["LoggedOut"] = "User Logged Out";
+
+            return RedirectToAction("Index", "Home");
         }
     }
 }
