@@ -5,6 +5,8 @@
     margin-bottom: 1em;
 }
 
-/*ul {
-list-style-type: none;
-}*/
+.featureProduct {
+    max-width: 40vw;
+    display: inline-block;
+    text-align:center;
+}
