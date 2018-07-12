@@ -1,0 +1,12 @@
+﻿img.resize {
+    width: 20vw;
+    border: solid 10px #0094ff;
+    border-radius: 1em;
+    margin-bottom: 1em;
+}
+
+.featureProduct {
+    max-width: 40vw;
+    display: inline-block;
+    text-align:center;
+}
