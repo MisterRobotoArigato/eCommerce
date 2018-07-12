@@ -44,6 +44,7 @@ namespace MisterRobotoArigato
                 app.UseDeveloperExceptionPage();
             }
 
+            app.UseAuthentication();
             app.UseStaticFiles();
             app.UseMvc(route =>
             {
