@@ -13,12 +13,6 @@
     padding: 1em 0;
 }
 
-/*@media only screen and (max-width: 900px)
-{
-    img.resize {
-        width:40vw;
-    }
-}*/
 
 @media only screen and (max-width: 400px) {
     img.resize {

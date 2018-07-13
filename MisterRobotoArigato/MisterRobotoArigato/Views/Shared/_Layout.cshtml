@@ -8,10 +8,11 @@
       rel="stylesheet" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB"
       crossorigin="anonymous">
 <link rel="stylesheet" href="~/css/base.css" type="text/css" />
+<link rel="stylesheet" href="~/css/layout.css" type="text/css" />
 <link rel="stylesheet" href="~/css/modules.css" type="text/css" />
 <title>Welcome to the Mister Roboto Arigato Store</title>
 <body>
-    <nav class="navbar navbar-expand-sm navbar-dark bg-primary">
+    <nav class="navbar navbar-expand-sm navbar-dark fixed-top bg-primary">
         <a href="/" class="navbar-brand">Mister Roboto Arigato</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar7">
             <span class="navbar-toggler-icon"></span>
@@ -29,6 +30,10 @@
                 </li>
             </ul>
         </div>
+        <form class="form-inline mt-2 mt-md-0">
+            <input class="form-control mr-sm-2" type="text" placeholder="Search for Products" aria-label="Search">
+            <button class="btn btn-outline-light my-2 my-sm-0" type="submit">Search</button>
+        </form>
     </nav>
     <main>
         @RenderBody()
