@@ -16,7 +16,6 @@ namespace MisterRobotoArigato.Controllers
     {
         private UserManager<ApplicationUser> _userManager;
         private SignInManager<ApplicationUser> _signInManager;
-
         public AccountController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager)
         {
             _userManager = userManager;
@@ -39,32 +38,46 @@ namespace MisterRobotoArigato.Controllers
         [HttpPost]
         public async Task<IActionResult> Register(RegisterViewModel rvm)
         {
-            List<Claim> claims = new List<Claim>();
-            var user = new ApplicationUser
+            if (ModelState.IsValid)
             {
-                UserName = rvm.Email,
-                Email = rvm.Email,
-                FirstName = rvm.FirstName,
-                LastName = rvm.LastName
-            };
-            //creates user in the database
-            var result = await _userManager.CreateAsync(user, rvm.Password);
+                List<Claim> claims = new List<Claim>();
+                var user = new ApplicationUser
+                {
+                    UserName = rvm.Email,
+                    Email = rvm.Email,
+                    FirstName = rvm.FirstName,
+                    LastName = rvm.LastName
+                };
+                //creates user in the database
+                var result = await _userManager.CreateAsync(user, rvm.Password);
 
-            if (result.Succeeded)
-            {   //capturing the user's name
-                Claim nameClaim = new Claim("FullName", $"{user.FirstName} {user.LastName}");
-                //capturing the user's email
-                Claim emailClaim = new Claim(ClaimTypes.Email, user.Email, ClaimValueTypes.Email);
-                claims.Add(nameClaim);
-                claims.Add(emailClaim);
-                //adds claim to the user
-                await _userManager.AddClaimsAsync(user, claims);
+                if (result.Succeeded)
+                {
+                    //capturing the user's name
+                    Claim nameClaim = new Claim("FullName", $"{user.FirstName} {user.LastName}");
+                    //capturing the user's email
+                    Claim emailClaim = new Claim(ClaimTypes.Email, user.Email, ClaimValueTypes.Email);
+                    claims.Add(nameClaim);
+                    claims.Add(emailClaim);
+                    //adds claim to the user
+                    await _userManager.AddClaimsAsync(user, claims);
 
-                //await _userManager.AddToRoleAsync(user, ApplicationRoles.Admin);
-                await _signInManager.SignInAsync(user, false);
+                    if (user.Email == "doge@gmail.com")
+                    {
+                        await _userManager.AddToRoleAsync(user, ApplicationRoles.Member);
+                        await _userManager.AddToRoleAsync(user, ApplicationRoles.Admin);
+                    }
+                    else
+                    {
+                        await _userManager.AddToRoleAsync(user, ApplicationRoles.Member);
+                    }
 
-                return RedirectToAction("Index", "Home");
+                    await _signInManager.SignInAsync(user, false);
+
+                    return RedirectToAction("Index", "Home");
+                }
             }
+
             return View(rvm);
         }
 
@@ -82,8 +95,15 @@ namespace MisterRobotoArigato.Controllers
             if (ModelState.IsValid)
             {
                 var result = await _signInManager.PasswordSignInAsync(lvm.Email, lvm.Password, false, false);
+
                 if (result.Succeeded)
                 {
+                    var user = await _userManager.FindByEmailAsync(lvm.Email);
+                    if (await _userManager.IsInRoleAsync(user, ApplicationRoles.Admin))
+                    {
+                        return RedirectToAction("Index", "Admin");
+                    }
+
                     return RedirectToAction("Index", "Home");
                 }
                 else
