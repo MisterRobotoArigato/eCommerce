@@ -1,0 +1,21 @@
+﻿main {
+    padding-top: 5em;
+}
+
+@media only screen and (max-width: 980px) {
+    main {
+        padding-top:8em;
+    }
+}
+
+@media only screen and (max-width: 580px) {
+    main {
+        padding-top: 12em;
+    }
+}
+
+@media only screen and (max-width: 320px) {
+    main {
+        padding-top: 14em;
+    }
+}
