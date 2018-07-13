@@ -2,21 +2,27 @@
     padding-top: 5em;
 }
 
-@media only screen and (max-width: 980px) {
+@media only screen and (max-width: 1120px) {
     main {
-        padding-top:8em;
+        padding-top: 7em;
+    }
+}
+
+@media only screen and (max-width: 830px) {
+    main {
+        padding-top:10em;
     }
 }
 
 @media only screen and (max-width: 580px) {
     main {
-        padding-top: 12em;
+        padding-top: 14em;
     }
 }
 
 @media only screen and (max-width: 320px) {
     main {
-        padding-top: 14em;
+        padding-top: 16em;
     }
 }
 
