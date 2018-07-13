@@ -1,12 +1,27 @@
 ﻿img.resize {
-    width: 20vw;
+    /*width: 30vw;*/
+    max-width:300px;
     border: solid 10px #0094ff;
     border-radius: 1em;
     margin-bottom: 1em;
 }
 
 .featureProduct {
-    max-width: 40vw;
-    display: inline-block;
-    text-align:center;
+    /*max-width: 40vw;*/
+    /*display: block;*/
+    /*text-align:center;*/
+    padding: 1em 0;
+}
+
+/*@media only screen and (max-width: 900px)
+{
+    img.resize {
+        width:40vw;
+    }
+}*/
+
+@media only screen and (max-width: 400px) {
+    img.resize {
+        width: 80vw;
+    }
 }
