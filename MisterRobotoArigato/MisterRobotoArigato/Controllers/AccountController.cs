@@ -6,6 +6,7 @@ using MisterRobotoArigato.Models.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace MisterRobotoArigato.Controllers
@@ -38,6 +39,7 @@ namespace MisterRobotoArigato.Controllers
         [HttpPost]
         public async Task<IActionResult> Register(RegisterViewModel rvm)
         {
+            List<Claim> claims = new List<Claim>();
             var user = new ApplicationUser
             {
                 UserName = rvm.Email,
@@ -45,11 +47,23 @@ namespace MisterRobotoArigato.Controllers
                 FirstName = rvm.FirstName,
                 LastName = rvm.LastName
             };
-
+            //creates user in the database
             var result = await _userManager.CreateAsync(user, rvm.Password);
 
             if (result.Succeeded)
-            {
+            {   //capturing the user's name
+                Claim nameClaim = new Claim("FullName", $"{user.FirstName} {user.LastName}");
+                //capturing the user's email
+                Claim emailClaim = new Claim(ClaimTypes.Email, user.Email, ClaimValueTypes.Email);
+                claims.Add(nameClaim);
+                claims.Add(emailClaim);
+                //adds claim to the user
+                await _userManager.AddClaimsAsync(user, claims);
+
+                //await _userManager.AddToRoleAsync(user, ApplicationRoles.Admin);
+                await _signInManager.SignInAsync(user, false);
+
+                return RedirectToAction("Index", "Home");
             }
             return View(rvm);
         }
