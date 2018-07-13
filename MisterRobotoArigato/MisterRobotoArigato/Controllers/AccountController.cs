@@ -95,9 +95,11 @@ namespace MisterRobotoArigato.Controllers
             if (ModelState.IsValid)
             {
                 var result = await _signInManager.PasswordSignInAsync(lvm.Email, lvm.Password, false, false);
+
                 if (result.Succeeded)
                 {
-                    if (User.IsInRole(ApplicationRoles.Admin))
+                    var user = await _userManager.FindByEmailAsync(lvm.Email);
+                    if (await _userManager.IsInRoleAsync(user, ApplicationRoles.Admin))
                     {
                         return RedirectToAction("Index", "Admin");
                     }

@@ -104,17 +104,31 @@
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                             <div class="dropdown-item disabled">
                                 <span>
-                                    <i class="fas fa-user"></i> 
+                                    <i class="fas fa-user"></i>
                                     @User.Identity.Name
+                                    @if (User.Identity.Name == "doge@gmail.com")
+                                    {
+                                        <img src="https://t7.rbxcdn.com/1c24a8301e8180247a36ed01ca871309" class="admin-icon" />
+                                    }
                                 </span>
-                               
+
                             </div>
+                            @if (User.Identity.Name == "doge@gmail.com")
+                            {
+                                <a class="dropdown-item" asp-controller="Admin" asp-action="Index">Admin Dashboard</a>
+                            }
                             <a class="dropdown-item" href="#">Account Info</a>
                             <a class="dropdown-item" href="#">Shopping Cart</a>
                             <div class="dropdown-divider"></div>
                             <a asp-controller="Account" asp-action="Logout" class="btn btn-danger btn-block logout-btn">Log out</a>
                         </div>
                     </li>
+                }
+                @if (!SignInManager.IsSignedIn(User))
+                {
+                <li class="nav-item">
+                    <a class="nav-link" asp-controller="Account" asp-action="Login">Login</a>
+                </li>
                 }
                 <li class="nav-item">
                     <form class="form-inline mt-2 mt-md-0">
