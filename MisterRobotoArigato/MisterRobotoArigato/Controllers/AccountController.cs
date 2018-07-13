@@ -52,7 +52,7 @@ namespace MisterRobotoArigato.Controllers
 
             if (result.Succeeded)
             {   //capturing the user's name
-                Claim nameClaim = new Claim(ClaimTypes.Name, $"{rvm.FirstName} {rvm.LastName}");
+                Claim nameClaim = new Claim("FullName", $"{user.FirstName} {user.LastName}");
                 //capturing the user's email
                 Claim emailClaim = new Claim(ClaimTypes.Email, user.Email, ClaimValueTypes.Email);
                 claims.Add(nameClaim);
@@ -60,7 +60,7 @@ namespace MisterRobotoArigato.Controllers
                 //adds claim to the user
                 await _userManager.AddClaimsAsync(user, claims);
 
-                await _userManager.AddToRoleAsync(user, ApplicationRoles.Admin);
+                //await _userManager.AddToRoleAsync(user, ApplicationRoles.Admin);
                 await _signInManager.SignInAsync(user, false);
 
                 return RedirectToAction("Index", "Home");
