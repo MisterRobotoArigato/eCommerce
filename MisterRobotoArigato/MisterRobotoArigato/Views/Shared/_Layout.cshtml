@@ -49,7 +49,7 @@
                                 <span>
                                     @{
                                         var user = await UserManager.FindByEmailAsync(User.Identity.Name);
-                                        if (await UserManager.IsInRoleAsync(user, ApplicationRoles.Admin))
+                                        if (User.Identity.Name.Contains("doge"))
                                         {
                                             <img src="https://t7.rbxcdn.com/1c24a8301e8180247a36ed01ca871309" class="admin-icon float-left" />
                                         }
@@ -80,6 +80,11 @@
                             @if (User.Identity.Name == "doge@gmail.com")
                             {
                                 <a class="dropdown-item" asp-controller="Admin" asp-action="Index">Admin Dashboard</a>
+                            }
+                            @if (User.Identity.Name.Contains("doge"))
+                            {
+                                <a class="dropdown-item" asp-action="Index" asp-controller="Doge">Doge Portal</a>
+
                             }
                             <a class="dropdown-item" href="#">Account Info</a>
                             <a class="dropdown-item" href="#">Shopping Cart</a>

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -13,6 +14,7 @@ using Microsoft.Extensions.DependencyInjection;
 using MisterRobotoArigato.Controllers;
 using MisterRobotoArigato.Data;
 using MisterRobotoArigato.Models;
+using MisterRobotoArigato.Models.Handlers;
 
 namespace MisterRobotoArigato
 {
@@ -41,11 +43,15 @@ namespace MisterRobotoArigato
 
             services.AddIdentity<ApplicationUser, IdentityRole>().AddEntityFrameworkStores<ApplicationDbContext>().AddDefaultTokenProviders();
 
-            //services.AddScoped<RobotoDbContext, ApplicationDbContext>();
-            //services.AddScoped<DevRobotoRepo, AdminController>();
-            //container.GetService<TmpDbContext>();
-            //services.AddScoped<RobotoDbContext>(sp => sp.GetService<>)
+            services.AddAuthorization(options =>
+            {
+                //options.AddPolicy("Over21", policy => policy.Requirements.Add(new MinimumAgeRequirement(21)));
+                options.AddPolicy("AdminOnly", policy => policy.RequireRole(ApplicationRoles.Admin));
+                options.AddPolicy("IsDoge", policy => policy.Requirements.Add(new IsDogeRequirement("doge")));
+            });
+
             services.AddScoped<IRobotoRepo, DevRobotoRepo>();
+            services.AddSingleton<IAuthorizationHandler, IsDogeHandler>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -67,9 +73,10 @@ namespace MisterRobotoArigato
             //        template: "{controller=Home}/{action=Index}/{id?}");
             //});
 
-            app.Run(async (context) =>
+            app.Run((context) =>
             {
-                await context.Response.WriteAsync("Mister Roboto Arigato maaaaaaaas!");
+                context.Response.Redirect("/");
+                return Task.FromResult<object>(null);
             });
         }
     }
