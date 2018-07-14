@@ -23,8 +23,10 @@ namespace MisterRobotoArigato.Controllers
         public IActionResult Index()
         {
             List<Product> products = _context.Products.ToList();
-            ProductListingVM productListVM = new ProductListingVM();
-            productListVM.Products = products;
+            ProductListingVM productListVM = new ProductListingVM
+            {
+                Products = products
+            };
             return View(productListVM);
         }
     }

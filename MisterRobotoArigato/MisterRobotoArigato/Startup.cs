@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using MisterRobotoArigato.Controllers;
 using MisterRobotoArigato.Data;
 using MisterRobotoArigato.Models;
 
@@ -40,7 +41,11 @@ namespace MisterRobotoArigato
 
             services.AddIdentity<ApplicationUser, IdentityRole>().AddEntityFrameworkStores<ApplicationDbContext>().AddDefaultTokenProviders();
 
-            services.AddScoped<IRobotoRepo, DevRobototRepo>();
+            //services.AddScoped<RobotoDbContext, ApplicationDbContext>();
+            //services.AddScoped<DevRobotoRepo, AdminController>();
+            //container.GetService<TmpDbContext>();
+            //services.AddScoped<RobotoDbContext>(sp => sp.GetService<>)
+            services.AddScoped<IRobotoRepo, DevRobotoRepo>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
