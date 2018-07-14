@@ -1,0 +1,50 @@
+﻿@model Product
+@{
+    Layout = "_Layout";
+}
+
+<h2>Delete A Product</h2>
+<dl class="dl-horizontal">
+    <dt>
+        @Html.DisplayNameFor(model => model.ID)
+    </dt>
+    <dd>
+        @Html.DisplayFor(model => model.ID)
+    </dd>
+    <dt>
+        @Html.DisplayNameFor(model => model.Name)
+    </dt>
+    <dd>
+        @Html.DisplayFor(model => model.Name)
+    </dd>
+    <dt>
+        @Html.DisplayNameFor(model => model.SKU)
+    </dt>
+    <dd>
+        @Html.DisplayFor(model => model.SKU)
+    </dd>
+    <dt>
+        @Html.DisplayNameFor(model => model.Price)
+    </dt>
+    <dd>
+        @Html.DisplayFor(model => model.Price)
+    </dd>
+    <dt>
+        @Html.DisplayNameFor(model => model.Description)
+    </dt>
+    <dd>
+        @Html.DisplayFor(model => model.Description)
+    </dd>
+    <dt>
+        @Html.DisplayNameFor(model => model.ImgUrl)
+    </dt>
+    <dd>
+        <img src="@Html.DisplayFor(model => model.ImgUrl)" />
+    </dd>
+</dl>
+
+<form asp-action="Delete">
+    <input type="hidden" asp-for="ID" />
+    <input type="submit" value="Delete" class="btn btn-primary" />
+    <a asp-action="ViewAll">Back to List</a>
+</form>
