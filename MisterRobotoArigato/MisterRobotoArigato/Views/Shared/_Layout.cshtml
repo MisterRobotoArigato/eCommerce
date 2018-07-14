@@ -47,13 +47,16 @@
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                             <div class="dropdown-item disabled">
                                 <span>
-                                    @if (User.Identity.Name == "doge@gmail.com")
-                                    {
-                                        <img src="https://t7.rbxcdn.com/1c24a8301e8180247a36ed01ca871309" class="admin-icon float-left" />
-                                    }
-                                    else
-                                    {
-                                        <i class="fas fa-user"></i>
+                                    @{
+                                        var user = await UserManager.FindByEmailAsync(User.Identity.Name);
+                                        if (await UserManager.IsInRoleAsync(user, ApplicationRoles.Admin))
+                                        {
+                                            <img src="https://t7.rbxcdn.com/1c24a8301e8180247a36ed01ca871309" class="admin-icon float-left" />
+                                        }
+                                        else
+                                        {
+                                            <i class="fas fa-user"></i>
+                                        }
                                     }
                                 </span>
                                 <div class="d-inline-block" id="user-attr">
