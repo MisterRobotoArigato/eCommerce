@@ -45,3 +45,7 @@
 #user-attr {
     margin-left: .5em;
 }
+
+.smaller-img {
+    width:20vw;
+}

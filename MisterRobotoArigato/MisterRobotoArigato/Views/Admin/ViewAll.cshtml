@@ -50,7 +50,7 @@
                 @Html.DisplayFor(modelItem => product.Description)
             </td>
             <td>
-                <img src="@Html.DisplayFor(modelItem => product.ImgUrl)" />
+                <img src="@Html.DisplayFor(modelItem => product.ImgUrl)" class="smaller-img" />
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@product.ID">Edit</a>
