@@ -60,7 +60,7 @@ namespace MisterRobotoArigato.Controllers
             {
                 _context.Add(product);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(GetAllProducts));
+                return RedirectToAction("ViewAll");
             }
             return View(product);
         }
@@ -75,7 +75,7 @@ namespace MisterRobotoArigato.Controllers
             var product = await _context.Products.FindAsync(id);
             if (product == null)
             {
-                return RedirectToAction(nameof(GetAllProducts));
+                return RedirectToAction("ViewAll");
             }
             return View(product);
         }
@@ -94,7 +94,7 @@ namespace MisterRobotoArigato.Controllers
         {
             if (id != product.ID)
             {
-                return RedirectToAction(nameof(GetAllProducts));
+                return RedirectToAction("ViewAll");
             }
             if (ModelState.IsValid)
             {
@@ -107,11 +107,11 @@ namespace MisterRobotoArigato.Controllers
                 {//prevents a double post in case a product is getting posted at the same time
                     if (!ProductExists(product.ID))
                     {
-                        return RedirectToAction(nameof(GetAllProducts));
+                        return RedirectToAction("ViewAll");
                     }
                     throw;
                 }
-                return RedirectToAction(nameof(GetAllProducts));
+                return RedirectToAction("ViewAll");
             }
             return View(product);
         }
@@ -128,14 +128,14 @@ namespace MisterRobotoArigato.Controllers
         {
             if (id == null)
             {
-                return RedirectToAction(nameof(GetAllProducts));
+                return RedirectToAction("ViewAll");
             }
 
             var product = await _context.Products.FirstOrDefaultAsync(
                 p => p.ID == id);
             if (product == null)
             {
-                return RedirectToAction(nameof(GetAllProducts));
+                return RedirectToAction("ViewAll");
             }
             return View(product);
         }
@@ -152,7 +152,7 @@ namespace MisterRobotoArigato.Controllers
             var product = await _context.Products.FindAsync(id);
             _context.Products.Remove(product);
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(GetAllProducts));
+            return RedirectToAction("ViewAll");
         }
 
         /// <summary>
