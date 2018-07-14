@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
 using MisterRobotoArigato.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace MisterRobotoArigato.Controllers
 {
@@ -18,6 +19,12 @@ namespace MisterRobotoArigato.Controllers
         }
 
         public IActionResult Index()
+        {
+            return View();
+        }
+
+        [Authorize(Policy="IsDoge")]
+        public IActionResult Doge()
         {
             return View();
         }

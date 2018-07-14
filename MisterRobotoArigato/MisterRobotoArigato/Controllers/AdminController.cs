@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -10,6 +11,7 @@ using MisterRobotoArigato.Models;
 
 namespace MisterRobotoArigato.Controllers
 {
+    [Authorize(Policy="AdminOnly")]
     public class AdminController : Controller
     {
         private readonly IRobotoRepo _repo;
