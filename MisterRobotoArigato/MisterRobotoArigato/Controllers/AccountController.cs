@@ -55,9 +55,12 @@ namespace MisterRobotoArigato.Controllers
                 {
                     //capturing the user's name
                     Claim nameClaim = new Claim("FullName", $"{user.FirstName} {user.LastName}");
+                    Claim firstNameClaim = new Claim("FirstName", $"{user.FirstName}");
+
                     //capturing the user's email
                     Claim emailClaim = new Claim(ClaimTypes.Email, user.Email, ClaimValueTypes.Email);
                     claims.Add(nameClaim);
+                    claims.Add(firstNameClaim);
                     claims.Add(emailClaim);
                     //adds claim to the user
                     await _userManager.AddClaimsAsync(user, claims);

@@ -34,64 +34,7 @@
                     <li class="nav-item">
                         <a class="nav-link" asp-controller="/" asp-action="/">Place an order</a>
                     </li>
-                    @*@if (SignInManager.IsSignedIn(User))
-                        {
-                            <li class="nav navbar-nav navbar-right nav-item dropdown">
-                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <i class="fas fa-user"></i>
-                                    <strong>@User.Claims.FirstOrDefault(c => c.Type == "FullName").Value (@User.Identity.Name)</strong>
-                                </a>
-                                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item" href="#">Account Info</a>
-                                    <a class="dropdown-item" href="#">Shopping Cart</a>
-                                    <div class="dropdown-divider"></div>
-                                    <a asp-controller="Account" asp-action="Logout" class="btn btn-danger btn-block logout-btn">Log out</a>
-                                </div>
-                            </li>
-                        }*@
                 </ul>
-                @*@if (SignInManager.IsSignedIn(User))
-                    {
-                        <ul class="nav navbar-nav navbar-right">
-                            <li class="nav-item dropdown">
-                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">
-                                    <i class="fas fa-user"></i>
-                                    <strong>@User.Claims.FirstOrDefault(c => c.Type == "FullName").Value</strong>
-                                    <span class="glyphicon glyphicon-chevron-down"></span>
-                                </a>
-                                <ul class="dropdown-menu">
-                                    <li>
-                                        <div class="navbar-login">
-                                            <div class="row">
-                                                <div class="col-lg-4">
-                                                    <h2 class="fas fa-user"></h2>
-                                                </div>
-                                                <div class="col-lg-8">
-                                                    <p class="text-left"><strong>@User.Claims.FirstOrDefault(c => c.Type == "FullName").Value</strong></p>
-                                                    <p class="text-left small">@User.Identity.Name</p>
-                                                    <p class="text-left">
-                                                        <a href="#" class="btn btn-primary btn-block btn-sm">Account Info</a>
-                                                    </p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li class="divider"></li>
-                                    <li>
-                                        <div class="navbar-login navbar-login-session">
-                                            <div class="row">
-                                                <div class="col-lg-12">
-                                                    <p>
-                                                        <a asp-controller="Account" asp-action="Logout" class="btn btn-danger btn-block">Log out</a>
-                                                    </p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </li>
-                                </ul>
-                            </li>
-                        </ul>
-                    }*@
             </div>
             <ul class="nav navbar-nav navbar-right">
                 @if (SignInManager.IsSignedIn(User))
@@ -99,19 +42,37 @@
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <i class="fas fa-user"></i>
-                            <strong>@User.Claims.FirstOrDefault(c => c.Type == "FullName").Value</strong>
+                            <strong>Hi, @User.Claims.FirstOrDefault(c => c.Type == "FirstName").Value!</strong>
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                             <div class="dropdown-item disabled">
                                 <span>
-                                    <i class="fas fa-user"></i>
-                                    @User.Identity.Name
                                     @if (User.Identity.Name == "doge@gmail.com")
                                     {
-                                        <img src="https://t7.rbxcdn.com/1c24a8301e8180247a36ed01ca871309" class="admin-icon" />
+                                        <img src="https://t7.rbxcdn.com/1c24a8301e8180247a36ed01ca871309" class="admin-icon float-left" />
+                                    }
+                                    else
+                                    {
+                                        <i class="fas fa-user"></i>
                                     }
                                 </span>
-
+                                <div class="d-inline-block" id="user-attr">
+                                    <strong>@User.Claims.FirstOrDefault(c => c.Type == "FullName").Value</strong>
+                                    <p>@User.Identity.Name</p>
+                                </div>
+                                @if (User.Identity.Name == "doge@gmail.com")
+                                {
+                                    <div class="d-block">
+                                        <i>Supreme Overlord Admin</i>
+                                        <i class="fas fa-star"></i>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="d-block">
+                                        <i>Member</i>
+                                    </div>
+                                }
                             </div>
                             @if (User.Identity.Name == "doge@gmail.com")
                             {
@@ -120,11 +81,13 @@
                             <a class="dropdown-item" href="#">Account Info</a>
                             <a class="dropdown-item" href="#">Shopping Cart</a>
                             <div class="dropdown-divider"></div>
-                            <a asp-controller="Account" asp-action="Logout" class="btn btn-danger btn-block logout-btn">Log out</a>
+                            <div class="logout-container">
+                                <a asp-controller="Account" asp-action="Logout" class="btn btn-danger" id="logout-btn">Log out</a>
+                            </div>
                         </div>
                     </li>
                 }
-                @if (!SignInManager.IsSignedIn(User))
+                else
                 {
                 <li class="nav-item">
                     <a class="nav-link" asp-controller="Account" asp-action="Login">Login</a>
@@ -137,10 +100,6 @@
                     </form>
                 </li>
             </ul>
-            @*<form class="form-inline mt-2 mt-md-0">
-                    <input class="form-control mr-sm-2" type="text" placeholder="Search for Products" aria-label="Search">
-                    <button class="btn btn-outline-light my-2 my-sm-0" type="submit">Search</button>
-                </form>*@
         </nav>
     </header>
 

@@ -24,10 +24,24 @@
 
 }
 
-/*.logout-btn {
-    margin:0 2em;
-}*/
+.logout-container {
+    text-align:center;
+}
+
+#logout-btn {
+    padding: .5em 3.5em;
+}
 
 .admin-icon {
-    width:50px;
+    width:60px;
+    /*float: left;*/
+}
+
+.dropdown-menu {
+    width: 250px !important;
+    /*height: 400px !important;*/
+}
+
+#user-attr {
+    margin-left: .5em;
 }
