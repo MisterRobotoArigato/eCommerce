@@ -23,9 +23,9 @@ namespace MisterRobotoArigato
                 try
                 {
                     StartupDbInitializer.SeedData(services, userManager);
-                    //var context = services.GetRequiredService<RobotoDbContext>();
-                    //context.Database.Migrate();
-                    //SeedData.Initialize(services);
+                    var context = services.GetRequiredService<RobotoDbContext>();
+                    context.Database.Migrate();
+                    SeedData.Initialize(services);
                 }
                 catch (Exception ex)
                 {

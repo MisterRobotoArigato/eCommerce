@@ -20,10 +20,6 @@
     }
 }
 
-.fa-user {
-
-}
-
 .logout-container {
     text-align:center;
 }
@@ -34,7 +30,6 @@
 
 .admin-icon {
     width:60px;
-    /*float: left;*/
 }
 
 .dropdown-menu {
@@ -44,4 +39,8 @@
 
 #user-attr {
     margin-left: .5em;
+}
+
+.smaller-img {
+    width:20vw;
 }

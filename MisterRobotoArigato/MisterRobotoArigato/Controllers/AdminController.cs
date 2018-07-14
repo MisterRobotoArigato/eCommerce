@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -10,14 +11,15 @@ using MisterRobotoArigato.Models;
 
 namespace MisterRobotoArigato.Controllers
 {
+    [Authorize(Policy="AdminOnly")]
     public class AdminController : Controller
     {
-        private readonly RobotoDbContext _context;
+        private readonly IRobotoRepo _repo;
         private readonly IConfiguration Configuration;
 
-        public AdminController(RobotoDbContext context, IConfiguration configuration)
+        public AdminController(IRobotoRepo repo, IConfiguration configuration)
         {
-            _context = context;
+            _repo = repo;
             Configuration = configuration;
         }
 
@@ -31,11 +33,13 @@ namespace MisterRobotoArigato.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet, ActionName("ViewAll")]
-        public IActionResult GetAllProducts()
+        public async Task<IActionResult> GetAllProducts()
         {
-            List<Product> products = _context.Products.ToList();
-            ProductListingVM productListVM = new ProductListingVM();
-            productListVM.Products = products;
+            List<Product> products = await _repo.GetProducts();
+            ProductListingVM productListVM = new ProductListingVM
+            {
+                Products = products
+            };
             return View(productListVM);
         }
 
@@ -58,8 +62,7 @@ namespace MisterRobotoArigato.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Add(product);
-                await _context.SaveChangesAsync();
+                await _repo.CreateProduct(product);
                 return RedirectToAction("ViewAll");
             }
             return View(product);
@@ -72,7 +75,7 @@ namespace MisterRobotoArigato.Controllers
         /// <returns></returns>
         public async Task<IActionResult> Edit(int? id)
         {
-            var product = await _context.Products.FindAsync(id);
+            var product = await _repo.GetProductById(id);
             if (product == null)
             {
                 return RedirectToAction("ViewAll");
@@ -100,12 +103,11 @@ namespace MisterRobotoArigato.Controllers
             {
                 try
                 {
-                    _context.Update(product);
-                    await _context.SaveChangesAsync();
+                    await _repo.UpdateProduct(id, product);
                 }
                 catch (DbUpdateConcurrencyException)
                 {//prevents a double post in case a product is getting posted at the same time
-                    if (!ProductExists(product.ID))
+                    if (!ProductExistsAsync(product.ID).Result)
                     {
                         return RedirectToAction("ViewAll");
                     }
@@ -131,8 +133,7 @@ namespace MisterRobotoArigato.Controllers
                 return RedirectToAction("ViewAll");
             }
 
-            var product = await _context.Products.FirstOrDefaultAsync(
-                p => p.ID == id);
+            var product = await _repo.GetProductById(id);
             if (product == null)
             {
                 return RedirectToAction("ViewAll");
@@ -147,11 +148,9 @@ namespace MisterRobotoArigato.Controllers
         /// <returns>redirects user to view all products</returns>
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirm(int id)
+        public async Task<IActionResult> DeleteConfirmAsync(int id)
         {
-            var product = await _context.Products.FindAsync(id);
-            _context.Products.Remove(product);
-            await _context.SaveChangesAsync();
+            await _repo.DeleteProduct(id);
             return RedirectToAction("ViewAll");
         }
 
@@ -160,9 +159,10 @@ namespace MisterRobotoArigato.Controllers
         /// </summary>
         /// <param name="id"></param>
         /// <returns>bool</returns>
-        private bool ProductExists(int id)
+        private async Task<bool> ProductExistsAsync(int id)
         {
-            return _context.Products.Any(p => p.ID == id);
+            var products = await _repo.GetProducts();
+            return products.Any(p => p.ID == id);
         }
     }
 }
