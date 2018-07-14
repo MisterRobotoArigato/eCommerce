@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace MisterRobotoArigato.Migrations
 {
-    public partial class fifthInitial : Migration
+    public partial class sixthInitial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
