@@ -26,10 +26,7 @@
             <div class="navbar-collapse collapse" id="navbar7">
                 <ul class="navbar-nav">
                     <li class="nav-item">
-                        <a class="nav-link" asp-controller="/" asp-action="/">Search all products</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" asp-controller="Product" asp-action="Index">View all products</a>
+                        <a class="nav-link" asp-controller="Shop" asp-action="Index">Shop</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" asp-controller="/" asp-action="/">Place an order</a>
@@ -39,7 +36,6 @@
             <ul class="nav navbar-nav navbar-right">
                 @if (SignInManager.IsSignedIn(User))
                 {
-                    var user = await UserManager.FindByEmailAsync(User.Identity.Name);
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <i class="fas fa-user"></i>
@@ -49,6 +45,7 @@
                             <div class="dropdown-item disabled">
                                 <span>
                                     @{
+                                        var user = await UserManager.FindByEmailAsync(User.Identity.Name);
                                         if (User.Identity.Name.Contains("doge"))
                                         {
                                             <img src="https://t7.rbxcdn.com/1c24a8301e8180247a36ed01ca871309" class="admin-icon float-left" />
@@ -70,13 +67,7 @@
                                         <i class="fas fa-star"></i>
                                     </div>
                                 }
-                                else if (await UserManager.IsInRoleAsync(user, ApplicationRoles.Admin))
-                                {
-                                    <div class="d-block">
-                                        <i>Admin</i>
-                                    </div>
-                                }
-                                else 
+                                else
                                 {
                                     <div class="d-block">
                                         <i>Member</i>
@@ -103,13 +94,16 @@
                 }
                 else
                 {
-                <li class="nav-item">
-                    <a class="nav-link" asp-controller="Account" asp-action="Login">Login</a>
-                </li>
+                    <li class="nav-item">
+                        <a class="nav-link" asp-controller="Account" asp-action="Register">Register</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" asp-controller="Account" asp-action="Login">Login</a>
+                    </li>
                 }
                 <li class="nav-item">
-                    <form class="form-inline mt-2 mt-md-0">
-                        <input class="form-control mr-sm-2" type="text" placeholder="Search for Products" aria-label="Search">
+                    <form class="form-inline mt-2 mt-md-0" asp-controller="Shop" asp-action="Index" method="get">
+                        <input class="form-control mr-sm-2" type="text" name="SearchString" placeholder="Search for a Product" aria-label="Search">
                         <button class="btn btn-outline-light my-2 my-sm-0" type="submit">Search</button>
                     </form>
                 </li>
