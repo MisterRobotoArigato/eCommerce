@@ -1,0 +1,63 @@
+﻿@model ProductListingVM
+@{
+    Layout = "_Layout";
+}
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Products[0].ID)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Products[0].Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Products[0].SKU)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Products[0].Price)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Products[0].Description)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Products[0].ImgUrl)
+            </th>
+            <th>
+                Options
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+
+    @foreach (var product in Model.Products)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => product.ID)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => product.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => product.SKU)
+            </td>
+            <td>
+                $@Html.DisplayFor(modelItem => product.Price)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => product.Description)
+            </td>
+            <td>
+                <img src="@Html.DisplayFor(modelItem => product.ImgUrl)" class="smaller-img" />
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@product.ID">Edit</a>
+                <a asp-action="Details" asp-route-id="@product.ID">Details</a>
+                <a asp-action="Delete" asp-route-id="@product.ID">Delete</a>
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>

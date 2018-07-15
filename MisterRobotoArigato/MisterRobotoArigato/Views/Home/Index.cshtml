@@ -1,4 +1,23 @@
-﻿
-MISTER ROBOTO ARIGATO TESTING
+﻿@{ 
+    Layout = "_Layout";
+}
 
-<a asp-controller="Product" asp-action="ViewAllProducts">View All Products</a>
+<div class="container">
+    <h1 class="my-2">
+        Featured Products
+    </h1>
+    <div class="row featureProduct">
+        <div class="col-lg-6 text-center mb-6">
+            <h4>Explore Mars</h4>
+            <img src="~/Assets/marsrover.jpg" class="img-fluid d-block mx-auto resize" />
+            <h3>Don't want to live on this planet anymore?</h3>
+            <p>We understand.  With the Mars Rover, you can be driving around your new planet with ease and comfort.  Buy one today!</p>
+        </div>
+        <div class="col-lg-6 text-center mb-6">
+            <h4>State of the Art Bending Unit</h4>
+            <img src="~/Assets/bendingunit.jpg" class="img-fluid d-block mx-auto resize" />
+            <h3>Is there a girder in your life that needs some bending?</h3>
+            <p>This bending unit has all the bending powers needed to bend that girder.  Buy one today!</p>
+        </div>
+    </div>
+</div>

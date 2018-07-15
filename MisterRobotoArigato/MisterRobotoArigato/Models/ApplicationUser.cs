@@ -10,6 +10,13 @@ namespace MisterRobotoArigato.Models
     {
         public string FirstName { get; set; }
         public string LastName { get; set; }
-        
+    }
+
+    //these roles are accessible w/o having to instantiate ApplicationUser
+    public static class ApplicationRoles
+    {
+        public const string Member = "Member";
+        public const string Admin = "Admin";
+        public const string CatLady = "CatLady";
     }
 }
