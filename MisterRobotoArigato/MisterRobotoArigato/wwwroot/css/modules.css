@@ -42,5 +42,11 @@
 }
 
 .smaller-img {
-    width:20vw;
+    width:200px;
+}
+
+@media only screen and (max-width: 500px) {
+    .smaller-img {
+        width:30vw;
+    }
 }
