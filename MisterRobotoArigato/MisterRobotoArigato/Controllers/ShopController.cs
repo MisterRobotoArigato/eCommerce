@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using MisterRobotoArigato.Models;
 
@@ -19,13 +20,25 @@ namespace MisterRobotoArigato.Controllers
             Configuration = configuration;
         }
 
-        public async Task<IActionResult> Index()
+        /// <summary>
+        /// populates the list of items to shop and allows users to search for a specific item by name
+        /// </summary>
+        /// <param name="searchString">the name of the item to search for</param>
+        /// <returns>a list of items on search parameters (shows all products if search string is null)</returns>
+        public IActionResult Index(string searchString)
         {
-            List<Product> products = await _repo.GetProducts();
+            var products = _repo.GetProducts().Result.AsQueryable();
+
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                products = products.Where(s => s.Name.ToLower().Contains(searchString.ToLower()));
+            }
+
             ProductListingVM productListVM = new ProductListingVM
             {
-                Products = products
+                Products = products.ToList()
             };
+
             return View(productListVM);
         }
 
@@ -39,21 +52,5 @@ namespace MisterRobotoArigato.Controllers
 
             return View(foundProduct);
         }
-
-        //public async Task<IActionResult> Search(string searchString)
-        //{
-        //    var products = from p in _repo.GetProducts().Result.ToList() select p;
-
-        //    if(!String.IsNullOrEmpty(searchString))
-        //    {
-        //        products = products.Where(p => p.Name.Contains(searchString));
-        //    }
-        //    ProductListingVM productListVM = new ProductListingVM
-        //    {
-        //        Products = (List<Product>)products
-        //    };
-
-        //    return View(productListVM);
-        //}
     }
 }
