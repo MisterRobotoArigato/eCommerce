@@ -1,5 +1,4 @@
 ﻿img.resize {
-    /*width: 30vw;*/
     max-width:300px;
     border: solid 10px #0094ff;
     border-radius: 1em;
@@ -7,9 +6,6 @@
 }
 
 .featureProduct {
-    /*max-width: 40vw;*/
-    /*display: block;*/
-    /*text-align:center;*/
     padding: 1em 0;
 }
 
@@ -28,13 +24,12 @@
     padding: .5em 3.5em;
 }
 
-.admin-icon {
+#doge-icon, #big-user-icon {
     width:60px;
 }
 
-.dropdown-menu {
-    width: 250px !important;
-    /*height: 400px !important;*/
+.user-menu {
+    width: 250px;
 }
 
 #user-attr {
@@ -49,4 +44,8 @@
     .smaller-img {
         width:30vw;
     }
+}
+
+.doge-img {
+    width:300px;
 }

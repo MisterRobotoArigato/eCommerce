@@ -36,35 +36,45 @@
             <ul class="nav navbar-nav navbar-right">
                 @if (SignInManager.IsSignedIn(User))
                 {
+                    var user = await UserManager.FindByEmailAsync(User.Identity.Name);
+                    bool isAdmin = await UserManager.IsInRoleAsync(user, ApplicationRoles.Admin);
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <i class="fas fa-user"></i>
                             <strong>Hi, @User.Claims.FirstOrDefault(c => c.Type == "FirstName").Value!</strong>
                         </a>
-                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <div class="dropdown-menu user-menu" aria-labelledby="navbarDropdown">
                             <div class="dropdown-item disabled">
                                 <span>
                                     @{
-                                        var user = await UserManager.FindByEmailAsync(User.Identity.Name);
                                         if (User.Identity.Name.Contains("doge"))
                                         {
-                                            <img src="https://t7.rbxcdn.com/1c24a8301e8180247a36ed01ca871309" class="admin-icon float-left" />
+                                            <img src="https://t7.rbxcdn.com/1c24a8301e8180247a36ed01ca871309" class="float-left" id="doge-icon" />
                                         }
                                         else
                                         {
-                                            <i class="fas fa-user"></i>
+                                            <i class="fas fa-user" id="big-user-icon"></i>
                                         }
                                     }
                                 </span>
                                 <div class="d-inline-block" id="user-attr">
                                     <strong>@User.Claims.FirstOrDefault(c => c.Type == "FullName").Value</strong>
+                                    @if (isAdmin)
+                                    {
+                                        <i class="fas fa-star"></i>
+                                    }
                                     <p>@User.Identity.Name</p>
                                 </div>
                                 @if (User.Identity.Name == "doge@gmail.com")
                                 {
                                     <div class="d-block">
                                         <i>Supreme Overlord Admin</i>
-                                        <i class="fas fa-star"></i>
+                                    </div>
+                                }
+                                else if (isAdmin)
+                                {
+                                    <div class="d-block">
+                                        <i>Admin</i>
                                     </div>
                                 }
                                 else
