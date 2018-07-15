@@ -1,6 +1,9 @@
 # Mister Roboto Arigato Store
 Code Fellows 401 C#/ASP.NET course e-commerce project.
 
+**Authors**: Jackie L, Earl Jay Caoile <br />
+**Version**: 1.0.0
+
 ## Overview
 This project is a full stack web application that serves as an e-commerce website. 
 Users can register and login to an account. They will eventually be able to add items to 
