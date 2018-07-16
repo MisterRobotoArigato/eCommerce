@@ -45,7 +45,6 @@ namespace MisterRobotoArigato
 
             services.AddAuthorization(options =>
             {
-                //options.AddPolicy("Over21", policy => policy.Requirements.Add(new MinimumAgeRequirement(21)));
                 options.AddPolicy("AdminOnly", policy => policy.RequireRole(ApplicationRoles.Admin));
                 options.AddPolicy("IsDoge", policy => policy.Requirements.Add(new IsDogeRequirement("doge")));
             });
