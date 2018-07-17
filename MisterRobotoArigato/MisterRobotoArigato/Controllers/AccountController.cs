@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using MisterRobotoArigato.Data;
 using MisterRobotoArigato.Models;
 using MisterRobotoArigato.Models.ViewModel;
 using System;
@@ -16,10 +17,13 @@ namespace MisterRobotoArigato.Controllers
     {
         private UserManager<ApplicationUser> _userManager;
         private SignInManager<ApplicationUser> _signInManager;
-        public AccountController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager)
+        private RobotoDbContext _context;
+
+        public AccountController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, RobotoDbContext context)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _context = context;
         }
 
         public IActionResult Index()
@@ -57,11 +61,15 @@ namespace MisterRobotoArigato.Controllers
                     Claim nameClaim = new Claim("FullName", $"{user.FirstName} {user.LastName}");
                     Claim firstNameClaim = new Claim("FirstName", $"{user.FirstName}");
 
+                    //add a basket to the user
+                    Claim basketClaim = new Claim("basket", $"{user.Email}");
+
                     //capturing the user's email
                     Claim emailClaim = new Claim(ClaimTypes.Email, user.Email, ClaimValueTypes.Email);
                     claims.Add(nameClaim);
                     claims.Add(firstNameClaim);
                     claims.Add(emailClaim);
+
                     //adds claim to the user
                     await _userManager.AddClaimsAsync(user, claims);
 
@@ -74,6 +82,11 @@ namespace MisterRobotoArigato.Controllers
                     {
                         await _userManager.AddToRoleAsync(user, ApplicationRoles.Member);
                     }
+
+                    Basket datBasket = new Basket();
+                    datBasket.CustomerEmail = user.Email;
+                    _context.Add(datBasket);
+                    await _context.SaveChangesAsync();
 
                     await _signInManager.SignInAsync(user, false);
 
