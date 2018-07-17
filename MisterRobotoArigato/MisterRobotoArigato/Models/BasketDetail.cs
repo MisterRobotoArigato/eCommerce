@@ -9,7 +9,7 @@ namespace MisterRobotoArigato.Models
     {
         public int ID { get; set; }
         public int ProductID { get; set; }
-        public string CustomerID { get; set; } //this will be tied to user email
+        public string CustomerEmail { get; set; } //this will be tied to user email
         public int Quantity { get; set; }
         public decimal UnitPrice { get; set; }
     }

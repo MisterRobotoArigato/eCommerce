@@ -10,8 +10,8 @@ using MisterRobotoArigato.Data;
 namespace MisterRobotoArigato.Migrations.RobotoDb
 {
     [DbContext(typeof(RobotoDbContext))]
-    [Migration("20180717050730_tenth")]
-    partial class tenth
+    [Migration("20180717165734_thirteenththtthh")]
+    partial class thirteenththtthh
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -27,6 +27,8 @@ namespace MisterRobotoArigato.Migrations.RobotoDb
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<string>("CustomerEmail");
+
                     b.HasKey("ID");
 
                     b.ToTable("Baskets");
@@ -38,13 +40,13 @@ namespace MisterRobotoArigato.Migrations.RobotoDb
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("BasketID");
+                    b.Property<string>("CustomerEmail");
 
                     b.Property<int>("ProductID");
 
                     b.Property<int>("Quantity");
 
-                    b.Property<int>("UnitPrice");
+                    b.Property<decimal>("UnitPrice");
 
                     b.HasKey("ID");
 
@@ -81,7 +83,7 @@ namespace MisterRobotoArigato.Migrations.RobotoDb
             modelBuilder.Entity("MisterRobotoArigato.Models.Product", b =>
                 {
                     b.HasOne("MisterRobotoArigato.Models.Basket")
-                        .WithMany("BasketProducts")
+                        .WithMany("Products")
                         .HasForeignKey("BasketID");
                 });
 #pragma warning restore 612, 618

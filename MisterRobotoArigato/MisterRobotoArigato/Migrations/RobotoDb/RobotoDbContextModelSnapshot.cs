@@ -25,7 +25,7 @@ namespace MisterRobotoArigato.Migrations.RobotoDb
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("CustomerID");
+                    b.Property<string>("CustomerEmail");
 
                     b.HasKey("ID");
 
@@ -38,7 +38,7 @@ namespace MisterRobotoArigato.Migrations.RobotoDb
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("CustomerID");
+                    b.Property<string>("CustomerEmail");
 
                     b.Property<int>("ProductID");
 

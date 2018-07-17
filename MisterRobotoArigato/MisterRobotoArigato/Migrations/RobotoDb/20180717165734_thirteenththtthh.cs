@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace MisterRobotoArigato.Migrations.RobotoDb
 {
-    public partial class ninth : Migration
+    public partial class thirteenththtthh : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -14,9 +14,9 @@ namespace MisterRobotoArigato.Migrations.RobotoDb
                     ID = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     ProductID = table.Column<int>(nullable: false),
-                    BasketID = table.Column<int>(nullable: false),
+                    CustomerEmail = table.Column<string>(nullable: true),
                     Quantity = table.Column<int>(nullable: false),
-                    UnitPrice = table.Column<int>(nullable: false)
+                    UnitPrice = table.Column<decimal>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -28,7 +28,8 @@ namespace MisterRobotoArigato.Migrations.RobotoDb
                 columns: table => new
                 {
                     ID = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    CustomerEmail = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {

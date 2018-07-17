@@ -8,7 +8,7 @@ namespace MisterRobotoArigato.Models
     public class Basket
     {
         public int ID { get; set; }
-        public string CustomerID { get; set; } //this will be tied to user email
+        public string CustomerEmail { get; set; } //this will be tied to user email
         public List<Product> Products { get; set; }
     }
 }
