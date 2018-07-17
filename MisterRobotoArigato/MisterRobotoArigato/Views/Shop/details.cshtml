@@ -1,5 +1,9 @@
-﻿@model Product
-@{ 
+﻿@using Microsoft.AspNetCore.Identity;
+@using MisterRobotoArigato.Models;
+@inject UserManager<ApplicationUser> UserManager
+@inject SignInManager<ApplicationUser> SignInManager
+@model Product
+@{
     Layout = "_Layout";
 }
 <h2>@Model.Name</h2>
@@ -13,5 +17,22 @@
             <img src="@Model.ImgUrl" />
         </div>
     </div>
-    <button class="btn btn-warning" type="submit" asp-controller="Shop" asp-action="Add">Add to Cart</button>
+    @*<form asp-action="Add" asp-controller="Basket">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <input type="hidden" asp-for="ID" />
+        <input type="hidden" asp-for="Name" />
+        <input type="hidden" asp-for="SKU" />
+        <input type="hidden" asp-for="Price" />
+        <input type="hidden" asp-for="Description" />
+        <input type="hidden" asp-for="ImgUrl" />
+        <div class="form-group">
+            <input type ="submit" value="Add to Cart"  class="btn btn-warning"/>
+        </div>
+    </form>*@
+    <form asp-action="Add" asp-controller="Basket">
+        <input type="submit" value="Add to Cart" class="btn btn-warning" asp-controller="Basket" 
+            asp-action="Add" asp-route-email="@User.Identity.Name" asp-route-product="@Model" />
+    </form>
+    @*<button type="submit" class="btn btn-warning" asp-controller="Basket" 
+            asp-action="Add" asp-route-email="@User.Identity.Name" asp-route-product="@Model">Add to Cart</button>*@
 </div>
