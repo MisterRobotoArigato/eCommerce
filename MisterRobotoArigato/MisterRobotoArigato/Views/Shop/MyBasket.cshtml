@@ -1,0 +1,15 @@
+﻿@using Microsoft.AspNetCore.Identity;
+@using MisterRobotoArigato.Models;
+@inject UserManager<ApplicationUser> UserManager
+@inject SignInManager<ApplicationUser> SignInManager
+@model Basket
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h2>Basket Page</h2>
+@foreach (var product in Model.Products)
+{
+    <p>@product.Name</p>
+
+}

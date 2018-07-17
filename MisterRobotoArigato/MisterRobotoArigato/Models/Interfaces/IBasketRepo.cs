@@ -4,7 +4,7 @@ using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 
-namespace MisterRobotoArigato.Models.Interfaces
+namespace MisterRobotoArigato.Models
 {
     public interface IBasketRepo
     {

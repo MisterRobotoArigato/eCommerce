@@ -30,9 +30,9 @@
         </div>
     </form>*@
     <form asp-action="Add" asp-controller="Basket">
-        <input type="submit" value="Add to Cart" class="btn btn-warning" asp-controller="Basket" 
-            asp-action="Add" asp-route-email="@User.Identity.Name" asp-route-product="@Model" />
+        <input type="submit" value="Add to Cart" class="btn btn-warning" asp-controller="Shop" 
+            asp-action="Add" asp-route-id="@Model.ID" />
     </form>
-    @*<button type="submit" class="btn btn-warning" asp-controller="Basket" 
-            asp-action="Add" asp-route-email="@User.Identity.Name" asp-route-product="@Model">Add to Cart</button>*@
+    @*<button type="submit" class="btn btn-warning" 
+            asp-action="Add" asp-controller="Shop" asp-route-id="@Model.ID">Add to Cart</button>*@
 </div>

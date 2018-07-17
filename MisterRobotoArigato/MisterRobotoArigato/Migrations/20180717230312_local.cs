@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace MisterRobotoArigato.Migrations
 {
-    public partial class givingUserBasket : Migration
+    public partial class local : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
