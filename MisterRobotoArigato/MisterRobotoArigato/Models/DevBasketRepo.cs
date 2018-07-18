@@ -29,11 +29,15 @@ namespace MisterRobotoArigato.Models
                     return HttpStatusCode.Created;
                 }
 
-                BasketDetail datBD = new BasketDetail();
-                datBD.ProductID = product.ID;
-                datBD.CustomerEmail = email;
-                datBD.Quantity = 1;
-                datBD.UnitPrice = product.Price;
+                BasketDetail datBD = new BasketDetail
+                {
+                    ProductID = product.ID,
+                    ProductName = product.Name,
+                    CustomerEmail = email,
+                    Quantity = 1,
+                    UnitPrice = product.Price,
+                    ImgUrl = product.ImgUrl
+                };
 
                 await _context.AddAsync(datBD);
                 await _context.SaveChangesAsync();
@@ -54,10 +58,13 @@ namespace MisterRobotoArigato.Models
         public async Task<Basket> GetUserBasketByEmail(string email)
         {
             var prodInts = _context.BasketDetails.Where(d => d.CustomerEmail == email).Select(p => p.ProductID);
-            List<Product> demProducts = _context.Products.Where(p => prodInts.Contains(p.ID)).ToList();
+            List<BasketDetail> demDetails = _context.BasketDetails.Where(d => d.CustomerEmail == email).ToList();
             Basket datBasket = await _context.Baskets.FirstOrDefaultAsync(b => b.CustomerEmail == email);
-            datBasket.Products = demProducts;
+            datBasket.BasketDetailList = demDetails;
             return datBasket;
+            //List<Product> demProducts = _context.Products.Where(p => prodInts.Contains(p.ID)).ToList();
+            //datBasket.Products = demProducts;
+            //return datBasket;
         }
 
         public Task<Basket> UpdateBasket(string email, Basket basket)

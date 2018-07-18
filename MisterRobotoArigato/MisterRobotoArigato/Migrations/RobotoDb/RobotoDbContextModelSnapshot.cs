@@ -38,15 +38,23 @@ namespace MisterRobotoArigato.Migrations.RobotoDb
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<int?>("BasketID");
+
                     b.Property<string>("CustomerEmail");
 
+                    b.Property<string>("ImgUrl");
+
                     b.Property<int>("ProductID");
+
+                    b.Property<string>("ProductName");
 
                     b.Property<int>("Quantity");
 
                     b.Property<decimal>("UnitPrice");
 
                     b.HasKey("ID");
+
+                    b.HasIndex("BasketID");
 
                     b.ToTable("BasketDetails");
                 });
@@ -76,6 +84,13 @@ namespace MisterRobotoArigato.Migrations.RobotoDb
                     b.HasIndex("BasketID");
 
                     b.ToTable("Products");
+                });
+
+            modelBuilder.Entity("MisterRobotoArigato.Models.BasketDetail", b =>
+                {
+                    b.HasOne("MisterRobotoArigato.Models.Basket")
+                        .WithMany("BasketDetailList")
+                        .HasForeignKey("BasketID");
                 });
 
             modelBuilder.Entity("MisterRobotoArigato.Models.Product", b =>

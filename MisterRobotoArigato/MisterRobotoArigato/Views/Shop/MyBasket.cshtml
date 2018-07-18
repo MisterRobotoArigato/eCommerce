@@ -4,12 +4,15 @@
 @inject SignInManager<ApplicationUser> SignInManager
 @model Basket
 @{
-    ViewData["Title"] = "Index";
+    Layout = "_Layout";
 }
 
-<h2>Basket Page</h2>
-@foreach (var product in Model.Products)
+<h2>My Basket</h2>
+@foreach (var product in Model.BasketDetailList)
 {
-    <p>@product.Name</p>
-
+    <p>@product.ProductName</p>
+    <img src="@product.ImgUrl" class="smaller-img"/>
+    <p>@product.Quantity</p>
+    <p>@product.UnitPrice</p>
+    <hr />
 }
