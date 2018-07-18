@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MisterRobotoArigato.Data;
 
-namespace MisterRobotoArigato.Migrations.RobotoDb
+namespace MisterRobotoArigato.Migrations
 {
     [DbContext(typeof(RobotoDbContext))]
     partial class RobotoDbContextModelSnapshot : ModelSnapshot
@@ -32,7 +32,7 @@ namespace MisterRobotoArigato.Migrations.RobotoDb
                     b.ToTable("Baskets");
                 });
 
-            modelBuilder.Entity("MisterRobotoArigato.Models.BasketDetail", b =>
+            modelBuilder.Entity("MisterRobotoArigato.Models.BasketItem", b =>
                 {
                     b.Property<int>("ID")
                         .ValueGeneratedOnAdd()
@@ -65,8 +65,6 @@ namespace MisterRobotoArigato.Migrations.RobotoDb
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("BasketID");
-
                     b.Property<string>("Description");
 
                     b.Property<string>("ImgUrl");
@@ -81,22 +79,13 @@ namespace MisterRobotoArigato.Migrations.RobotoDb
 
                     b.HasKey("ID");
 
-                    b.HasIndex("BasketID");
-
                     b.ToTable("Products");
                 });
 
-            modelBuilder.Entity("MisterRobotoArigato.Models.BasketDetail", b =>
+            modelBuilder.Entity("MisterRobotoArigato.Models.BasketItem", b =>
                 {
                     b.HasOne("MisterRobotoArigato.Models.Basket")
-                        .WithMany("BasketDetailList")
-                        .HasForeignKey("BasketID");
-                });
-
-            modelBuilder.Entity("MisterRobotoArigato.Models.Product", b =>
-                {
-                    b.HasOne("MisterRobotoArigato.Models.Basket")
-                        .WithMany("Products")
+                        .WithMany("BasketItems")
                         .HasForeignKey("BasketID");
                 });
 #pragma warning restore 612, 618

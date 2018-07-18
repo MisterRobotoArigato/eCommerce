@@ -14,7 +14,7 @@ namespace MisterRobotoArigato.Models
 
         Task<Basket> GetUserBasketByEmail(string email);
 
-        Task<Basket> UpdateBasket(string email, Basket basket);
+        Task<HttpStatusCode> UpdateBasket(string email, BasketItem basketItem);
 
         Task<HttpStatusCode> DeleteProductFromBasket(string email, Basket basket);
     }

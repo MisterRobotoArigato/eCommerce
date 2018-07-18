@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace MisterRobotoArigato.Migrations.RobotoDb
+namespace MisterRobotoArigato.Migrations
 {
     public partial class initialRoboto : Migration
     {
@@ -18,6 +18,23 @@ namespace MisterRobotoArigato.Migrations.RobotoDb
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Baskets", x => x.ID);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Products",
+                columns: table => new
+                {
+                    ID = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Name = table.Column<string>(nullable: false),
+                    SKU = table.Column<string>(nullable: false),
+                    Price = table.Column<decimal>(nullable: false),
+                    Description = table.Column<string>(nullable: true),
+                    ImgUrl = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Products", x => x.ID);
                 });
 
             migrationBuilder.CreateTable(
@@ -45,38 +62,9 @@ namespace MisterRobotoArigato.Migrations.RobotoDb
                         onDelete: ReferentialAction.Restrict);
                 });
 
-            migrationBuilder.CreateTable(
-                name: "Products",
-                columns: table => new
-                {
-                    ID = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Name = table.Column<string>(nullable: false),
-                    SKU = table.Column<string>(nullable: false),
-                    Price = table.Column<decimal>(nullable: false),
-                    Description = table.Column<string>(nullable: true),
-                    ImgUrl = table.Column<string>(nullable: true),
-                    BasketID = table.Column<int>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Products", x => x.ID);
-                    table.ForeignKey(
-                        name: "FK_Products_Baskets_BasketID",
-                        column: x => x.BasketID,
-                        principalTable: "Baskets",
-                        principalColumn: "ID",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
             migrationBuilder.CreateIndex(
                 name: "IX_BasketDetails_BasketID",
                 table: "BasketDetails",
-                column: "BasketID");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Products_BasketID",
-                table: "Products",
                 column: "BasketID");
         }
 

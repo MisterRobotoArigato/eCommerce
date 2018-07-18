@@ -47,11 +47,12 @@ namespace MisterRobotoArigato.Models
 
                 if (datBasketItem != null)
                 {
-                    await UpdateBasket(email, datBasket);
+                    datBasketItem.Quantity++;
+                    await UpdateBasket(email, datBasketItem);
                     return HttpStatusCode.Created;
                 }
 
-                BasketItem datBD = new BasketItem
+                datBasketItem = new BasketItem
                 {
                     ProductID = product.ID,
                     ProductName = product.Name,
@@ -61,7 +62,7 @@ namespace MisterRobotoArigato.Models
                     ImgUrl = product.ImgUrl
                 };
 
-                await _context.AddAsync(datBD);
+                await _context.AddAsync(datBasketItem);
                 await _context.SaveChangesAsync();
                 return HttpStatusCode.Created;
             }
@@ -82,16 +83,25 @@ namespace MisterRobotoArigato.Models
             var prodInts = _context.BasketDetails.Where(d => d.CustomerEmail == email).Select(p => p.ProductID);
             List<BasketItem> demItems = _context.BasketDetails.Where(d => d.CustomerEmail == email).ToList();
             Basket datBasket = await _context.Baskets.FirstOrDefaultAsync(b => b.CustomerEmail == email);
+            if (datBasket == null)
+                return null;
             datBasket.BasketItems = demItems;
             return datBasket;
-            //List<Product> demProducts = _context.Products.Where(p => prodInts.Contains(p.ID)).ToList();
-            //datBasket.Products = demProducts;
-            //return datBasket;
         }
 
-        public Task<Basket> UpdateBasket(string email, Basket basket)
+        public async Task<HttpStatusCode> UpdateBasket(string email, BasketItem basketItem)
         {
-            throw new NotImplementedException();
+            try
+            {
+                _context.Update(basketItem);
+                await _context.SaveChangesAsync();
+                return HttpStatusCode.Created;
+            }
+
+            catch
+            {
+                return HttpStatusCode.BadRequest;
+            }
         }
     }
 }
