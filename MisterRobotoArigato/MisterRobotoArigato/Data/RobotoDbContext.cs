@@ -16,6 +16,6 @@ namespace MisterRobotoArigato.Data
 
         public DbSet<Product> Products { get; set; }
         public DbSet<Basket> Baskets { get; set; }
-        public DbSet<BasketDetail> BasketDetails { get; set; }
+        public DbSet<BasketItem> BasketDetails { get; set; }
     }
 }

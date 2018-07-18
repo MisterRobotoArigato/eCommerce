@@ -65,10 +65,19 @@ namespace MisterRobotoArigato.Controllers
         {
             var user = await _userManager.FindByEmailAsync(User.Identity.Name);
             Product product = _robotoRepo.GetProductById(id).Result;
-            await _basketRepo.AddProductToBasket(user.Email, product);
+            Basket basket = await _basketRepo.GetUserBasketByEmail(user.Email);
+            if (basket == null)
+            {
+                Basket datBasket = new Basket();
+                datBasket.CustomerEmail = user.Email;
+                await _basketRepo.CreateBasket(datBasket);
+            }
+            else
+            {
+                await _basketRepo.AddProductToBasket(user.Email, product);
+            }
 
             return RedirectToAction(nameof(MyBasket));
-
         }
 
         public async Task<IActionResult> MyBasket()

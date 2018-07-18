@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace MisterRobotoArigato.Models
 {
-    public class BasketDetail
+    public class BasketItem
     {
         public int ID { get; set; }
         public int ProductID { get; set; }

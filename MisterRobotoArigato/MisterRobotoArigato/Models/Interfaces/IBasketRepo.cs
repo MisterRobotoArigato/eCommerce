@@ -8,6 +8,8 @@ namespace MisterRobotoArigato.Models
 {
     public interface IBasketRepo
     {
+        Task<HttpStatusCode> CreateBasket(Basket basket);
+
         Task<HttpStatusCode> AddProductToBasket(string email, Product product);
 
         Task<Basket> GetUserBasketByEmail(string email);

@@ -17,13 +17,11 @@ namespace MisterRobotoArigato.Controllers
     {
         private UserManager<ApplicationUser> _userManager;
         private SignInManager<ApplicationUser> _signInManager;
-        private RobotoDbContext _context;
 
-        public AccountController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, RobotoDbContext context)
+        public AccountController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager)
         {
             _userManager = userManager;
             _signInManager = signInManager;
-            _context = context;
         }
 
         public IActionResult Index()
@@ -82,11 +80,6 @@ namespace MisterRobotoArigato.Controllers
                     {
                         await _userManager.AddToRoleAsync(user, ApplicationRoles.Member);
                     }
-
-                    Basket datBasket = new Basket();
-                    datBasket.CustomerEmail = user.Email;
-                    _context.Add(datBasket);
-                    await _context.SaveChangesAsync();
 
                     await _signInManager.SignInAsync(user, false);
 
