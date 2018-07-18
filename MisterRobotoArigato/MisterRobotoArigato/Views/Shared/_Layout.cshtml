@@ -37,7 +37,11 @@
                 @if (SignInManager.IsSignedIn(User))
                 {
                     var user = await UserManager.FindByEmailAsync(User.Identity.Name);
-                    bool isAdmin = await UserManager.IsInRoleAsync(user, ApplicationRoles.Admin);
+                    bool isAdmin = false;
+                    if (user != null)
+                    {
+                        isAdmin = await UserManager.IsInRoleAsync(user, ApplicationRoles.Admin);
+                    }
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <i class="fas fa-user"></i>
@@ -45,7 +49,6 @@
                         </a>
                         <div class="dropdown-menu user-menu" aria-labelledby="navbarDropdown">
                             <div class="dropdown-item disabled">
-                                <span>
                                     @{
                                         if (User.Identity.Name.Contains("doge"))
                                         {
@@ -53,10 +56,10 @@
                                         }
                                         else
                                         {
-                                            <i class="fas fa-user" id="big-user-icon"></i>
+            
+                                            <img src="http://www.stickpng.com/assets/images/585e4bf3cb11b227491c339a.png" class="float-left" id="big-user-icon" />
                                         }
                                     }
-                                </span>
                                 <div class="d-inline-block" id="user-attr">
                                     <strong>@User.Claims.FirstOrDefault(c => c.Type == "FullName").Value</strong>
                                     @if (isAdmin)

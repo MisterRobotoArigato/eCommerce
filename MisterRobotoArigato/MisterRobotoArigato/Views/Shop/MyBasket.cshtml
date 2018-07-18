@@ -1,0 +1,18 @@
+﻿@using Microsoft.AspNetCore.Identity;
+@using MisterRobotoArigato.Models;
+@inject UserManager<ApplicationUser> UserManager
+@inject SignInManager<ApplicationUser> SignInManager
+@model Basket
+@{
+    Layout = "_Layout";
+}
+
+<h2>My Basket</h2>
+@foreach (var product in Model.BasketDetailList)
+{
+    <p>@product.ProductName</p>
+    <img src="@product.ImgUrl" class="smaller-img"/>
+    <p>@product.Quantity</p>
+    <p>@product.UnitPrice</p>
+    <hr />
+}

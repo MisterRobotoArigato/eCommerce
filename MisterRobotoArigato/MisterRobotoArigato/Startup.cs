@@ -36,10 +36,10 @@ namespace MisterRobotoArigato
             services.AddMvc();
 
             services.AddDbContext<RobotoDbContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("ProductionConnection")));
+                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
             services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("ProductionConnection2")));
+                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection2")));
 
             services.AddIdentity<ApplicationUser, IdentityRole>().AddEntityFrameworkStores<ApplicationDbContext>().AddDefaultTokenProviders();
 
@@ -50,6 +50,7 @@ namespace MisterRobotoArigato
             });
 
             services.AddScoped<IRobotoRepo, DevRobotoRepo>();
+            services.AddScoped<IBasketRepo, DevBasketRepo>();
             services.AddSingleton<IAuthorizationHandler, IsDogeHandler>();
         }
 
