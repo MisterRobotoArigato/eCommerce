@@ -7,11 +7,11 @@ using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MisterRobotoArigato.Data;
 
-namespace MisterRobotoArigato.Migrations
+namespace MisterRobotoArigato.Migrations.ApplicationDb
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20180718002028_localApp")]
-    partial class localApp
+    [Migration("20180718174503_initialUser")]
+    partial class initialUser
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
