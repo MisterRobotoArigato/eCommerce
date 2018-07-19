@@ -27,9 +27,13 @@ namespace MisterRobotoArigato.Controllers.Components
 
         public async Task<IViewComponentResult> InvokeAsync()
         {
+            Basket datBasket;
             var user = await _userManager.FindByEmailAsync(User.Identity.Name);
-            Basket datBasket = _basketRepo.GetUserBasketByEmail(user.Email).Result;
-
+            datBasket = _basketRepo.GetUserBasketByEmail(user.Email).Result;
+            if (datBasket==null)
+            {
+                datBasket = new Basket();
+            }
             return View(datBasket);
         }
     }

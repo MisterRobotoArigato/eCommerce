@@ -133,7 +133,7 @@
 
     <main>
         @RenderBody()
-        <div>
+        <div class="wrapper">
             @if (SignInManager.IsSignedIn(User))
             {
                 @await Component.InvokeAsync("ShoppingCart");
