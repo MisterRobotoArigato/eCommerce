@@ -1,0 +1,15 @@
+﻿@model ExternalLoginViewModel
+@{
+    Layout = "_Layout";
+    ViewData["Title"] = "ExternalLogin";
+}
+
+<h2>External Login</h2>
+
+<form asp-action="ExternalLoginConfirmation" method="post">
+    <input type="hidden" asp-for="FirstName" />
+    <input type="hidden" asp-for="LastName" />
+    <label asp-for="Email"></label>
+    <input asp-for="Email" />
+    <button type="submit">Register</button>
+</form>

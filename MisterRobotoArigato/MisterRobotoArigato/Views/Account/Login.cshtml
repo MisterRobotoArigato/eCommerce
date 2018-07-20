@@ -1,5 +1,10 @@
-﻿@model LoginViewModel
-@{ 
+﻿
+@model LoginViewModel
+
+@using Microsoft.AspNetCore.Identity;
+@inject SignInManager<ApplicationUser> SignInManager;
+
+@{
     ViewData["Title"] = "Login";
     Layout = "_Layout";
 }
@@ -23,3 +28,23 @@
         </form>
     </div>
 </div>
+@{
+    var loginProviders = (await SignInManager.GetExternalAuthenticationSchemesAsync()).ToList();
+    if (loginProviders.Count > 0)
+    {
+        <div class="col-md-4">
+            <div class="row">
+                <form asp-action="ExternalLogin" method="post" class="form-horizontal">
+                    @foreach (var provider in loginProviders)
+                    {
+                        <button type="submit" class="btn btn-warning" name="provider" value="@provider.Name" title="Log in using your @provider.DisplayName account">@provider.Name</button>
+
+                    }
+                </form>
+            </div>
+        </div>
+
+    }
+}
+
+@*asp-route-returnurl=@ViewData["ReturnUrl"]*@
