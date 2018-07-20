@@ -112,6 +112,8 @@ namespace MisterRobotoArigato.Controllers
             await _basketRepo.DeleteProductFromBasket(User.Identity.Name, basketItem);
             return RedirectToAction(nameof(MyBasket));
         }
+
+        [Authorize]
         public async Task<IActionResult> MyBasket()
         {
             var user = await _userManager.FindByEmailAsync(User.Identity.Name);
