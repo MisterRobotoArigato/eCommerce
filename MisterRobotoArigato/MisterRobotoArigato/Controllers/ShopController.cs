@@ -80,6 +80,38 @@ namespace MisterRobotoArigato.Controllers
             return RedirectToAction(nameof(MyBasket));
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Update([Bind("ID, ProductID, ProductName, CustomerEmail, Quantity, ImgUrl, Description, UnitPrice")]BasketItem basketItem)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    if (basketItem.Quantity == 0)
+                    {
+                        await _basketRepo.DeleteProductFromBasket(User.Identity.Name, basketItem);
+                    }
+                    else
+                    {
+                        await _basketRepo.UpdateBasket(User.Identity.Name, basketItem);
+                    }
+                }
+
+                catch
+                {
+                    throw;
+                }
+            }
+            return RedirectToAction(nameof(MyBasket));
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Delete(BasketItem basketItem)
+        {
+            await _basketRepo.DeleteProductFromBasket(User.Identity.Name, basketItem);
+            return RedirectToAction(nameof(MyBasket));
+        }
         public async Task<IActionResult> MyBasket()
         {
             var user = await _userManager.FindByEmailAsync(User.Identity.Name);

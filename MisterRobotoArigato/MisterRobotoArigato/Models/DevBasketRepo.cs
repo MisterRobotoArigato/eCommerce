@@ -73,9 +73,19 @@ namespace MisterRobotoArigato.Models
             }
         }
 
-        public Task<HttpStatusCode> DeleteProductFromBasket(string email, Basket basket)
+        public async Task<HttpStatusCode> DeleteProductFromBasket(string email, BasketItem basketItem)
         {
-            throw new NotImplementedException();
+            try
+            {
+                _context.Remove(basketItem);
+                await _context.SaveChangesAsync();
+                return HttpStatusCode.Created;
+            }
+
+            catch
+            {
+                return HttpStatusCode.BadRequest;
+            }
         }
 
         public async Task<Basket> GetUserBasketByEmail(string email)

@@ -7,16 +7,74 @@
     Layout = "_Layout";
 }
 
-
 <h2>My Basket</h2>
-@foreach (var product in Model.BasketItems)
+@foreach (var basketItem in Model.BasketItems)
 {
-    <p>@product.ProductName</p>
-    <img src="@product.ImgUrl" class="smaller-img" />
-    <p>
-        <label for="quantity">Quantity</label>
-        <input id="quantity" type="number" value="@product.Quantity" min="1">
-    </p>
-    <p>@product.UnitPrice</p>
+<div class="row">
+    <div class="col-sm-4">
+        <p>@basketItem.ProductName</p>
+        <img src="@basketItem.ImgUrl" class="smaller-img" />
+    </div>
+    <div class="col-sm-4">
+        <form asp-action="Update" method="post" asp-controller="Shop">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="@basketItem.ID" />
+            <input type="hidden" asp-for="@basketItem.ProductID" />
+            <input type="hidden" asp-for="@basketItem.CustomerEmail" />
+            <input type="hidden" asp-for="@basketItem.ImgUrl" />
+            <input type="hidden" asp-for="@basketItem.UnitPrice" />
+            <p>
+                <label for="Quantity">Quantity</label>
+                <input id="Quantity" asp-for="@basketItem.Quantity" type="number" value="@basketItem.Quantity" min="1">
+            </p>
+            <input type="submit" value="Update" class="btn btn-default" />
+        </form>
+    </div>
+    <div class="col-sm-4">
+        <form asp-action="Delete" method="post" asp-controller="Shop">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="@basketItem.ID" />
+            <input type="hidden" asp-for="@basketItem.ProductID" />
+            <input type="hidden" asp-for="@basketItem.CustomerEmail" />
+            <input type="hidden" asp-for="@basketItem.ImgUrl" />
+            <input type="hidden" asp-for="@basketItem.UnitPrice" />
+            <input type="hidden" asp-for="@basketItem.Quantity" />
+            <input type="submit" value="Delete" class="btn btn-danger" />
+        </form>
+    </div>
+
+    @*<form asp-action="Update" method="post" asp-controller="Shop">
+            <div class="col-sm-4">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <input type="hidden" asp-for="@basketItem.ID" />
+                <input type="hidden" asp-for="@basketItem.ProductID" />
+                <input type="hidden" asp-for="@basketItem.CustomerEmail" />
+                <input type="hidden" asp-for="@basketItem.ImgUrl" />
+                <input type="hidden" asp-for="@basketItem.UnitPrice" />
+                <p>@basketItem.ProductName</p>
+                <img src="@basketItem.ImgUrl" class="smaller-img" />
+            </div>
+            <div class="col-sm-4">
+                <p>
+                    <label for="Quantity">Quantity</label>
+                    <input id="Quantity" asp-for="@basketItem.Quantity" type="number" value="@basketItem.Quantity" min="1">
+                </p>
+                <p>testing 1-2-3</p>
+                <input type="submit" value="Update" class="btn btn-default" />
+            </div>
+        </form>
+        <div class="col-sm-4">
+            <form asp-action="Delete" method="post" asp-controller="Shop">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <input type="hidden" asp-for="@basketItem.ID" />
+                <input type="hidden" asp-for="@basketItem.ProductID" />
+                <input type="hidden" asp-for="@basketItem.CustomerEmail" />
+                <input type="hidden" asp-for="@basketItem.ImgUrl" />
+                <input type="hidden" asp-for="@basketItem.UnitPrice" />
+                <input type="hidden" asp-for="@basketItem.Quantity" />
+                <input type="submit" value="Delete" class="btn btn-danger" />
+            </form>
+        </div>*@
+</div>
     <hr />
 }
