@@ -1,0 +1,14 @@
+﻿@model Basket
+
+<h2>Basket Contents</h2>
+@foreach (var product in Model.BasketItems)
+{
+    <p>@product.ProductName</p>
+    <img src="@product.ImgUrl" class="smaller-img" />
+    <p>
+        <label for="quantity">Quantity</label>
+        <input id="quantity" type="number" value="@product.Quantity" min="1">
+    </p>
+    <p>@product.UnitPrice</p>
+    <hr />
+}
