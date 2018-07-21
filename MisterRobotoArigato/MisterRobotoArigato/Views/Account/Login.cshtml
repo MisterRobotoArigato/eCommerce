@@ -8,53 +8,60 @@
     ViewData["Title"] = "Login";
     Layout = "_Layout";
 }
+<div class="container">
 
-<h2>Login</h2>
-<div class="row">
-    <div class="col-lg-2">
-        <form method="post">
-            <div asp-validation-summary="All"></div>
-            <div class="form-group">
-                <label asp-for="Email"></label>
-                <input asp-for="Email" />
-                <span asp-validation-for="Email" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Password"></label>
-                <input asp-for="Password" />
-                <span asp-validation-for="Password" class="text-danger"></span>
-            </div>
-            <button type="submit" class="btn btn-default">Login</button>
-        </form>
-    </div>
-</div>
-@{
-    var loginProviders = (await SignInManager.GetExternalAuthenticationSchemesAsync()).ToList();
-    if (loginProviders.Count > 0)
-    {
-        <div class="col-md-4">
-            <div class="row">
-                <form asp-action="ExternalLogin" method="post" class="form-horizontal">
-                    @foreach (var provider in loginProviders)
-                    {
-                        <button type="submit" class="btn btn-warning" name="provider" value="@provider.Name" 
-                                title="Log in using your @provider.DisplayName account">
-                    @if (provider.Name == "google")
-                    { 
-                        <img src="~/Assets/googleLogo.jpg" title="google logo"/>
-                    }
-                    else if (provider.Name == "microsoft")
-                    {
-                        <img src="~/Assets/msLogo.png" title="microsoft logo"/>
-                    }
-                        @provider.Name</button>
-
-                    }
+    <div class="col-md-6" >
+        <h2>Login</h2>
+        <div class="row">
+            <div class="col-lg-2">
+                <form method="post">
+                    <div asp-validation-summary="All"></div>
+                    <div class="form-group">
+                        <label asp-for="Email"></label>
+                        <input asp-for="Email" />
+                        <span asp-validation-for="Email" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Password"></label>
+                        <input asp-for="Password" />
+                        <span asp-validation-for="Password" class="text-danger"></span>
+                    </div>
+                    <button type="submit" class="btn btn-default">Login</button>
                 </form>
             </div>
         </div>
+    </div>
+    <div class="col-md-6">
+        <h2>Login With an External Account</h2>
+        @{
+            var loginProviders = (await SignInManager.GetExternalAuthenticationSchemesAsync()).ToList();
+            if (loginProviders.Count > 0)
+            {
+                <div class="col-md-4">
+                    <div class="row">
+                        <form asp-action="ExternalLogin" method="post" class="form-horizontal">
+                            @foreach (var provider in loginProviders)
+                            {
+                                <button type="submit" class="btn btn-warning" name="provider" value="@provider.Name"
+                                        title="Log in using your @provider.DisplayName account">
+                                    @if (provider.DisplayName == "Google")
+                                    {
+                                        <img src="~\Assets\googleLogo.jpg" title="google logo" />
+                                    }
+                                    else if (provider.DisplayName == "Microsoft")
+                                    {
+                                        <img src="~\Assets\msLogo.png" title="microsoft logo" />
+                                    }
+                                    @provider.Name
+                                </button>
+                            }
+                        </form>
+                    </div>
+                </div>
 
-    }
-}
+            }
+        }
+    </div>
+</div>
 
 @*asp-route-returnurl=@ViewData["ReturnUrl"]*@
