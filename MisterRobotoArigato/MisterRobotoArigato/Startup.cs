@@ -34,7 +34,8 @@ namespace MisterRobotoArigato
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
-            services.AddIdentity<ApplicationUser, IdentityRole>().AddEntityFrameworkStores<ApplicationDbContext>().AddDefaultTokenProviders();
+            services.AddIdentity<ApplicationUser, IdentityRole>().AddEntityFrameworkStores<ApplicationDbContext>()
+                .AddDefaultTokenProviders();
 
             services.AddAuthentication().AddGoogle(google =>
             {

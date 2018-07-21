@@ -126,6 +126,7 @@ namespace MisterRobotoArigato.Controllers
 
         [HttpPost]
         [AllowAnonymous]
+        [ValidateAntiForgeryToken]
         public IActionResult ExternalLogin(string provider)
         {
             var redirectUrl = Url.Action(nameof(ExternalLoginCallback), "Account");
@@ -158,13 +159,13 @@ namespace MisterRobotoArigato.Controllers
             var email = info.Principal.FindFirstValue(ClaimTypes.Email);
             var firstName = info.Principal.FindFirstValue(ClaimTypes.GivenName);
             var fullName = info.Principal.FindFirstValue(ClaimTypes.Name);
-            string lastName = "";
-            int idx = fullName.LastIndexOf(' ');
+            string lastName = info.Principal.FindFirstValue(ClaimTypes.Surname);
+            //int idx = fullName.LastIndexOf(' ');
 
-            if (idx != -1)
-            {
-                lastName = fullName.Substring(idx + 1);
-            }
+            //if (idx != -1)
+            //{
+            //    lastName = fullName.Substring(idx + 1);
+        //}
             return View("ExternalLogin", new ExternalLoginViewModel {
                 FirstName = firstName,
                 LastName = lastName,
@@ -173,6 +174,7 @@ namespace MisterRobotoArigato.Controllers
 
         [HttpPost]
         [AllowAnonymous]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> ExternalLoginConfirmation(ExternalLoginViewModel elvm)
         {
             if (ModelState.IsValid)
@@ -188,7 +190,7 @@ namespace MisterRobotoArigato.Controllers
                     FirstName = elvm.FirstName,
                     LastName = elvm.LastName,
                     Email = elvm.Email,
-                    Password = "B@con123"
+                    //Password = "B@con123"
                 };
 
                 //return RedirectToAction("RegisterConfirmed", new { rvm = newRVM } );
@@ -200,8 +202,10 @@ namespace MisterRobotoArigato.Controllers
                     UserName = elvm.Email,
                     Email = elvm.Email
                 };
-                var result = await _userManager.CreateAsync(user, rvm.Password);
-                List<Claim> claims = new List<Claim>();
+                var result = await _userManager.CreateAsync(user);
+                if (result.Succeeded)
+                {
+                    List<Claim> claims = new List<Claim>();
 
                     //capturing the user's name
                     Claim nameClaim = new Claim("FullName", $"{user.FirstName} {user.LastName}");
@@ -219,7 +223,7 @@ namespace MisterRobotoArigato.Controllers
                     //user.SecurityStamp = "1234";
                     //adds claim to the user
 
-                        await _userManager.AddClaimsAsync(user, claims);
+                    await _userManager.AddClaimsAsync(user, claims);
                     
 
                     if (user.Email == "doge@gmail.com" || user.Email == "ecaoile@my.hpu.edu")
@@ -232,9 +236,16 @@ namespace MisterRobotoArigato.Controllers
                         await _userManager.AddToRoleAsync(user, ApplicationRoles.Member);
                     }
 
-                    await _signInManager.SignInAsync(user, false);
-
+                    //await _signInManager.SignInAsync(user, false);
+                    result = await _userManager.AddLoginAsync(user, info);
+                    if (result.Succeeded)
+                    {
+                        await _signInManager.SignInAsync(user, isPersistent: false);
+                        return RedirectToAction("Index", "Home");
+                    }
                     return RedirectToAction("Index", "Home");
+
+                }
                     //var result = await _userManager.CreateAsync(user);
 
                     //if (result.Succeeded)
@@ -249,8 +260,9 @@ namespace MisterRobotoArigato.Controllers
                 
             }
 
-            return View(elvm);
+            return RedirectToAction("Index", "Home");
         }
+
         public async Task<IActionResult> Logout()
         {
             await _signInManager.SignOutAsync();

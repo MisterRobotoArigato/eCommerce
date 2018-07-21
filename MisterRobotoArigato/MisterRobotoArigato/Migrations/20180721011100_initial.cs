@@ -2,9 +2,9 @@
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace MisterRobotoArigato.Migrations.ApplicationDb
+namespace MisterRobotoArigato.Migrations
 {
-    public partial class initialUser : Migration
+    public partial class initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
