@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using MisterRobotoArigato.Data;
@@ -112,7 +113,6 @@ namespace MisterRobotoArigato.Controllers
                     {
                         return RedirectToAction("Index", "Admin");
                     }
-
                     return RedirectToAction("Index", "Home");
                 }
                 else
@@ -120,7 +120,6 @@ namespace MisterRobotoArigato.Controllers
                     ModelState.AddModelError(string.Empty, "You don't know your credentials.");
                 }
             }
-
             return View(lvm);
         }
 
@@ -131,6 +130,7 @@ namespace MisterRobotoArigato.Controllers
         {
             var redirectUrl = Url.Action(nameof(ExternalLoginCallback), "Account");
             var properties = _signInManager.ConfigureExternalAuthenticationProperties(provider, redirectUrl);
+
             return Challenge(properties, provider);
         }
 
