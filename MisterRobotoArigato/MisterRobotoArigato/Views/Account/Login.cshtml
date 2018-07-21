@@ -37,7 +37,17 @@
                 <form asp-action="ExternalLogin" method="post" class="form-horizontal">
                     @foreach (var provider in loginProviders)
                     {
-                        <button type="submit" class="btn btn-warning" name="provider" value="@provider.Name" title="Log in using your @provider.DisplayName account">@provider.Name</button>
+                        <button type="submit" class="btn btn-warning" name="provider" value="@provider.Name" 
+                                title="Log in using your @provider.DisplayName account">
+                    @if (provider.Name == "google")
+                    { 
+                        <img src="~/Assets/googleLogo.jpg" title="google logo"/>
+                    }
+                    else if (provider.Name == "microsoft")
+                    {
+                        <img src="~/Assets/msLogo.png" title="microsoft logo"/>
+                    }
+                        @provider.Name</button>
 
                     }
                 </form>
