@@ -15,7 +15,7 @@
     {
         <div class="row">
             <div class="col-sm-4">
-                <h3><a asp-controller="Shop" asp-action="Details" asp-route-id="@basketItem.ID">@basketItem.ProductName</a></h3>
+                <h3><a asp-controller="Shop" asp-action="Details" asp-route-id="@basketItem.ProductID">@basketItem.ProductName</a></h3>
                 <img src="@basketItem.ImgUrl" class="smaller-img" />
             </div>
             <div class="col-sm-4">
@@ -23,6 +23,7 @@
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                     <input type="hidden" asp-for="@basketItem.ID" />
                     <input type="hidden" asp-for="@basketItem.ProductID" />
+                    <input type="hidden" asp-for="@basketItem.ProductName" />
                     <input type="hidden" asp-for="@basketItem.CustomerEmail" />
                     <input type="hidden" asp-for="@basketItem.ImgUrl" />
                     <input type="hidden" asp-for="@basketItem.UnitPrice" />
@@ -38,6 +39,7 @@
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                     <input type="hidden" asp-for="@basketItem.ID" />
                     <input type="hidden" asp-for="@basketItem.ProductID" />
+                    <input type="hidden" asp-for="@basketItem.ProductName" />
                     <input type="hidden" asp-for="@basketItem.CustomerEmail" />
                     <input type="hidden" asp-for="@basketItem.ImgUrl" />
                     <input type="hidden" asp-for="@basketItem.UnitPrice" />

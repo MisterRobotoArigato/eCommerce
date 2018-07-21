@@ -94,8 +94,13 @@ namespace MisterRobotoArigato.Models
             List<BasketItem> demItems = _context.BasketDetails.Where(d => d.CustomerEmail == email).ToList();
             Basket datBasket = await _context.Baskets.FirstOrDefaultAsync(b => b.CustomerEmail == email);
             if (datBasket == null)
-                return null;
-            datBasket.BasketItems = demItems;
+            {
+                datBasket = new Basket();
+            }
+            else
+            {
+                datBasket.BasketItems = demItems;
+            }
             return datBasket;
         }
 
