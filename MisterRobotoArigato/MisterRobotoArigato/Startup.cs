@@ -34,6 +34,14 @@ namespace MisterRobotoArigato
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
+            services.AddIdentity<ApplicationUser, IdentityRole>().AddEntityFrameworkStores<ApplicationDbContext>()
+                .AddDefaultTokenProviders();
+
+            services.AddAuthentication().AddGoogle(google =>
+            {
+                google.ClientId = Configuration["OAUTH:Authentication:Google:ClientId"];
+                google.ClientSecret = Configuration["OAUTH:Authentication:Google:ClientSecret"];
+            });
 
             services.AddDbContext<RobotoDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
@@ -41,7 +49,7 @@ namespace MisterRobotoArigato
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection2")));
 
-            services.AddIdentity<ApplicationUser, IdentityRole>().AddEntityFrameworkStores<ApplicationDbContext>().AddDefaultTokenProviders();
+
 
             services.AddAuthorization(options =>
             {
@@ -65,7 +73,7 @@ namespace MisterRobotoArigato
             app.UseAuthentication();
             app.UseStaticFiles();
             app.UseMvcWithDefaultRoute();
-    
+
             //app.UseMvc(route =>
             //{
             //    route.MapRoute(
@@ -73,10 +81,15 @@ namespace MisterRobotoArigato
             //        template: "{controller=Home}/{action=Index}/{id?}");
             //});
 
-            app.Run((context) =>
+            //app.Run((context) =>
+            //{
+            //    context.Response.Redirect("/");
+            //    return Task.FromResult<object>(null);
+            //});
+
+            app.Run(async (context) =>
             {
-                context.Response.Redirect("/");
-                return Task.FromResult<object>(null);
+                await context.Response.WriteAsync("errrrrrooooooooooooor!");
             });
         }
     }

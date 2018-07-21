@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace MisterRobotoArigato.Migrations
+namespace MisterRobotoArigato.Migrations.RobotoDb
 {
     public partial class initialRoboto : Migration
     {
