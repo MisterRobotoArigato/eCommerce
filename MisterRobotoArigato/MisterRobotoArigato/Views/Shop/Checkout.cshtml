@@ -2,7 +2,7 @@
 @using MisterRobotoArigato.Models;
 @model CheckoutViewModel
 @inject UserManager<ApplicationUser> UserManager
-@inject SignInManager<ApplicationUser> SignInManager
+@*@inject SignInManager<ApplicationUser> SignInManager*@
 @{
     ViewData["Title"] = "Checkout";
     Layout = "_Layout";
@@ -72,13 +72,13 @@
                                 <h6 class="my-0">Promo code</h6>
                                 <small>@Model.DiscountName</small>
                             </div>
-                            <span class="text-success">-$@discountAmt</span>
+                            <span class="text-success">-$@Math.Round(discountAmt, 2)</span>
                         </li>
                     }
                     <li class="list-group-item d-flex justify-content-between">
                         <span>Total (USD)</span>
                         @{
-                            orderTotal = orderTotal - (Model.DiscountPercent / 100) * orderTotal;
+                            orderTotal = orderTotal - Math.Round((Model.DiscountPercent / 100) * orderTotal, 2);
                             <strong>$@orderTotal</strong>
                         }
                     </li>
