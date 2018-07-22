@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using MisterRobotoArigato.Models;
+using MisterRobotoArigato.Models.ViewModel;
 
 namespace MisterRobotoArigato.Controllers
 {
@@ -120,6 +121,37 @@ namespace MisterRobotoArigato.Controllers
             Basket datBasket = _basketRepo.GetUserBasketByEmail(user.Email).Result;
 
             return View(datBasket);
+        }
+
+        [Authorize]
+        public async Task<IActionResult> Checkout(string discountCoupon)
+        {
+            var user = await _userManager.FindByEmailAsync(User.Identity.Name);
+
+            Basket datBasket = _basketRepo.GetUserBasketByEmail(user.Email).Result;
+            CheckoutViewModel datCheckoutVM = new CheckoutViewModel
+            {
+                Basket = datBasket,
+            };
+
+            if (!String.IsNullOrEmpty(discountCoupon))
+            {
+                string upperCaseCoupon = discountCoupon.ToUpper();
+
+                if (upperCaseCoupon == "IAMDOGE" || upperCaseCoupon == "ILIKEFATCATS")
+                {
+                    datCheckoutVM.DiscountPercent = 20;
+                }
+
+                if (upperCaseCoupon == "CODEFELLOWS")
+                {
+                    datCheckoutVM.DiscountPercent = 10;
+                }
+
+                datCheckoutVM.DiscountName = upperCaseCoupon;
+            }
+
+            return View(datCheckoutVM);
         }
     }
 }

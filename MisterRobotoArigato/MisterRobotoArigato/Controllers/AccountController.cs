@@ -243,21 +243,9 @@ namespace MisterRobotoArigato.Controllers
                         await _signInManager.SignInAsync(user, isPersistent: false);
                         return RedirectToAction("Index", "Home");
                     }
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("Register");
 
-                }
-                    //var result = await _userManager.CreateAsync(user);
-
-                    //if (result.Succeeded)
-                    //{
-                    //    result = await _userManager.AddLoginAsync(user, info);
-                    //    if (result.Succeeded)
-                    //    {
-                    //        await _signInManager.SignInAsync(user, isPersistent: false);
-                    //        return RedirectToAction("Index", "Home");
-                    //    }
-                    //}
-                
+                }                
             }
 
             return RedirectToAction("Index", "Home");
