@@ -5,12 +5,12 @@ using System.Threading.Tasks;
 
 namespace MisterRobotoArigato.Models
 {
-    public class Order
+    public class Address
     {
         public int ID { get; set; }
+        public string Street { get; set; }
+        public string Street2 { get; set; }
+        public string State { get; set; }
         public string UserID { get; set; }
-        public List<OrderItem> OrderItems { get; set; }
-        public Address Address { get; set; }
-        //public string Address { get; set; }
     }
 }

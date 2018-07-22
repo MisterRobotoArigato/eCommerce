@@ -127,6 +127,7 @@ namespace MisterRobotoArigato.Controllers
         public async Task<IActionResult> Checkout(string discountCoupon)
         {
             var user = await _userManager.FindByEmailAsync(User.Identity.Name);
+
             Basket datBasket = _basketRepo.GetUserBasketByEmail(user.Email).Result;
             CheckoutViewModel datCheckoutVM = new CheckoutViewModel
             {
@@ -135,11 +136,19 @@ namespace MisterRobotoArigato.Controllers
 
             if (!String.IsNullOrEmpty(discountCoupon))
             {
-                if (discountCoupon == "IAMDOGE")
+                string upperCaseCoupon = discountCoupon.ToUpper();
+
+                if (upperCaseCoupon == "IAMDOGE" || upperCaseCoupon == "ILIKEFATCATS")
                 {
                     datCheckoutVM.DiscountPercent = 20;
-                    datCheckoutVM.DiscountName = discountCoupon;
                 }
+
+                if (upperCaseCoupon == "CODEFELLOWS")
+                {
+                    datCheckoutVM.DiscountPercent = 10;
+                }
+
+                datCheckoutVM.DiscountName = upperCaseCoupon;
             }
 
             return View(datCheckoutVM);

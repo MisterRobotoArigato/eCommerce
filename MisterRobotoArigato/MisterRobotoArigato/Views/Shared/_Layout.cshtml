@@ -15,8 +15,7 @@
 <link rel="stylesheet" href="~/css/base.css" type="text/css" />
 <link rel="stylesheet" href="~/css/layout.css" type="text/css" />
 <link rel="stylesheet" href="~/css/modules.css" type="text/css" />
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-<script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')</script>
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"
         integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
 <title>Welcome to the Mister Roboto Arigato Store</title>
@@ -48,7 +47,7 @@
                 {
                     var user = await UserManager.FindByEmailAsync(User.Identity.Name);
                     bool isAdmin = await UserManager.IsInRoleAsync(user, ApplicationRoles.Admin);
-                    
+
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <i class="fas fa-user"></i>
@@ -139,7 +138,7 @@
                 @await Component.InvokeAsync("ShoppingCart");
             }
             else
-            { 
+            {
                 <p>Login to see your basket</p>
             }
         </div>
@@ -149,6 +148,7 @@
             <span class="text-muted">© Copyright 2018 Arigato Robotos - All Rights Reserved</span>
         </div>
     </footer>
+    <script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')</script>
     <script>
         $(document).ready(function () {
             $(".disabled").click(function () {
