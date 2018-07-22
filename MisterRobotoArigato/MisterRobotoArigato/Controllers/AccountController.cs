@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using MisterRobotoArigato.Data;
 using MisterRobotoArigato.Models;
@@ -18,11 +19,14 @@ namespace MisterRobotoArigato.Controllers
     {
         private UserManager<ApplicationUser> _userManager;
         private SignInManager<ApplicationUser> _signInManager;
+        private IEmailSender _emailSender;
 
-        public AccountController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager)
+        public AccountController(UserManager<ApplicationUser> userManager, 
+            SignInManager<ApplicationUser> signInManager, IEmailSender emailSender)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _emailSender = emailSender;
         }
 
         public IActionResult Index()
@@ -84,6 +88,10 @@ namespace MisterRobotoArigato.Controllers
 
                     await _signInManager.SignInAsync(user, false);
 
+                    await _emailSender.SendEmailAsync(user.Email, "Welcome", 
+                        "<h1>Thank you for registering!</h1>" +
+                        "<h4>Mister Roboto Arigato is the <i>bestest store</i>!!!</h4>" +
+                        "<h4>We hope to fulfill all your <u>robotic</u> needs!</h4>");
                     return RedirectToAction("Index", "Home");
                 }
             }
@@ -109,6 +117,10 @@ namespace MisterRobotoArigato.Controllers
                 if (result.Succeeded)
                 {
                     var user = await _userManager.FindByEmailAsync(lvm.Email);
+                    await _emailSender.SendEmailAsync(user.Email, "You've logged in", 
+                        "<h1><font color='blue'>You must really like our store!</font><h1>" +
+                        "<h2>Our featured product this week is the <font color='red'>Mars Rover.</font></h2>" +
+                        "<p>Buy one <b>today</b> and you'll be prepared to travel around your new planet in <i>style</i>.</p>");
                     if (await _userManager.IsInRoleAsync(user, ApplicationRoles.Admin))
                     {
                         return RedirectToAction("Index", "Admin");

@@ -14,6 +14,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http;
 using Microsoft.EntityFrameworkCore;
@@ -73,6 +74,7 @@ namespace MisterRobotoArigato
             services.AddScoped<IRobotoRepo, DevRobotoRepo>();
             services.AddScoped<IBasketRepo, DevBasketRepo>();
             services.AddSingleton<IAuthorizationHandler, IsDogeHandler>();
+            services.AddScoped<IEmailSender, EmailSender>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
