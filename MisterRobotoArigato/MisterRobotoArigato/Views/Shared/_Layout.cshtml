@@ -133,7 +133,7 @@
 
     <main>
         @RenderBody()
-        <div class="wrapper">
+        @*<div class="wrapper">
             @if (SignInManager.IsSignedIn(User))
             {
                 @await Component.InvokeAsync("ShoppingCart");
@@ -142,7 +142,7 @@
             {
                 <p>Login to see your basket</p>
             }
-        </div>
+        </div>*@
     </main>
     <footer class="footer">
         <div class="container">
