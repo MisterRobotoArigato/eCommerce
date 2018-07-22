@@ -7,24 +7,27 @@
     Layout = "_Layout";
 }
 
-<h2>@Model.Name</h2>
 <div class="container">
+    <h2>@Model.Name</h2>
     <div class="row">
         <div class="col-md-6">
             <p>$@Model.Price</p>
             <p>@Model.Description</p>
+            @if (SignInManager.IsSignedIn(User))
+            {
+                <form asp-action="Add" asp-controller="Basket">
+                    <input type="submit" value="Add to Cart" class="btn btn-warning" asp-controller="Shop"
+                           asp-action="Add" asp-route-id="@Model.ID" />
+                </form>
+                <button class="btn btn-primary" title="View Basket Contents">
+                    @await Component.InvokeAsync("ShoppingCart")
+                </button> 
+            }
         </div>
         <div class="col-md-6">
             <img src="@Model.ImgUrl" />
         </div>
     </div>
 </div>
-@if (SignInManager.IsSignedIn(User))
-{
-    <form asp-action="Add" asp-controller="Basket">
-        <input type="submit" value="Add to Cart" class="btn btn-warning" asp-controller="Shop"
-               asp-action="Add" asp-route-id="@Model.ID" />
-    </form>
-}
 @*<button type="submit" class="btn btn-warning"
     asp-action="Add" asp-controller="Shop" asp-route-id="@Model.ID">Add to Cart</button>*@

@@ -50,6 +50,9 @@
         </div>
         <hr />
     }
+    <button class="btn btn-primary" title="View Basket Contents">
+        @await Component.InvokeAsync("ShoppingCart")
+    </button>
 }
 else
 {

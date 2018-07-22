@@ -1,54 +1,41 @@
 ﻿img.resize {
-    max-width:300px;
-    border: solid 10px #0094ff;
-    border-radius: 1em;
-    margin-bottom: 1em;
-}
+  max-width: 300px;
+  border: solid 10px #0094ff;
+  border-radius: 1em;
+  margin-bottom: 1em; }
 
 .featureProduct {
-    padding: 1em 0;
-}
-
+  padding: 1em 0; }
 
 @media only screen and (max-width: 400px) {
-    img.resize {
-        width: 80vw;
-    }
-}
+  img.resize {
+    width: 80vw; } }
 
 .logout-container {
-    text-align:center;
-}
+  text-align: center; }
 
 #logout-btn {
-    padding: .5em 3.5em;
-}
+  padding: .5em 3.5em; }
 
 #doge-icon, #big-user-icon {
-    width:60px;
-}
+  width: 60px; }
 
 .user-menu {
-    width: 250px;
-}
+  width: 250px; }
 
 #user-attr {
-    margin-left: .5em;
-}
+  margin-left: .5em; }
 
 .smaller-img {
-    width:200px;
-}
+  width: 200px; }
 
 .icon-img {
     width:50px;
 }
 @media only screen and (max-width: 500px) {
-    .smaller-img {
-        width:30vw;
-    }
-}
+  .smaller-img {
+    width: 30vw; } }
 
 .doge-img {
-    width:300px;
-}
+  width: 300px; }
+
