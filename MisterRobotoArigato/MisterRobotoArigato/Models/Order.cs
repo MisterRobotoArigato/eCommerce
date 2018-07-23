@@ -12,6 +12,8 @@ namespace MisterRobotoArigato.Models
         public string Shipping { get; set; }
         public List<OrderItem> OrderItems { get; set; }
         public int AddressID { get; set; }
-
+        public Address Address { get; set; }
+        public string DiscountName { get; set; }
+        public decimal DiscountPercent { get; set; }
     }
 }

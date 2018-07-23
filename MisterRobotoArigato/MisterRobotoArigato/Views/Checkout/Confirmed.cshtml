@@ -1,0 +1,33 @@
+﻿@model Order
+@{
+    ViewData["Title"] = "Checkout";
+    Layout = "_Layout";
+
+}
+<h2>Confirmed!</h2>
+
+<div class="col-md-8 order-md-1">
+    <h4 class="mb-3">Shipping address</h4>
+    <div class="d-inline-block">
+        @Model.Address.FirstName @Model.Address.LastName<br />
+        @Model.Address.Street<br />
+        @if (Model.Address.Street2 != null)
+        {
+            @Model.Address.Street2<br />
+        }
+        @Model.Address.City @Model.Address.State<br />
+        @Model.Address.Zip<br />
+        @Model.Address.Country
+    </div>
+</div>
+@foreach (var item in Model.OrderItems)
+{
+    <p>@item.ProductName</p>
+    <p>@item.Quantity</p>
+    <p>@item.UnitPrice</p>
+    <img src="@item.ImgUrl" />
+}
+<p>@Model.Shipping</p>
+<p>Discount Code: @Model.DiscountName</p>
+<p>Discount Percent: @Model.DiscountPercent%</p>
+

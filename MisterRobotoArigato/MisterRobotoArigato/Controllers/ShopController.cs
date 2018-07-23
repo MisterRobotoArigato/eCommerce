@@ -73,10 +73,8 @@ namespace MisterRobotoArigato.Controllers
                 datBasket.CustomerEmail = user.Email;
                 await _basketRepo.CreateBasket(datBasket);  
             }
-            else
-            {
-                await _basketRepo.AddProductToBasket(user.Email, product);
-            }
+
+            await _basketRepo.AddProductToBasket(user.Email, product);
 
             return RedirectToAction(nameof(MyBasket));
         }

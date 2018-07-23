@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace MisterRobotoArigato.Migrations
 {
-    public partial class ordersandaddresses : Migration
+    public partial class addedAddressandOrderfields : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -17,6 +17,7 @@ namespace MisterRobotoArigato.Migrations
                     LastName = table.Column<string>(nullable: false),
                     Street = table.Column<string>(nullable: false),
                     Street2 = table.Column<string>(nullable: true),
+                    City = table.Column<string>(nullable: false),
                     State = table.Column<string>(nullable: false),
                     Country = table.Column<string>(nullable: false),
                     Zip = table.Column<int>(nullable: false),
@@ -41,25 +42,6 @@ namespace MisterRobotoArigato.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "OrderItems",
-                columns: table => new
-                {
-                    ID = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    OrderID = table.Column<int>(nullable: false),
-                    ProductID = table.Column<int>(nullable: false),
-                    UserID = table.Column<string>(nullable: true),
-                    ProductName = table.Column<string>(nullable: true),
-                    Quantity = table.Column<int>(nullable: false),
-                    ImgUrl = table.Column<string>(nullable: true),
-                    UnitPrice = table.Column<decimal>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_OrderItems", x => x.ID);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Products",
                 columns: table => new
                 {
@@ -74,6 +56,29 @@ namespace MisterRobotoArigato.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Products", x => x.ID);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Orders",
+                columns: table => new
+                {
+                    ID = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    UserID = table.Column<string>(nullable: true),
+                    Shipping = table.Column<string>(nullable: true),
+                    AddressID = table.Column<int>(nullable: false),
+                    DiscountName = table.Column<string>(nullable: true),
+                    DiscountPercent = table.Column<decimal>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Orders", x => x.ID);
+                    table.ForeignKey(
+                        name: "FK_Orders_Addresses_AddressID",
+                        column: x => x.AddressID,
+                        principalTable: "Addresses",
+                        principalColumn: "ID",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -101,17 +106,49 @@ namespace MisterRobotoArigato.Migrations
                         onDelete: ReferentialAction.Restrict);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "OrderItems",
+                columns: table => new
+                {
+                    ID = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    OrderID = table.Column<int>(nullable: false),
+                    ProductID = table.Column<int>(nullable: false),
+                    UserID = table.Column<string>(nullable: true),
+                    ProductName = table.Column<string>(nullable: true),
+                    Quantity = table.Column<int>(nullable: false),
+                    ImgUrl = table.Column<string>(nullable: true),
+                    UnitPrice = table.Column<decimal>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_OrderItems", x => x.ID);
+                    table.ForeignKey(
+                        name: "FK_OrderItems_Orders_OrderID",
+                        column: x => x.OrderID,
+                        principalTable: "Orders",
+                        principalColumn: "ID",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_BasketItems_BasketID",
                 table: "BasketItems",
                 column: "BasketID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_OrderItems_OrderID",
+                table: "OrderItems",
+                column: "OrderID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Orders_AddressID",
+                table: "Orders",
+                column: "AddressID");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropTable(
-                name: "Addresses");
-
             migrationBuilder.DropTable(
                 name: "BasketItems");
 
@@ -123,6 +160,12 @@ namespace MisterRobotoArigato.Migrations
 
             migrationBuilder.DropTable(
                 name: "Baskets");
+
+            migrationBuilder.DropTable(
+                name: "Orders");
+
+            migrationBuilder.DropTable(
+                name: "Addresses");
         }
     }
 }

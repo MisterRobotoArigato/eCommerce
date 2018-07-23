@@ -88,6 +88,21 @@ namespace MisterRobotoArigato.Models
             }
         }
 
+        public async Task<HttpStatusCode> ClearOutBasket(List<BasketItem> basketItems)
+        {
+            try
+            {
+                _context.RemoveRange(basketItems);
+                await _context.SaveChangesAsync();
+                return HttpStatusCode.Created;
+
+            }
+
+            catch
+            {
+                return HttpStatusCode.BadRequest;
+            }
+        }
         public async Task<Basket> GetUserBasketByEmail(string email)
         {
             var prodInts = _context.BasketItems.Where(d => d.CustomerEmail == email).Select(p => p.ProductID);

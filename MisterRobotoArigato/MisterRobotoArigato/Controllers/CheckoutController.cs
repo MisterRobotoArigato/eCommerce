@@ -20,11 +20,12 @@ namespace MisterRobotoArigato.Controllers
         private readonly IConfiguration Configuration;
         private UserManager<ApplicationUser> _userManager;
 
-        public CheckoutController(IRobotoRepo robotoRepo, IConfiguration configuration, IBasketRepo basketRepo,
-            UserManager<ApplicationUser> userManager)
+        public CheckoutController(IRobotoRepo robotoRepo, IConfiguration configuration, 
+            IBasketRepo basketRepo, ICheckoutRepo checkoutRepo, UserManager<ApplicationUser> userManager)
         {
             _robotoRepo = robotoRepo;
             _basketRepo = basketRepo;
+            _checkoutRepo = checkoutRepo;
             _userManager = userManager;
             Configuration = configuration;
         }
@@ -106,7 +107,10 @@ namespace MisterRobotoArigato.Controllers
             {
                 UserID = user.Id,
                 AddressID = cvm.Address.ID,
-                Shipping = cvm.Shipping
+                Address = cvm.Address,
+                Shipping = cvm.Shipping,
+                DiscountName = cvm.DiscountName,
+                DiscountPercent = cvm.DiscountPercent,
             };
 
             // add order to the database table
@@ -137,11 +141,8 @@ namespace MisterRobotoArigato.Controllers
             // attach orderitems to order
             datOrder.OrderItems = demOrderItems;
 
-            // delete basket items from database
-            foreach (var item in cvm.Basket.BasketItems)
-            {
-                await _basketRepo.DeleteProductFromBasket(item);
-            }
+            // empty out basket
+            await _basketRepo.ClearOutBasket(cvm.Basket.BasketItems);
 
             return View("Confirmed", datOrder);
         }

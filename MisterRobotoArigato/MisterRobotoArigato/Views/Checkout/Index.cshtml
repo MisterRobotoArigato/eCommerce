@@ -164,7 +164,7 @@
                     </div>
                     <div class="col-md-4 mb-3">
                         <label asp-for="Address.State">State/Province/Prefecture</label>
-                        <select class="custom-select d-block w-100 input-medium bfh-states" data-country="countries_states1">
+                        <select asp-for="Address.State" class="custom-select d-block w-100 input-medium bfh-states" data-country="countries_states1">
                             <option selected disabled hidden>Please choose a state</option>
                         </select>
                         <span asp-validation-for="Address.State" class="text-danger"></span>

@@ -80,7 +80,8 @@ namespace MisterRobotoArigato.Models
         {
             try
             {
-                await _context.Orders.FirstOrDefaultAsync(o => o.UserID == id);
+                Order orderToRemove = await _context.Orders.FirstOrDefaultAsync(o => o.UserID == id);
+                _context.Remove(orderToRemove);
                 await _context.SaveChangesAsync();
                 return HttpStatusCode.Created;
             }

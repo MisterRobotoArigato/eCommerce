@@ -10,8 +10,8 @@ using MisterRobotoArigato.Data;
 namespace MisterRobotoArigato.Migrations.ApplicationDb
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20180722070603_againWithUsers")]
-    partial class againWithUsers
+    [Migration("20180723010749_notInitial")]
+    partial class notInitial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

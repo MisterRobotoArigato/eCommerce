@@ -10,8 +10,8 @@ using MisterRobotoArigato.Data;
 namespace MisterRobotoArigato.Migrations
 {
     [DbContext(typeof(RobotoDbContext))]
-    [Migration("20180722070531_orders-and-addresses")]
-    partial class ordersandaddresses
+    [Migration("20180723010712_addedAddressandOrderfields")]
+    partial class addedAddressandOrderfields
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -26,6 +26,9 @@ namespace MisterRobotoArigato.Migrations
                     b.Property<int>("ID")
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("City")
+                        .IsRequired();
 
                     b.Property<string>("Country")
                         .IsRequired();
@@ -94,6 +97,29 @@ namespace MisterRobotoArigato.Migrations
                     b.ToTable("BasketItems");
                 });
 
+            modelBuilder.Entity("MisterRobotoArigato.Models.Order", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("AddressID");
+
+                    b.Property<string>("DiscountName");
+
+                    b.Property<decimal>("DiscountPercent");
+
+                    b.Property<string>("Shipping");
+
+                    b.Property<string>("UserID");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("AddressID");
+
+                    b.ToTable("Orders");
+                });
+
             modelBuilder.Entity("MisterRobotoArigato.Models.OrderItem", b =>
                 {
                     b.Property<int>("ID")
@@ -115,6 +141,8 @@ namespace MisterRobotoArigato.Migrations
                     b.Property<string>("UserID");
 
                     b.HasKey("ID");
+
+                    b.HasIndex("OrderID");
 
                     b.ToTable("OrderItems");
                 });
@@ -147,6 +175,22 @@ namespace MisterRobotoArigato.Migrations
                     b.HasOne("MisterRobotoArigato.Models.Basket")
                         .WithMany("BasketItems")
                         .HasForeignKey("BasketID");
+                });
+
+            modelBuilder.Entity("MisterRobotoArigato.Models.Order", b =>
+                {
+                    b.HasOne("MisterRobotoArigato.Models.Address", "Address")
+                        .WithMany()
+                        .HasForeignKey("AddressID")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("MisterRobotoArigato.Models.OrderItem", b =>
+                {
+                    b.HasOne("MisterRobotoArigato.Models.Order")
+                        .WithMany("OrderItems")
+                        .HasForeignKey("OrderID")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618
         }
