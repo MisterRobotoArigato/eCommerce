@@ -69,8 +69,10 @@ namespace MisterRobotoArigato.Controllers
             Basket basket = await _basketRepo.GetUserBasketByEmail(user.Email);
             if (basket == null)
             {
-                Basket datBasket = new Basket();
-                datBasket.CustomerEmail = user.Email;
+                Basket datBasket = new Basket
+                {
+                    CustomerEmail = user.Email
+                };
                 await _basketRepo.CreateBasket(datBasket);  
             }
 

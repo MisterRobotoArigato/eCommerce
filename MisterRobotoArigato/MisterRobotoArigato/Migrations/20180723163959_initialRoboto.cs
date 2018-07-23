@@ -20,7 +20,7 @@ namespace MisterRobotoArigato.Migrations
                     City = table.Column<string>(nullable: false),
                     State = table.Column<string>(nullable: false),
                     Country = table.Column<string>(nullable: false),
-                    Zip = table.Column<int>(nullable: false),
+                    Zip = table.Column<string>(nullable: false),
                     UserID = table.Column<string>(nullable: false)
                 },
                 constraints: table =>

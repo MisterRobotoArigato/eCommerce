@@ -31,7 +31,7 @@ namespace MisterRobotoArigato.Models
         public string Country { get; set; }
 
         [Required]
-        public int Zip { get; set; }
+        public string Zip { get; set; }
 
         [Required]
         public string UserID { get; set; }
