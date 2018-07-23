@@ -15,6 +15,10 @@
 <link rel="stylesheet" href="~/css/base.css" type="text/css" />
 <link rel="stylesheet" href="~/css/layout.css" type="text/css" />
 <link rel="stylesheet" href="~/css/modules.css" type="text/css" />
+<link rel="stylesheet" href="~/css/StyleSheet.css" type="text/css" />
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"
+        integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
 <title>Welcome to the Mister Roboto Arigato Store</title>
 <body>
     <header class="nav navbar-static-top">
@@ -28,9 +32,15 @@
                     <li class="nav-item">
                         <a class="nav-link" asp-controller="Shop" asp-action="Index">Shop</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" asp-controller="/" asp-action="/">Place an order</a>
-                    </li>
+                    @if (SignInManager.IsSignedIn(User))
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link" asp-controller="Shop" asp-action="MyBasket">My Basket</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-controller="Checkout" asp-action="Index">Checkout</a>
+                        </li>
+                    }
                 </ul>
             </div>
             <ul class="nav navbar-nav navbar-right">
@@ -38,6 +48,7 @@
                 {
                     var user = await UserManager.FindByEmailAsync(User.Identity.Name);
                     bool isAdmin = await UserManager.IsInRoleAsync(user, ApplicationRoles.Admin);
+
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <i class="fas fa-user"></i>
@@ -45,18 +56,17 @@
                         </a>
                         <div class="dropdown-menu user-menu" aria-labelledby="navbarDropdown">
                             <div class="dropdown-item disabled">
-                                <span>
-                                    @{
-                                        if (User.Identity.Name.Contains("doge"))
-                                        {
-                                            <img src="https://t7.rbxcdn.com/1c24a8301e8180247a36ed01ca871309" class="float-left" id="doge-icon" />
-                                        }
-                                        else
-                                        {
-                                            <i class="fas fa-user" id="big-user-icon"></i>
-                                        }
+                                @{
+                                    if (User.Identity.Name.Contains("doge"))
+                                    {
+                                        <img src="https://t7.rbxcdn.com/1c24a8301e8180247a36ed01ca871309" class="float-left" id="doge-icon" />
                                     }
-                                </span>
+                                    else
+                                    {
+
+                                        <img src="http://www.stickpng.com/assets/images/585e4bf3cb11b227491c339a.png" class="float-left" id="big-user-icon" />
+                                    }
+                                }
                                 <div class="d-inline-block" id="user-attr">
                                     <strong>@User.Claims.FirstOrDefault(c => c.Type == "FullName").Value</strong>
                                     @if (isAdmin)
@@ -84,7 +94,7 @@
                                     </div>
                                 }
                             </div>
-                            @if (User.Identity.Name == "doge@gmail.com")
+                            @if (isAdmin)
                             {
                                 <a class="dropdown-item" asp-controller="Admin" asp-action="Index">Admin Dashboard</a>
                             }
@@ -123,16 +133,23 @@
 
     <main>
         @RenderBody()
+        @*<div class="wrapper">
+            @if (SignInManager.IsSignedIn(User))
+            {
+                @await Component.InvokeAsync("ShoppingCart");
+            }
+            else
+            {
+                <p>Login to see your basket</p>
+            }
+        </div>*@
     </main>
     <footer class="footer">
         <div class="container">
             <span class="text-muted">© Copyright 2018 Arigato Robotos - All Rights Reserved</span>
         </div>
     </footer>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')</script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"
-            integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
     <script>
         $(document).ready(function () {
             $(".disabled").click(function () {

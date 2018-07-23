@@ -2,21 +2,29 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using MisterRobotoArigato.Models;
+using MisterRobotoArigato.Models.ViewModel;
 
 namespace MisterRobotoArigato.Controllers
 {
     public class ShopController : Controller
     {
-        private readonly IRobotoRepo _repo;
+        private readonly IRobotoRepo _robotoRepo;
+        private readonly IBasketRepo _basketRepo;
         private readonly IConfiguration Configuration;
+        private UserManager<ApplicationUser> _userManager;
 
-        public ShopController(IRobotoRepo repo, IConfiguration configuration)
+        public ShopController(IRobotoRepo robotoRepo, IConfiguration configuration, IBasketRepo basketRepo,
+            UserManager<ApplicationUser> userManager)
         {
-            _repo = repo;
+            _robotoRepo = robotoRepo;
+            _basketRepo = basketRepo;
+            _userManager = userManager;
             Configuration = configuration;
         }
 
@@ -27,7 +35,7 @@ namespace MisterRobotoArigato.Controllers
         /// <returns>a list of items on search parameters (shows all products if search string is null)</returns>
         public IActionResult Index(string searchString)
         {
-            var products = _repo.GetProducts().Result.AsQueryable();
+            var products = _robotoRepo.GetProducts().Result.AsQueryable();
 
             if (!String.IsNullOrEmpty(searchString))
             {
@@ -46,11 +54,73 @@ namespace MisterRobotoArigato.Controllers
         {
             if (id == null) return NotFound();
 
-            var foundProduct = await _repo.GetProductById(id);
+            var foundProduct = await _robotoRepo.GetProductById(id);
 
             if (foundProduct == null) NotFound();
 
             return View(foundProduct);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Add(int? id)
+        {
+            var user = await _userManager.FindByEmailAsync(User.Identity.Name);
+            Product product = _robotoRepo.GetProductById(id).Result;
+            Basket basket = await _basketRepo.GetUserBasketByEmail(user.Email);
+            if (basket == null)
+            {
+                Basket datBasket = new Basket
+                {
+                    CustomerEmail = user.Email
+                };
+                await _basketRepo.CreateBasket(datBasket);  
+            }
+
+            await _basketRepo.AddProductToBasket(user.Email, product);
+
+            return RedirectToAction(nameof(MyBasket));
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Update([Bind("ID, ProductID, ProductName, CustomerEmail, Quantity, ImgUrl, Description, UnitPrice")]BasketItem basketItem)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    if (basketItem.Quantity == 0)
+                    {
+                        await _basketRepo.DeleteProductFromBasket(basketItem);
+                    }
+                    else
+                    {
+                        await _basketRepo.UpdateBasket(User.Identity.Name, basketItem);
+                    }
+                }
+
+                catch
+                {
+                    throw;
+                }
+            }
+            return RedirectToAction(nameof(MyBasket));
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Delete(BasketItem basketItem)
+        {
+            await _basketRepo.DeleteProductFromBasket(basketItem);
+            return RedirectToAction(nameof(MyBasket));
+        }
+
+        [Authorize]
+        public async Task<IActionResult> MyBasket()
+        {
+            var user = await _userManager.FindByEmailAsync(User.Identity.Name);
+            Basket datBasket = _basketRepo.GetUserBasketByEmail(user.Email).Result;
+
+            return View(datBasket);
         }
     }
 }
