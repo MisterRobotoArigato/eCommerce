@@ -10,8 +10,8 @@ using MisterRobotoArigato.Data;
 namespace MisterRobotoArigato.Migrations
 {
     [DbContext(typeof(RobotoDbContext))]
-    [Migration("20180723033732_orderTable")]
-    partial class orderTable
+    [Migration("20180723171238_week2ProductionRoboto")]
+    partial class week2ProductionRoboto
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -50,7 +50,8 @@ namespace MisterRobotoArigato.Migrations
                     b.Property<string>("UserID")
                         .IsRequired();
 
-                    b.Property<int>("Zip");
+                    b.Property<string>("Zip")
+                        .IsRequired();
 
                     b.HasKey("ID");
 
@@ -105,11 +106,19 @@ namespace MisterRobotoArigato.Migrations
 
                     b.Property<int>("AddressID");
 
+                    b.Property<decimal>("DiscountAmt");
+
                     b.Property<string>("DiscountName");
 
                     b.Property<decimal>("DiscountPercent");
 
                     b.Property<string>("Shipping");
+
+                    b.Property<decimal>("Subtotal");
+
+                    b.Property<decimal>("Total");
+
+                    b.Property<int>("TotalItemQty");
 
                     b.Property<string>("UserID");
 

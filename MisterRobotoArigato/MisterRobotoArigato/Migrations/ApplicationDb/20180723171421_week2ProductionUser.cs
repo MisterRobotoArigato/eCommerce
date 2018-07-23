@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace MisterRobotoArigato.Migrations.ApplicationDb
 {
-    public partial class initialApp : Migration
+    public partial class week2ProductionUser : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
