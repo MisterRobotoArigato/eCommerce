@@ -67,9 +67,9 @@ _Basket_ Baskets will have:
 
 _Basket Items_ Items in a basket will have:
 * an ID: to identify every item associated with a basket
-* Product ID: the product ID that is tied to the basket
-* Product Name: the name of the product tied to the basket
-* Customer Email: the email of the customer buying the product, so we can associate 
+* ProductID: the product ID that is tied to the basket
+* ProductName: the name of the product tied to the basket
+* CustomerEmail: the email of the customer buying the product, so we can associate 
   the customer with the product they're buying
 * Quantity: the number of times of the product they're buying
 * ImgUrl: the image tied to that product
