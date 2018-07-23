@@ -36,7 +36,7 @@ namespace MisterRobotoArigato.Controllers
 
             Basket datBasket = _basketRepo.GetUserBasketByEmail(user.Email).Result;
 
-            if (datBasket.BasketItems.Count == 0)
+            if (datBasket == null || datBasket.BasketItems.Count == 0)
             {
                 return RedirectToAction("MyBasket", "Shop");
             }

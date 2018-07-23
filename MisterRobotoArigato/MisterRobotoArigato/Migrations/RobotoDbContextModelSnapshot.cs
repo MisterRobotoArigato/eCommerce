@@ -48,7 +48,8 @@ namespace MisterRobotoArigato.Migrations
                     b.Property<string>("UserID")
                         .IsRequired();
 
-                    b.Property<int>("Zip");
+                    b.Property<string>("Zip")
+                        .IsRequired();
 
                     b.HasKey("ID");
 

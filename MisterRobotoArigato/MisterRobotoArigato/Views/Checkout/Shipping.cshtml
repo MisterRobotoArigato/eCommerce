@@ -2,7 +2,6 @@
 @using MisterRobotoArigato.Models;
 @model CheckoutViewModel
 @inject UserManager<ApplicationUser> UserManager
-@*@inject SignInManager<ApplicationUser> SignInManager*@
 @{
     ViewData["Title"] = "Checkout - Shipping";
     Layout = "_Layout";
@@ -110,15 +109,15 @@
                     <input type="hidden" asp-for="@Model.Address.UserID" value="@Model.Address.UserID" />
 
                     <div class="radio">
-                        <input type="radio" asp-for="Shipping" value="Roboto Rocket" name="Shipping">
+                        <input type="radio" asp-for="Shipping" value="Roboto Rocket: 1 day" name="Shipping">
                         <label>Roboto Rocket: 1 day</label>
                     </div>
                     <div class="radio">
-                        <input type="radio" asp-for="Shipping" value="Roboto Standard" name="Shipping">
+                        <input type="radio" asp-for="Shipping" value="Roboto Standard: 2 days" name="Shipping">
                         <label>Roboto Standard: 2 days</label>
                     </div>
                     <div class="radio">
-                        <input type="radio" asp-for="Shipping" value="Roboto Snail" name="Shipping">
+                        <input type="radio" asp-for="Shipping" value="Roboto Snail: 3-5 days" name="Shipping">
                         <label>Roboto Snail: 3-5 days</label>
                     </div>
                      
@@ -136,14 +135,6 @@
 </script>
 <script src="http://js.nicdn.de/bootstrap/formhelpers/docs/assets/js/bootstrap-formhelpers-states.en_US.js"></script>
 <script src="http://js.nicdn.de/bootstrap/formhelpers/docs/assets/js/bootstrap-formhelpers-states.js"></script>
-<!-- Bootstrap core JavaScript
-================================================== -->
-<!-- Placed at the end of the document so the pages load faster -->
-@*<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-    <script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery-slim.min.js"><\/script>')</script>*@
-@*<script src="../../assets/js/vendor/popper.min.js"></script>
-    <script src="../../dist/js/bootstrap.min.js"></script>
-    <script src="../../assets/js/vendor/holder.min.js"></script>*@
 <script>
     // Example starter JavaScript for disabling form submissions if there are invalid fields
     (function () {
