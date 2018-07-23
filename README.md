@@ -168,11 +168,18 @@ money so far.  Let's delete the Ramen Vending Robot from our basket:
 
 This updated basket information persists to the checkout page.  Click on 
 "Checkout" and we can now see the updated basket and total, without the 
-Ramen Vending Robot:
+Ramen Vending Robot.  From the checkout page, users will need to put in their 
+shipping information:
 
 ![Checkout View](Screenshots/week2/checkOut.png)
 
-From the checkout page, users will need to put in their shipping information
+Click "Checkout".  The confirm page will show a summary of the order:
+
+![Confirm Page](Screenshots/week2/confirm.png)
+
+When a user is on this page, an email receipt is on its way to their inbox:
+
+![Recipt Email](Screenshots/week2/receiptEmail.png)
 
 ---
 ## Walk Through Sprint 1
