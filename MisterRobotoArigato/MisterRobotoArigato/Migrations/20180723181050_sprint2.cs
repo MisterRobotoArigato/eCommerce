@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace MisterRobotoArigato.Migrations
 {
-    public partial class week2ProductionRoboto : Migration
+    public partial class sprint2 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
