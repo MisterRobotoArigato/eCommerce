@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using MisterRobotoArigato.Models;
@@ -18,15 +19,18 @@ namespace MisterRobotoArigato.Controllers
         private readonly IBasketRepo _basketRepo;
         private readonly ICheckoutRepo _checkoutRepo;
         private readonly IConfiguration Configuration;
+        private readonly IEmailSender _emailSender;
         private UserManager<ApplicationUser> _userManager;
 
         public CheckoutController(IRobotoRepo robotoRepo, IConfiguration configuration, 
-            IBasketRepo basketRepo, ICheckoutRepo checkoutRepo, UserManager<ApplicationUser> userManager)
+            IBasketRepo basketRepo, ICheckoutRepo checkoutRepo, 
+            IEmailSender emailSender, UserManager<ApplicationUser> userManager)
         {
             _robotoRepo = robotoRepo;
             _basketRepo = basketRepo;
             _checkoutRepo = checkoutRepo;
             _userManager = userManager;
+            _emailSender = emailSender;
             Configuration = configuration;
         }
 
@@ -141,8 +145,17 @@ namespace MisterRobotoArigato.Controllers
             // attach orderitems to order
             datOrder.OrderItems = demOrderItems;
 
+            string htmlMessage = "Thank you for shopping with us!  You ordered: </br>"; 
+            foreach (var item in datOrder.OrderItems)
+            {
+                htmlMessage += $"Item: {item.ProductName}, Quantity: {item.Quantity}</br>";
+            };
+
+            await _emailSender.SendEmailAsync(user.Email, "Order Information",
+                        htmlMessage);
             // empty out basket
             await _basketRepo.ClearOutBasket(cvm.Basket.BasketItems);
+
 
             return View("Confirmed", datOrder);
         }
