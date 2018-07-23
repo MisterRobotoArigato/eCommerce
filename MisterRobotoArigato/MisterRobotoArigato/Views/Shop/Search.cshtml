@@ -6,10 +6,13 @@
 <div class="container">
     <h3>Search Results</h3>
     @foreach (var p in Model.Products)
-    { 
+    {
         <p>@p.Name</p>
-        <img src="@p.ImgUrl"/>
+        <img src="@p.ImgUrl" />
 
         <a asp-controller="Shop" asp-action="Details" asp-route-id="@p.ID">View Details</a>
     }
+    <button class="btn btn-primary" title="View Basket Contents">
+        @await Component.InvokeAsync("ShoppingCart")
+    </button>
 </div>

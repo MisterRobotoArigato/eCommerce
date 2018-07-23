@@ -1,0 +1,178 @@
+﻿@using Microsoft.AspNetCore.Identity;
+@using MisterRobotoArigato.Models;
+@model CheckoutViewModel
+@inject UserManager<ApplicationUser> UserManager
+@*@inject SignInManager<ApplicationUser> SignInManager*@
+@{
+    ViewData["Title"] = "Checkout";
+    Layout = "_Layout";
+
+}
+<div class="container">
+    <div class="py-5 text-center">
+        <h2>Checkout</h2>
+        <p class="lead">Please fill in your information below.</p>
+    </div>
+
+    <div class="row">
+        <div class="col-md-4 order-md-2 mb-4">
+            <h4 class="d-flex justify-content-between align-items-center mb-3">
+                <span class="text-muted">Your basket</span>
+                @{ 
+                    int actualTotalItems = 0;
+
+                    @foreach (var basketItem in Model.Basket.BasketItems)
+                    {
+                        actualTotalItems += basketItem.Quantity;
+                    }
+
+                <span class="badge badge-secondary badge-pill"><i class="fas fa-shopping-basket"></i>  @actualTotalItems</span>
+                }
+            </h4>
+            <ul class="list-group mb-3">
+                @{
+                    decimal orderTotal = 0;
+                }
+                @foreach (var basketItem in Model.Basket.BasketItems)
+                {
+                    var totalItemPrice = basketItem.UnitPrice * basketItem.Quantity;
+                    orderTotal += totalItemPrice;
+                    <li class="list-group-item d-flex justify-content-between lh-condensed">
+                        <div class="float-left">
+                            <h6 class="my-0">@basketItem.ProductName</h6>
+                            <small class="text-muted">Quantity: @basketItem.Quantity</small>
+                        </div>
+                        <img src="@basketItem.ImgUrl" class="icon-img">
+                        <span class="text-muted">@totalItemPrice</span>
+                    </li>
+                }
+
+                @if (Model.DiscountPercent != 0)
+                {
+                    decimal discountAmt = (Model.DiscountPercent / 100) * orderTotal;
+                    <li class="list-group-item d-flex justify-content-between bg-light">
+                        <h6 class="my-0">Subtotal</h6>
+                        <span>$@orderTotal</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between bg-light">
+                        <div class="text-success">
+                            <h6 class="my-0">Promo code</h6>
+                            <small>@Model.DiscountName</small>
+                        </div>
+                        <span class="text-success">-$@Math.Round(discountAmt, 2)</span>
+                    </li>
+                }
+                <li class="list-group-item d-flex justify-content-between">
+                    <span>Total (USD)</span>
+                    @{
+                        orderTotal = orderTotal - Math.Round((Model.DiscountPercent / 100) * orderTotal, 2);
+                        <strong>$@orderTotal</strong>
+                    }
+                </li>
+            </ul>
+
+            <form class="card p-2" asp-controller="Shop" asp-action="Checkout" method="get">
+                <div class="input-group">
+                    <input type="text" class="form-control" name="DiscountCoupon" placeholder="Promo code">
+                    <div class="input-group-append">
+                        <button type="submit" class="btn btn-secondary">Redeem</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="col-md-8 order-md-1">
+            <h4 class="mb-3">Billing address</h4>
+        </div>
+                <form asp-action="AddOrderDetails" asp-controller="Shop" method="post">
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label asp-for="Address.FirstName">First name</label>
+                            <input asp-for="Address.FirstName" type="text" class="form-control" title="First Name" placeholder="First Name">
+                            <span asp-validation-for="Address.FirstName" class="text-danger"></span>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label asp-for="Address.LastName">Last name</label>
+                            <input asp-for="Address.LastName" type="text" class="form-control" title="Last Name" placeholder="Last Name">
+                            <span asp-validation-for="Address.LastName" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label asp-for="Address.Street">Address</label>
+                        <input asp-for="Address.Street" type="text" class="form-control" title="Street # and Name" placeholder="1234 Main Street">
+                        <span asp-validation-for="Address.Street" class="text-danger"></span>
+                    </div>
+                    <div class="mb-3">
+                        <label asp-for="Address.Street2">Address 2 <span class="text-muted">(Optional)</span></label>
+                        <input asp-for="Address.Street2" type="text" class="form-control" title="Apt or Bldg #" placeholder="Apt. #555">
+                        <span asp-validation-for="Address.Street2" class="text-danger"></span>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-5 mb-3">
+                            <label asp-for="Address.Country">Country</label>
+                            <select asp-for="Address.Country" class="custom-select d-block w-100 input-medium bfh-countries" id="countries_states1" data-country="US">
+                                <option selected disabled hidden>Choose a country</option>
+                            </select>
+                            <span asp-validation-for="Address.Country" class="text-danger"></span>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label asp-for="Address.State">State/Province/Prefecture</label>
+                            <select class="custom-select d-block w-100 input-medium bfh-states" data-country="countries_states1">
+                                <option selected disabled hidden>Please choose a state</option>
+                            </select>
+                            <span asp-validation-for="Address.State" class="text-danger"></span>
+
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <label asp-for="Address.Zip">Zip</label>
+                            <input asp-for="Address.Zip" type="text" class="form-control" id="zip" placeholder="55555">
+                            <span asp-validation-for="Address.Zip" class="text-danger"></span>
+                        </div>
+                        @{ 
+                            var user = await UserManager.FindByEmailAsync(User.Identity.Name);
+                            <input type="hidden" asp-for="Address.UserID" value="@user.Id"/>
+                        }
+
+                    </div>
+                <hr class="mb-4">
+                <div class="custom-control custom-checkbox">
+                    <input type="checkbox" class="custom-control-input" id="same-address">
+                    <label class="custom-control-label" for="same-address">Shipping address is the same as my billing address</label>
+                </div>
+                <div class="custom-control custom-checkbox">
+                    <input type="checkbox" class="custom-control-input" id="save-info">
+                    <label class="custom-control-label" for="save-info">Save this information for next time</label>
+                </div>
+                <hr class="mb-4">
+                <button class="btn btn-primary btn-lg btn-block" type="submit">Continue to checkout</button>
+            </form>
+        </div>
+    </div>
+<script src="http://js.nicdn.de/bootstrap/formhelpers/docs/assets/js/bootstrap-formhelpers-selectbox.jss"></script>
+<script src="http://js.nicdn.de/bootstrap/formhelpers/docs/assets/js/bootstrap-formhelpers-countries.en_US.js
+"></script>
+<script src="http://js.nicdn.de/bootstrap/formhelpers/docs/assets/js/bootstrap-formhelpers-countries.js">
+</script>
+<script src="http://js.nicdn.de/bootstrap/formhelpers/docs/assets/js/bootstrap-formhelpers-states.en_US.js"></script>
+<script src="http://js.nicdn.de/bootstrap/formhelpers/docs/assets/js/bootstrap-formhelpers-states.js"></script>
+<script>
+    // Example starter JavaScript for disabling form submissions if there are invalid fields
+    (function () {
+        'use strict';
+
+        window.addEventListener('load', function () {
+            // Fetch all the forms we want to apply custom Bootstrap validation styles to
+            var forms = document.getElementsByClassName('needs-validation');
+
+            // Loop over them and prevent submission
+            var validation = Array.prototype.filter.call(forms, function (form) {
+                form.addEventListener('submit', function (event) {
+                    if (form.checkValidity() === false) {
+                        event.preventDefault();
+                        event.stopPropagation();
+                    }
+                    form.classList.add('was-validated');
+                }, false);
+            });
+        }, false);
+    })();
+</script>

@@ -1,0 +1,58 @@
+﻿$primary: red;
+$secondary: orange;
+$baseWidth: 400px;
+$widen: $baseWidth;
+$roundit: 3px;
+
+//style for basket view component
+#basket {
+    height: 100%;
+    width: 0;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    background-color: white;
+    color: #006DFF;
+    overflow-x: hidden;
+    transition: 0.5s;
+    padding-top: 150px;
+    outline: solid 15px orange;
+}
+
+#basket a {
+    padding: 8px 8px 8px 32px;
+    text-decoration: none;
+    font-size: 35px;
+    color: #006DFF;
+    display: block;
+    transition: 0.3s;
+}
+
+#basket .closebtn {
+    position: absolute;
+    top: 70px;
+    color: mediumvioletred;
+    right: 10px;
+    font-size: 25px;
+}
+
+#basket a:hover {
+    color: #006DFF;
+}
+
+#basket img {
+    width:25%;
+    height: auto;
+    border-radius: 5px;
+}
+
+/*@media screen and (max-width: 450px) {
+    #basket {
+        padding-top: 15px;
+    }
+
+    #basket a {
+        font-size: 18px;
+    }
+}*/

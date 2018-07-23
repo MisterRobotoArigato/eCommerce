@@ -1,0 +1,12 @@
+{
+  "web": {
+    "client_id": "37620299318-65sgkubm58uje2lng7pe2sglrhhgdock.apps.googleusercontent.com",
+    "project_id": "mrrobotostoreoauth",
+    "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+    "token_uri": "https://accounts.google.com/o/oauth2/token",
+    "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+    "client_secret": "nzuFT8rfNrKBxK_LoWOQyqxl",
+    
+    "redirect_uris": [ "http://localhost:51253/signin-google" ]
+  }
+}
