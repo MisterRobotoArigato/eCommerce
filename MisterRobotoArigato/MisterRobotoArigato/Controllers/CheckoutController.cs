@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using MisterRobotoArigato.Models;
@@ -18,6 +19,7 @@ namespace MisterRobotoArigato.Controllers
         private readonly IBasketRepo _basketRepo;
         private readonly ICheckoutRepo _checkoutRepo;
         private readonly IConfiguration Configuration;
+        private readonly IEmailSender _emailSender;
         private UserManager<ApplicationUser> _userManager;
 
         public CheckoutController(IRobotoRepo robotoRepo, IConfiguration configuration, 
@@ -143,6 +145,12 @@ namespace MisterRobotoArigato.Controllers
 
             // empty out basket
             await _basketRepo.ClearOutBasket(cvm.Basket.BasketItems);
+
+            await _emailSender.SendEmailAsync(user.Email, "Order Information",
+                        "<h1>Thank you for ordering through Mister Roboto Arigato!</h1>" +
+                        "<p>Here is your receipt:</p>" +
+                        "" +
+                        "<h2>Come back soon!</h2>");
 
             return View("Confirmed", datOrder);
         }
