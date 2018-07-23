@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace MisterRobotoArigato.Migrations
 {
-    public partial class addedAddressandOrderfields : Migration
+    public partial class initialRoboto : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -67,8 +67,12 @@ namespace MisterRobotoArigato.Migrations
                     UserID = table.Column<string>(nullable: true),
                     Shipping = table.Column<string>(nullable: true),
                     AddressID = table.Column<int>(nullable: false),
+                    TotalItemQty = table.Column<int>(nullable: false),
                     DiscountName = table.Column<string>(nullable: true),
-                    DiscountPercent = table.Column<decimal>(nullable: false)
+                    DiscountPercent = table.Column<decimal>(nullable: false),
+                    DiscountAmt = table.Column<decimal>(nullable: false),
+                    Subtotal = table.Column<decimal>(nullable: false),
+                    Total = table.Column<decimal>(nullable: false)
                 },
                 constraints: table =>
                 {

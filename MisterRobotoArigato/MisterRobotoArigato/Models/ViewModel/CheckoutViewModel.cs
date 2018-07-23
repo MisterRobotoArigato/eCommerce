@@ -12,6 +12,10 @@ namespace MisterRobotoArigato.Models.ViewModel
         public string DiscountName { get; set; }
         public Address Address { get; set; }
         public string Shipping { get; set; }
+        public int TotalItemQty { get; set; }
+        public decimal Subtotal { get; set; }
+        public decimal DiscountAmt { get; set; }
+        public decimal Total { get; set; }
 
         public CheckoutViewModel()
         {

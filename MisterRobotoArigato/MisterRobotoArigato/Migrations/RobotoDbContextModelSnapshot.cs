@@ -103,11 +103,19 @@ namespace MisterRobotoArigato.Migrations
 
                     b.Property<int>("AddressID");
 
+                    b.Property<decimal>("DiscountAmt");
+
                     b.Property<string>("DiscountName");
 
                     b.Property<decimal>("DiscountPercent");
 
                     b.Property<string>("Shipping");
+
+                    b.Property<decimal>("Subtotal");
+
+                    b.Property<decimal>("Total");
+
+                    b.Property<int>("TotalItemQty");
 
                     b.Property<string>("UserID");
 
