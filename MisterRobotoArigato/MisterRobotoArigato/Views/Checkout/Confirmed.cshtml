@@ -4,30 +4,82 @@
     Layout = "_Layout";
 
 }
-<h2>Confirmed!</h2>
+<div class="container">
+    <div class="py-5 text-center">
+        <h2>Order Confirmed</h2>
+        <p class="lead">Congratulations! You have succesfully made an order.</p>
+    </div>
 
-<div class="col-md-8 order-md-1">
-    <h4 class="mb-3">Shipping address</h4>
-    <div class="d-inline-block">
-        @Model.Address.FirstName @Model.Address.LastName<br />
-        @Model.Address.Street<br />
-        @if (Model.Address.Street2 != null)
-        {
-            @Model.Address.Street2<br />
-        }
-        @Model.Address.City @Model.Address.State<br />
-        @Model.Address.Zip<br />
-        @Model.Address.Country
+    <div class="row">
+        <div class="col-md-4 order-md-2 mb-4">
+            <h4 class="d-flex justify-content-between align-items-center mb-3">
+                <span class="text-muted">Your checkout bag</span>
+                <span class="badge badge-secondary badge-pill"><i class="fas fa-shopping-bag"></i>  @Model.TotalItemQty</span>
+
+            </h4>
+            <ul class="list-group mb-3">
+                @{
+                    decimal orderTotal = 0;
+                }
+                @foreach (var orderItem in Model.OrderItems)
+                {
+                    var totalItemPrice = orderItem.UnitPrice * orderItem.Quantity;
+                    orderTotal += totalItemPrice;
+                    <li class="list-group-item d-flex justify-content-between lh-condensed">
+                        <div class="float-left">
+                            <h6 class="my-0">@orderItem.ProductName</h6>
+                            <small class="text-muted">Quantity: @orderItem.Quantity</small>
+                        </div>
+                        <img src="@orderItem.ImgUrl" class="icon-img">
+                        <span class="text-muted">@totalItemPrice</span>
+                    </li>
+                }
+
+                @if (Model.DiscountPercent != 0)
+                {
+                    decimal discountAmt = (Model.DiscountPercent / 100) * orderTotal;
+                    <li class="list-group-item d-flex justify-content-between bg-light">
+                        <h6 class="my-0">Subtotal</h6>
+                        <span>$@Model.Subtotal</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between bg-light">
+                        <div class="text-success">
+                            <h6 class="my-0">Promo code</h6>
+                            <small>@Model.DiscountName</small>
+                        </div>
+                        <span class="text-success">-$@Model.DiscountAmt</span>
+                    </li>
+                }
+                <li class="list-group-item d-flex justify-content-between">
+                    <span>Total (USD)</span>
+                    @{
+                        <strong>$@Model.Total</strong>
+                    }
+                </li>
+            </ul>
+        </div>
+        <div class="col-md-8 order-md-1">
+            <h4 class="mb-3">Shipping address</h4>
+            <div class="d-inline-block">
+                @Model.Address.FirstName @Model.Address.LastName<br />
+                @Model.Address.Street<br />
+                @if (Model.Address.Street2 != null)
+                {
+                    @Model.Address.Street2<br />
+                }
+                @Model.Address.City @Model.Address.State<br />
+                @Model.Address.Zip<br />
+                @Model.Address.Country
+            </div>
+            <hr class="mb-4">
+            <h4 class="mb-3">Shipping method:</h4>
+            <div class="d-inline-block">
+                @Model.Shipping
+            </div>
+            <hr class="mb-4">
+            <form asp-action="Index" asp-controller="Shop">
+                <button class="btn btn-success btn-lg btn-block" type="submit">Return to shopping!</button>
+            </form>
+        </div>
     </div>
 </div>
-@foreach (var item in Model.OrderItems)
-{
-    <p>@item.ProductName</p>
-    <p>@item.Quantity</p>
-    <p>@item.UnitPrice</p>
-    <img src="@item.ImgUrl" />
-}
-<p>@Model.Shipping</p>
-<p>Discount Code: @Model.DiscountName</p>
-<p>Discount Percent: @Model.DiscountPercent%</p>
-

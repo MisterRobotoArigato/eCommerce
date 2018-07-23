@@ -39,6 +39,12 @@ namespace MisterRobotoArigato.Controllers
             var user = await _userManager.FindByEmailAsync(User.Identity.Name);
 
             Basket datBasket = _basketRepo.GetUserBasketByEmail(user.Email).Result;
+
+            if (datBasket.BasketItems.Count == 0)
+            {
+                return RedirectToAction("MyBasket", "Shop");
+            }
+
             CheckoutViewModel datCheckoutVM = new CheckoutViewModel
             {
                 Basket = datBasket,
@@ -96,13 +102,14 @@ namespace MisterRobotoArigato.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateOrder(CheckoutViewModel cvm)
+        public async Task<IActionResult> Confirm(CheckoutViewModel cvm)
         {
             var user = await _userManager.FindByEmailAsync(User.Identity.Name);
             Basket datBasket = _basketRepo.GetUserBasketByEmail(user.Email).Result;
-
             cvm.Basket = datBasket;
 
+            if (!ModelState.IsValid)
+                return RedirectToAction(nameof(Shipping));
             // add address to database
             await _checkoutRepo.CreateAddress(cvm.Address);
 
@@ -115,6 +122,10 @@ namespace MisterRobotoArigato.Controllers
                 Shipping = cvm.Shipping,
                 DiscountName = cvm.DiscountName,
                 DiscountPercent = cvm.DiscountPercent,
+                DiscountAmt = cvm.DiscountAmt,
+                TotalItemQty = cvm.TotalItemQty,
+                Subtotal = cvm.Subtotal,
+                Total = cvm.Total,
             };
 
             // add order to the database table
