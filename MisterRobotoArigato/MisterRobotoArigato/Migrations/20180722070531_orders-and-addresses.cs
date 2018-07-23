@@ -1,12 +1,32 @@
 ﻿using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace MisterRobotoArigato.Migrations.RobotoDb
+namespace MisterRobotoArigato.Migrations
 {
-    public partial class initialRoboto : Migration
+    public partial class ordersandaddresses : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.CreateTable(
+                name: "Addresses",
+                columns: table => new
+                {
+                    ID = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    FirstName = table.Column<string>(nullable: false),
+                    LastName = table.Column<string>(nullable: false),
+                    Street = table.Column<string>(nullable: false),
+                    Street2 = table.Column<string>(nullable: true),
+                    State = table.Column<string>(nullable: false),
+                    Country = table.Column<string>(nullable: false),
+                    Zip = table.Column<int>(nullable: false),
+                    UserID = table.Column<string>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Addresses", x => x.ID);
+                });
+
             migrationBuilder.CreateTable(
                 name: "Baskets",
                 columns: table => new
@@ -18,6 +38,25 @@ namespace MisterRobotoArigato.Migrations.RobotoDb
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Baskets", x => x.ID);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "OrderItems",
+                columns: table => new
+                {
+                    ID = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    OrderID = table.Column<int>(nullable: false),
+                    ProductID = table.Column<int>(nullable: false),
+                    UserID = table.Column<string>(nullable: true),
+                    ProductName = table.Column<string>(nullable: true),
+                    Quantity = table.Column<int>(nullable: false),
+                    ImgUrl = table.Column<string>(nullable: true),
+                    UnitPrice = table.Column<decimal>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_OrderItems", x => x.ID);
                 });
 
             migrationBuilder.CreateTable(
@@ -38,7 +77,7 @@ namespace MisterRobotoArigato.Migrations.RobotoDb
                 });
 
             migrationBuilder.CreateTable(
-                name: "BasketDetails",
+                name: "BasketItems",
                 columns: table => new
                 {
                     ID = table.Column<int>(nullable: false)
@@ -53,9 +92,9 @@ namespace MisterRobotoArigato.Migrations.RobotoDb
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_BasketDetails", x => x.ID);
+                    table.PrimaryKey("PK_BasketItems", x => x.ID);
                     table.ForeignKey(
-                        name: "FK_BasketDetails_Baskets_BasketID",
+                        name: "FK_BasketItems_Baskets_BasketID",
                         column: x => x.BasketID,
                         principalTable: "Baskets",
                         principalColumn: "ID",
@@ -63,15 +102,21 @@ namespace MisterRobotoArigato.Migrations.RobotoDb
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_BasketDetails_BasketID",
-                table: "BasketDetails",
+                name: "IX_BasketItems_BasketID",
+                table: "BasketItems",
                 column: "BasketID");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "BasketDetails");
+                name: "Addresses");
+
+            migrationBuilder.DropTable(
+                name: "BasketItems");
+
+            migrationBuilder.DropTable(
+                name: "OrderItems");
 
             migrationBuilder.DropTable(
                 name: "Products");

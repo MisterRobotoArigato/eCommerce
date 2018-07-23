@@ -3,21 +3,56 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MisterRobotoArigato.Data;
 
-namespace MisterRobotoArigato.Migrations.RobotoDb
+namespace MisterRobotoArigato.Migrations
 {
     [DbContext(typeof(RobotoDbContext))]
-    partial class RobotoDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180722070531_orders-and-addresses")]
+    partial class ordersandaddresses
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("ProductVersion", "2.1.1-rtm-30846")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+            modelBuilder.Entity("MisterRobotoArigato.Models.Address", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Country")
+                        .IsRequired();
+
+                    b.Property<string>("FirstName")
+                        .IsRequired();
+
+                    b.Property<string>("LastName")
+                        .IsRequired();
+
+                    b.Property<string>("State")
+                        .IsRequired();
+
+                    b.Property<string>("Street")
+                        .IsRequired();
+
+                    b.Property<string>("Street2");
+
+                    b.Property<string>("UserID")
+                        .IsRequired();
+
+                    b.Property<int>("Zip");
+
+                    b.HasKey("ID");
+
+                    b.ToTable("Addresses");
+                });
 
             modelBuilder.Entity("MisterRobotoArigato.Models.Basket", b =>
                 {
@@ -56,7 +91,32 @@ namespace MisterRobotoArigato.Migrations.RobotoDb
 
                     b.HasIndex("BasketID");
 
-                    b.ToTable("BasketDetails");
+                    b.ToTable("BasketItems");
+                });
+
+            modelBuilder.Entity("MisterRobotoArigato.Models.OrderItem", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("ImgUrl");
+
+                    b.Property<int>("OrderID");
+
+                    b.Property<int>("ProductID");
+
+                    b.Property<string>("ProductName");
+
+                    b.Property<int>("Quantity");
+
+                    b.Property<decimal>("UnitPrice");
+
+                    b.Property<string>("UserID");
+
+                    b.HasKey("ID");
+
+                    b.ToTable("OrderItems");
                 });
 
             modelBuilder.Entity("MisterRobotoArigato.Models.Product", b =>

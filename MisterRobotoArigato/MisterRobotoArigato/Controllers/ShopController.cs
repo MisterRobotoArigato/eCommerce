@@ -71,7 +71,7 @@ namespace MisterRobotoArigato.Controllers
             {
                 Basket datBasket = new Basket();
                 datBasket.CustomerEmail = user.Email;
-                await _basketRepo.CreateBasket(datBasket);
+                await _basketRepo.CreateBasket(datBasket);  
             }
             else
             {
@@ -91,7 +91,7 @@ namespace MisterRobotoArigato.Controllers
                 {
                     if (basketItem.Quantity == 0)
                     {
-                        await _basketRepo.DeleteProductFromBasket(User.Identity.Name, basketItem);
+                        await _basketRepo.DeleteProductFromBasket(basketItem);
                     }
                     else
                     {
@@ -110,7 +110,7 @@ namespace MisterRobotoArigato.Controllers
         [HttpPost]
         public async Task<IActionResult> Delete(BasketItem basketItem)
         {
-            await _basketRepo.DeleteProductFromBasket(User.Identity.Name, basketItem);
+            await _basketRepo.DeleteProductFromBasket(basketItem);
             return RedirectToAction(nameof(MyBasket));
         }
 
@@ -121,37 +121,6 @@ namespace MisterRobotoArigato.Controllers
             Basket datBasket = _basketRepo.GetUserBasketByEmail(user.Email).Result;
 
             return View(datBasket);
-        }
-
-        [Authorize]
-        public async Task<IActionResult> Checkout(string discountCoupon)
-        {
-            var user = await _userManager.FindByEmailAsync(User.Identity.Name);
-
-            Basket datBasket = _basketRepo.GetUserBasketByEmail(user.Email).Result;
-            CheckoutViewModel datCheckoutVM = new CheckoutViewModel
-            {
-                Basket = datBasket,
-            };
-
-            if (!String.IsNullOrEmpty(discountCoupon))
-            {
-                string upperCaseCoupon = discountCoupon.ToUpper();
-
-                if (upperCaseCoupon == "IAMDOGE" || upperCaseCoupon == "ILIKEFATCATS")
-                {
-                    datCheckoutVM.DiscountPercent = 20;
-                }
-
-                if (upperCaseCoupon == "CODEFELLOWS")
-                {
-                    datCheckoutVM.DiscountPercent = 10;
-                }
-
-                datCheckoutVM.DiscountName = upperCaseCoupon;
-            }
-
-            return View(datCheckoutVM);
         }
     }
 }

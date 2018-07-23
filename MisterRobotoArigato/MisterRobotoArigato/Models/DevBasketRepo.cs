@@ -73,7 +73,7 @@ namespace MisterRobotoArigato.Models
             }
         }
 
-        public async Task<HttpStatusCode> DeleteProductFromBasket(string email, BasketItem basketItem)
+        public async Task<HttpStatusCode> DeleteProductFromBasket(BasketItem basketItem)
         {
             try
             {
@@ -90,17 +90,13 @@ namespace MisterRobotoArigato.Models
 
         public async Task<Basket> GetUserBasketByEmail(string email)
         {
-            var prodInts = _context.BasketDetails.Where(d => d.CustomerEmail == email).Select(p => p.ProductID);
-            List<BasketItem> demItems = _context.BasketDetails.Where(d => d.CustomerEmail == email).ToList();
+            var prodInts = _context.BasketItems.Where(d => d.CustomerEmail == email).Select(p => p.ProductID);
+            List<BasketItem> demItems = _context.BasketItems.Where(d => d.CustomerEmail == email).ToList();
             Basket datBasket = await _context.Baskets.FirstOrDefaultAsync(b => b.CustomerEmail == email);
-            if (datBasket == null)
-            {
-                datBasket = new Basket();
-            }
-            else
-            {
+
+            if (datBasket != null)
                 datBasket.BasketItems = demItems;
-            }
+            
             return datBasket;
         }
 

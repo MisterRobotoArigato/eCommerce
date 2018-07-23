@@ -236,7 +236,6 @@ namespace MisterRobotoArigato.Controllers
                         await _userManager.AddToRoleAsync(user, ApplicationRoles.Member);
                     }
 
-                    //await _signInManager.SignInAsync(user, false);
                     result = await _userManager.AddLoginAsync(user, info);
                     if (result.Succeeded)
                     {

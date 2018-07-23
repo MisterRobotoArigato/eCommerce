@@ -9,8 +9,9 @@ namespace MisterRobotoArigato.Models
     {
         public int ID { get; set; }
         public string UserID { get; set; }
+        public string Shipping { get; set; }
         public List<OrderItem> OrderItems { get; set; }
-        public Address Address { get; set; }
-        //public string Address { get; set; }
+        public int AddressID { get; set; }
+
     }
 }
