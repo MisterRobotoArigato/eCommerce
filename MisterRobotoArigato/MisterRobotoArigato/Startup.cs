@@ -49,13 +49,13 @@ namespace MisterRobotoArigato
 
             services.AddAuthentication().AddGoogle(google =>
             {
-                google.ClientId = Configuration["OAUTH:Authentication:Google:ClientId"];
-                google.ClientSecret = Configuration["OAUTH:Authentication:Google:ClientSecret"];
+                google.ClientId = Configuration["Authentication:Google:ClientId"];
+                google.ClientSecret = Configuration["Authentication:Google:ClientSecret"];
             })
             .AddMicrosoftAccount(microsoftOptions =>
             {
-                microsoftOptions.ClientId = Configuration["Microsoft:Authentication:Microsoft:ApplicationId"];
-                microsoftOptions.ClientSecret = Configuration["Microsoft:Authentication:Microsoft:Password"];
+                microsoftOptions.ClientId = Configuration["Authentication:Microsoft:ApplicationId"];
+                microsoftOptions.ClientSecret = Configuration["Authentication:Microsoft:Password"];
                 microsoftOptions.CallbackPath = new PathString("/signin-microsoft");
             });
 
