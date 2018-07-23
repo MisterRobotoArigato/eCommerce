@@ -23,12 +23,14 @@ namespace MisterRobotoArigato.Controllers
         private UserManager<ApplicationUser> _userManager;
 
         public CheckoutController(IRobotoRepo robotoRepo, IConfiguration configuration, 
-            IBasketRepo basketRepo, ICheckoutRepo checkoutRepo, UserManager<ApplicationUser> userManager)
+            IBasketRepo basketRepo, ICheckoutRepo checkoutRepo, 
+            IEmailSender emailSender, UserManager<ApplicationUser> userManager)
         {
             _robotoRepo = robotoRepo;
             _basketRepo = basketRepo;
             _checkoutRepo = checkoutRepo;
             _userManager = userManager;
+            _emailSender = emailSender;
             Configuration = configuration;
         }
 
@@ -143,14 +145,17 @@ namespace MisterRobotoArigato.Controllers
             // attach orderitems to order
             datOrder.OrderItems = demOrderItems;
 
+            string htmlMessage = "Thank you for shopping with us!  You ordered: </br>"; 
+            foreach (var item in datOrder.OrderItems)
+            {
+                htmlMessage += $"Item: {item.ProductName}, Quantity: {item.Quantity}</br>";
+            };
+
+            await _emailSender.SendEmailAsync(user.Email, "Order Information",
+                        htmlMessage);
             // empty out basket
             await _basketRepo.ClearOutBasket(cvm.Basket.BasketItems);
 
-            await _emailSender.SendEmailAsync(user.Email, "Order Information",
-                        "<h1>Thank you for ordering through Mister Roboto Arigato!</h1>" +
-                        "<p>Here is your receipt:</p>" +
-                        "" +
-                        "<h2>Come back soon!</h2>");
 
             return View("Confirmed", datOrder);
         }

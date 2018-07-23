@@ -172,12 +172,17 @@ namespace MisterRobotoArigato.Controllers
             var firstName = info.Principal.FindFirstValue(ClaimTypes.GivenName);
             var fullName = info.Principal.FindFirstValue(ClaimTypes.Name);
             string lastName = info.Principal.FindFirstValue(ClaimTypes.Surname);
+
+            await _emailSender.SendEmailAsync(email, "Welcome",
+                        "<h1>Thank you for registering!</h1>" +
+                        "<h4>Mister Roboto Arigato is the <i>bestest store</i>!!!</h4>" +
+                        "<h4>We hope to fulfill all your <u>robotic</u> needs!</h4>");
             //int idx = fullName.LastIndexOf(' ');
 
             //if (idx != -1)
             //{
             //    lastName = fullName.Substring(idx + 1);
-        //}
+            //}
             return View("ExternalLogin", new ExternalLoginViewModel {
                 FirstName = firstName,
                 LastName = lastName,
