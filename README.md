@@ -1,21 +1,36 @@
 # Mister Roboto Arigato Store
-Code Fellows 401 C#/ASP.NET course e-commerce project.
+Code Fellows 401 C#/ASP.NET course e-commerce store that sells ROBOTS!
+The shop lives [here](http://misterrobotoarigato.azurewebsites.net).
 
 **Authors**: Jackie L, Earl Jay Caoile <br />
 **Version**: 1.0.0
 
 ---
 ## Overview
-This project is a full stack web application that serves as an e-commerce website. 
+This project is a full stack web application that serves as an e-commerce website 
+selling robots. 
 
-#### Registration and Login
-New users can register an account.  After registration, they will receive a welcome 
-email.  Previous users can login back to an existing account. Returning users will 
-also receive an email notification that they've logged back into the site.  
+#### Registration, Login, and External Login (OAUTH)
+The following tutorial was followed to add external logins: [Google](https://docs.microsoft.com/en-us/aspnet/core/security/authentication/social/google-logins?view=aspnetcore-2.1&tabs=aspnetcore2x)
+and [Microsoft](https://docs.microsoft.com/en-us/aspnet/core/security/authentication/social/microsoft-logins?view=aspnetcore-2.1&tabs=aspnetcore2x)
 
-#### External Login
-External login has been enabled.  Users can choose to either log in with a Google or 
-Microsoft account.
+After registration, they will receive a welcome email.  Users can still register 
+and directly log in through the website rather than with an external party.
+
+#### Claims
+Upon registration, claims are taken of a user's email because that serves as their 
+username.  The email claim is also set to their email which, connects the user to 
+their basket and orders.  The other claims taken are of their first and last name 
+because it is used to greet them when they land on the dashboard.  Additionally, 
+every registered member is given a basket claim because we want to give an empty 
+basket to every registered member.
+
+#### Policies
+The policies enforced are Admin and IsDoge.  Admin is enforced so that this admin 
+can gain access to the admin dashboard and take care of inventory.  The other policy 
+is IsDoge, which gives admin access to anyone with "Doge" in their login name; this 
+policy was enforced because Doges have access to a secret page and Doges can get 
+discounts. Doge is the best!!!
 
 #### Shopping
 From here, users are able to browse the store, and add whichever item they would like 
@@ -28,9 +43,70 @@ stored in our database.  Users can have multiple orders.
 
 A special savings can be applied at checkout, but that's for you to discover!
 
-#### Admin
-Admins can access an admin portal that allows them to perform 
-full CRUD operations on all products in the database.
+#### Database Schema
+![Database Schema]()
+
+#### Database Schema Explanation of the Tables Used
+_Product_ Products will have:
+* an ID: to identify a product with a number
+* Name: name of the product
+* SKU: SKU of the product
+* Price: how much a product costs
+* Description: description about a product
+* ImgUrl: a picture of the product
+
+_Application User_ Users will have:
+* First Name: the user's first name
+* Last Name: the user's last name
+
+_Basket_ Baskets will have:
+* an ID: to identify every basket, so that we can grab its contents later
+* CustomerEmail: baskets are given to users upon registration an is connected to 
+  their email
+* List of BasketItems, which is comprised of all the products that they purchased
+
+_Basket Items_ Items in a basket will have:
+* an ID: to identify every item associated with a basket
+* Product ID: the product ID that is tied to the basket
+* Product Name: the name of the product tied to the basket
+* Customer Email: the email of the customer buying the product, so we can associate 
+  the customer with the product they're buying
+* Quantity: the number of times of the product they're buying
+* ImgUrl: the image tied to that product
+* UnitPrice: how much that product costs
+
+_Order_ Orders will have:
+* an ID: to identify each order
+* UserID: to tied each customer to an order
+* Shipping: the address of each customer
+* List of OrderItems: ties this order to the item in the order, which is defined 
+  in OrderItems
+* Address ID: ID tied to an order
+* Address: The address associated with the Address ID
+* DiscountName: name of the discount because we have 2 tiers
+* DiscountPercent: percentage of the discount because we have 2 tiers
+
+_OrderItems_ Order Items are the items on an Order:
+* an ID: to identiyy each order
+* OrderID: to identify each item on an order
+* ProductID: to identify each product on an order
+* UserID: to connect the user who is buying that product
+* ProductName: the name of the product being bough
+* Quantitiy: the number of items being bought
+* ImgUrl: the picture of the item
+* UnitPrice: how much that item costs
+
+_Address_ Addressses will have:
+* an ID: to identify each address
+* FirstName
+* LastName
+* Street
+* Street2
+* City
+* State
+* Country
+* Zip
+* UserID: connects this address to a user
 
 ---
 ## Getting Started
@@ -48,46 +124,6 @@ cd MisterRobotoArigato
 dotnet restore
 dotnet bulid
 dotnet run
-```
-
-#### Setup the databases
-The local database tables for the store **products** needs to be created.  
-Type the following commands:
-```
-Add-Migration chooseANameForTheMigration -Context RobotoDbContext
-Update-Database -context RobotoDbContext
-```
-
-The local database tables for the **users** needs to be created.
-Type the following commands:
-```
-Add-Migration chooseANameForTheMigration -Context ApplicationDbContext
-Update-Database -context ApplicationDbContext
-```
-
-#### Create External Login Client ID and Secrets
-Navigate to the following tutorials to set up a Google and Microsoft 3rd 
-party OAUTH Client ID and Secrets:
-[Google](https://docs.microsoft.com/en-us/aspnet/core/security/authentication/social/google-logins?view=aspnetcore-2.1&tabs=aspnetcore2x)
-[Microsoft](https://docs.microsoft.com/en-us/aspnet/core/security/authentication/social/microsoft-logins?view=aspnetcore-2.1&tabs=aspnetcore2x)
-
-Store these keys in either the secrets.json or appsettings.json.
-
-#### Setup SendGrid Email Delivery
-SendGrid, available through Azure, is required for emails to be sent to 
-users.  On the Azure portal, click on ```Create a Resoure``` and 
-search for ```SendGrid```.  Select ```SendGrid Email Delivery``` and 
-selecet ```Create```.  Fill in the necesasry information and save your 
-info.  
-
-Head over to [SendGrid](https://app.sendgrid.com). Navigate to 'Settings' 
-and create an API Key.  Store this in either the projects secrets.json or 
-appsettings.json.
-
-The SendGrid Nuget Package is needed within Visual Studio.
-Type the following commands:
-```
-Install-Package SendGrid
 ```
 
 ---
