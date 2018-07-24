@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace MisterRobotoArigato.Models
 {
+    /// <summary>
+    /// Interface layer to communicate with the inventory database
+    /// </summary>
     public interface IRobotoRepo
     {
         Task<HttpStatusCode> CreateProduct(Product product);

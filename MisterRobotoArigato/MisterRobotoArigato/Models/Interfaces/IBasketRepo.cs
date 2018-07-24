@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace MisterRobotoArigato.Models
 {
+    /// <summary>
+    /// Interface layer to communicate with the basket model
+    /// </summary>
     public interface IBasketRepo
     {
         Task<HttpStatusCode> CreateBasket(Basket basket);

@@ -1,14 +1,10 @@
-﻿using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
-using MisterRobotoArigato.Data;
 using MisterRobotoArigato.Models;
 using MisterRobotoArigato.Models.ViewModel;
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
@@ -21,7 +17,7 @@ namespace MisterRobotoArigato.Controllers
         private SignInManager<ApplicationUser> _signInManager;
         private IEmailSender _emailSender;
 
-        public AccountController(UserManager<ApplicationUser> userManager, 
+        public AccountController(UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager, IEmailSender emailSender)
         {
             _userManager = userManager;
@@ -29,11 +25,19 @@ namespace MisterRobotoArigato.Controllers
             _emailSender = emailSender;
         }
 
+        /// <summary>
+        /// Displays the view of the Index action
+        /// </summary>
+        /// <returns>the view of the account</returns>
         public IActionResult Index()
         {
             return View();
         }
 
+        /// <summary>
+        /// Displays the view of the Register action
+        /// </summary>
+        /// <returns>the view of the register action</returns>
         [AllowAnonymous]
         [HttpGet]
         public IActionResult Register()
@@ -41,12 +45,19 @@ namespace MisterRobotoArigato.Controllers
             return View();
         }
 
+        /// <summary>
+        /// Creates a new user, assign claims and roles
+        /// Sends a welcome email to new users
+        /// </summary>
+        /// <param name="rvm"></param>
+        /// <returns>the RegisterViewModel object of information about the user</returns>
         [AllowAnonymous]
         [HttpPost, ActionName("Register")]
         public async Task<IActionResult> RegisterConfirmed(RegisterViewModel rvm)
         {
             if (ModelState.IsValid)
             {
+                //assign claims we'll be capturing to their respective variables
                 List<Claim> claims = new List<Claim>();
                 var user = new ApplicationUser
                 {
@@ -55,6 +66,7 @@ namespace MisterRobotoArigato.Controllers
                     FirstName = rvm.FirstName,
                     LastName = rvm.LastName
                 };
+
                 //creates user in the database
                 var result = await _userManager.CreateAsync(user, rvm.Password);
 
@@ -76,6 +88,7 @@ namespace MisterRobotoArigato.Controllers
                     //adds claim to the user
                     await _userManager.AddClaimsAsync(user, claims);
 
+                    //assign roles
                     if (user.Email == "doge@gmail.com" || user.Email == "ecaoile@my.hpu.edu")
                     {
                         await _userManager.AddToRoleAsync(user, ApplicationRoles.Member);
@@ -88,17 +101,21 @@ namespace MisterRobotoArigato.Controllers
 
                     await _signInManager.SignInAsync(user, false);
 
-                    await _emailSender.SendEmailAsync(user.Email, "Welcome", 
+                    //send a welcome email to new users
+                    await _emailSender.SendEmailAsync(user.Email, "Welcome",
                         "<h1>Thank you for registering!</h1>" +
                         "<h4>Mister Roboto Arigato is the <i>bestest store</i>!!!</h4>" +
                         "<h4>We hope to fulfill all your <u>robotic</u> needs!</h4>");
                     return RedirectToAction("Index", "Home");
                 }
             }
-
             return View(rvm);
         }
 
+        /// <summary>
+        /// Displays the view of the login
+        /// </summary>
+        /// <returns>the view of the Login action</returns>
         [AllowAnonymous]
         [HttpGet]
         public IActionResult Login()
@@ -106,6 +123,12 @@ namespace MisterRobotoArigato.Controllers
             return View();
         }
 
+        /// <summary>
+        /// Associates the user logging in to a user in the Db and
+        /// sends them a Welcome Back email
+        /// </summary>
+        /// <param name="lvm"></param>
+        /// <returns>a LoginViewModel object of information about a user</returns>
         [AllowAnonymous]
         [HttpPost]
         public async Task<IActionResult> Login(LoginViewModel lvm)
@@ -115,9 +138,9 @@ namespace MisterRobotoArigato.Controllers
                 var result = await _signInManager.PasswordSignInAsync(lvm.Email, lvm.Password, false, false);
 
                 if (result.Succeeded)
-                {
+                {   //send an email welcoming the user back
                     var user = await _userManager.FindByEmailAsync(lvm.Email);
-                    await _emailSender.SendEmailAsync(user.Email, "You've logged in", 
+                    await _emailSender.SendEmailAsync(user.Email, "You've logged in",
                         "<h1><font color='blue'>You must really like our store!</font><h1>" +
                         "<h2>Our featured product this week is the <font color='red'>Mars Rover.</font></h2>" +
                         "<p>Buy one <b>today</b> and you'll be prepared to travel around your new planet in <i>style</i>.</p>");
@@ -135,6 +158,11 @@ namespace MisterRobotoArigato.Controllers
             return View(lvm);
         }
 
+        /// <summary>
+        /// Redirects a user, who chooses to use an external login, to that respective site to log in
+        /// </summary>
+        /// <param name="provider"></param>
+        /// <returns>Sends the user to the 3rd party site to login</returns>
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
@@ -146,6 +174,13 @@ namespace MisterRobotoArigato.Controllers
             return Challenge(properties, provider);
         }
 
+        /// <summary>
+        /// Captures the claims of a user who chooses to login with an external log in for the first time
+        /// The result of the 3rd party login will be passed to this method
+        /// Users are sent a Welcome email
+        /// </summary>
+        /// <param name="remoteError"></param>
+        /// <returns>passes an ExternalLoginViewModel of claims captured from a user</returns>
         [HttpGet]
         [AllowAnonymous]
         public async Task<IActionResult> ExternalLoginCallback(string remoteError = null)
@@ -177,18 +212,20 @@ namespace MisterRobotoArigato.Controllers
                         "<h1>Thank you for registering!</h1>" +
                         "<h4>Mister Roboto Arigato is the <i>bestest store</i>!!!</h4>" +
                         "<h4>We hope to fulfill all your <u>robotic</u> needs!</h4>");
-            //int idx = fullName.LastIndexOf(' ');
 
-            //if (idx != -1)
-            //{
-            //    lastName = fullName.Substring(idx + 1);
-            //}
-            return View("ExternalLogin", new ExternalLoginViewModel {
+            return View("ExternalLogin", new ExternalLoginViewModel
+            {
                 FirstName = firstName,
                 LastName = lastName,
-                Email = email });
+                Email = email
+            });
         }
 
+        /// <summary>
+        /// Assigns the claims to a user who uses a 3rd party OAUTH to log in
+        /// </summary>
+        /// <param name="elvm"></param>
+        /// <returns>directs the users to the index action of the home controller</returns>
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
@@ -206,11 +243,8 @@ namespace MisterRobotoArigato.Controllers
                 {
                     FirstName = elvm.FirstName,
                     LastName = elvm.LastName,
-                    Email = elvm.Email,
-                    //Password = "B@con123"
+                    Email = elvm.Email
                 };
-
-                //return RedirectToAction("RegisterConfirmed", new { rvm = newRVM } );
 
                 var user = new ApplicationUser
                 {
@@ -237,11 +271,8 @@ namespace MisterRobotoArigato.Controllers
                     claims.Add(firstNameClaim);
                     claims.Add(emailClaim);
 
-                    //user.SecurityStamp = "1234";
                     //adds claim to the user
-
                     await _userManager.AddClaimsAsync(user, claims);
-                    
 
                     if (user.Email == "doge@gmail.com" || user.Email == "ecaoile@my.hpu.edu")
                     {
@@ -260,13 +291,15 @@ namespace MisterRobotoArigato.Controllers
                         return RedirectToAction("Index", "Home");
                     }
                     return RedirectToAction("Register");
-
-                }                
+                }
             }
-
             return RedirectToAction("Index", "Home");
         }
 
+        /// <summary>
+        /// Logs a user out
+        /// </summary>
+        /// <returns>Directs the user back to the index action of the home controller</returns>
         public async Task<IActionResult> Logout()
         {
             await _signInManager.SignOutAsync();

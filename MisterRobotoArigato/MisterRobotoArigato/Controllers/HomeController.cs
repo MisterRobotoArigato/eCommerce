@@ -1,11 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.Extensions.Configuration;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using MisterRobotoArigato.Models;
-using Microsoft.AspNetCore.Authorization;
 
 namespace MisterRobotoArigato.Controllers
 {
@@ -23,7 +18,11 @@ namespace MisterRobotoArigato.Controllers
             return View();
         }
 
-        [Authorize(Policy="IsDoge")]
+        /// <summary>
+        /// This action is only for bestest Doges
+        /// </summary>
+        /// <returns></returns>
+        [Authorize(Policy = "IsDoge")]
         public IActionResult Doge()
         {
             return View();

@@ -43,10 +43,24 @@ stored in our database.  Users can have multiple orders.
 
 A special savings can be applied at checkout, but that's for you to discover!
 
-#### Database Schema
-![Database Schema]()
+#### Database Schema Visual
+![Database Schema](Screenshots/week2/misterArigatoDbSchema.png)
 
-#### Database Schema Explanation of the Tables Used
+#### Database Schema Shortened Explanation
+A user :
+* is assigned 1 basket.
+* can have multiple orders.
+* can have multiple addresses.
+
+An address can have multiple orders.
+
+A basket can have multiple BasketItems.
+
+A BasketItem can be made up of many products.
+
+An Order is comprised of multiple OrderItems.
+
+#### Database Schema Longer Explanation
 _Product_ Products will have:
 * an ID: to identify a product with a number
 * Name: name of the product

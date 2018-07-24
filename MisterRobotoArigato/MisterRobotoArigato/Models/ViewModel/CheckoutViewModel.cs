@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace MisterRobotoArigato.Models.ViewModel
+﻿namespace MisterRobotoArigato.Models.ViewModel
 {
+    /// <summary>
+    /// Makes it easier to display an object to a view for the checkout
+    /// </summary>
     public class CheckoutViewModel
     {
         public Basket Basket { get; set; }

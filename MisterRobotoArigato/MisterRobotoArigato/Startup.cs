@@ -44,9 +44,13 @@ namespace MisterRobotoArigato
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
+
+            //Identity services for our users, claims and roles
             services.AddIdentity<ApplicationUser, IdentityRole>().AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
 
+            //this is needed to use OAUTH from Google and MS
+            //these service requests are chained as suggested by the MS Docs
             services.AddAuthentication().AddGoogle(google =>
             {
                 google.ClientId = Configuration["Authentication:Google:ClientId"];
@@ -59,12 +63,14 @@ namespace MisterRobotoArigato
                 microsoftOptions.CallbackPath = new PathString("/signin-microsoft");
             });
 
+            //Which database to connect to
             services.AddDbContext<RobotoDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("ProductionConnection")));
 
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("ProductionConnection2")));
 
+            //policies being enforced by Mister Roboto Arigato
             services.AddAuthorization(options =>
             {
                 options.AddPolicy("AdminOnly", policy => policy.RequireRole(ApplicationRoles.Admin));

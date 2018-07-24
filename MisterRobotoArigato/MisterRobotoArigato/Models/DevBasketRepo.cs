@@ -18,8 +18,7 @@ namespace MisterRobotoArigato.Models
         }
 
         /// <summary>
-        /// creates a basket for a user if the user tries to add an item to a basket and 
-        /// doesn't already have a basket
+        /// creates a basket for a user if the user tries to add an item to a basket if the user doesn't already have one
         /// </summary>
         /// <param name="basket"></param>
         /// <returns></returns>
@@ -38,6 +37,12 @@ namespace MisterRobotoArigato.Models
             return HttpStatusCode.Created;
         }
 
+        /// <summary>
+        /// Adds a product to the basket
+        /// </summary>
+        /// <param name="email"></param>
+        /// <param name="product"></param>
+        /// <returns>successful HTTPS status code</returns>
         public async Task<HttpStatusCode> AddProductToBasket(string email, Product product)
         {
             try
@@ -73,6 +78,11 @@ namespace MisterRobotoArigato.Models
             }
         }
 
+        /// <summary>
+        /// Deletes a product from the basket
+        /// </summary>
+        /// <param name="basketItem"></param>
+        /// <returns>HTTP Status Code</returns>
         public async Task<HttpStatusCode> DeleteProductFromBasket(BasketItem basketItem)
         {
             try
@@ -88,6 +98,11 @@ namespace MisterRobotoArigato.Models
             }
         }
 
+        /// <summary>
+        /// Empties a basket
+        /// </summary>
+        /// <param name="basketItems"></param>
+        /// <returns>HTTP Status Code</returns>
         public async Task<HttpStatusCode> ClearOutBasket(List<BasketItem> basketItems)
         {
             try
@@ -95,14 +110,19 @@ namespace MisterRobotoArigato.Models
                 _context.RemoveRange(basketItems);
                 await _context.SaveChangesAsync();
                 return HttpStatusCode.Created;
-
             }
-
             catch
             {
                 return HttpStatusCode.BadRequest;
             }
         }
+
+        /// <summary>
+        /// Gets the basket associated with a user.
+        /// the user is identified by their email
+        /// </summary>
+        /// <param name="email"></param>
+        /// <returns>the basket object associated with a user's email</returns>
         public async Task<Basket> GetUserBasketByEmail(string email)
         {
             var prodInts = _context.BasketItems.Where(d => d.CustomerEmail == email).Select(p => p.ProductID);
@@ -115,6 +135,12 @@ namespace MisterRobotoArigato.Models
             return datBasket;
         }
 
+        /// <summary>
+        /// Updates the items in the basket
+        /// </summary>
+        /// <param name="email"></param>
+        /// <param name="basketItem"></param>
+        /// <returns>HTTP Status code</returns>
         public async Task<HttpStatusCode> UpdateBasket(string email, BasketItem basketItem)
         {
             try

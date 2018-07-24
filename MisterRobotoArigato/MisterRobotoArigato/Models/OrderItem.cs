@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace MisterRobotoArigato.Models
+﻿namespace MisterRobotoArigato.Models
 {
+    /// <summary>
+    /// an Order can have many OrderItems
+    /// </summary>
     public class OrderItem
     {
         public int ID { get; set; }

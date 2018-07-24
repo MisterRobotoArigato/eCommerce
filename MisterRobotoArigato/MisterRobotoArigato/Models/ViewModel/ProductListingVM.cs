@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace MisterRobotoArigato.Models
+namespace MisterRobotoArigato.Models.ViewModel
 {
     public class ProductListingVM
     {

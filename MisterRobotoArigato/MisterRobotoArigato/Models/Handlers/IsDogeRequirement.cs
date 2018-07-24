@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace MisterRobotoArigato.Models.Handlers
 {
+    /// <summary>
+    /// Associate a doge by their email
+    /// </summary>
     public class IsDogeRequirement : IAuthorizationRequirement
     {
         public string Email { get; set; }

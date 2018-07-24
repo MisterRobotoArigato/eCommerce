@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace MisterRobotoArigato.Models
 {
+    /// <summary>
+    /// Interface layer to communicate with the Checkout model
+    /// </summary>
     public interface ICheckoutRepo
     {
         Task<HttpStatusCode> CreateAddress(Address address);
