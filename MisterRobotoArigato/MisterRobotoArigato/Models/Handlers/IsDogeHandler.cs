@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace MisterRobotoArigato.Models.Handlers
 {
+    /// <summary>
+    /// This is to enforce the "IsDoge" policy cause only doges get special privileges
+    /// </summary>
     public class IsDogeHandler : AuthorizationHandler<IsDogeRequirement>
     {
         protected override Task HandleRequirementAsync(AuthorizationHandlerContext context, IsDogeRequirement requirement)

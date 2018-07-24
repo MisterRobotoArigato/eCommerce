@@ -1,15 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace MisterRobotoArigato.Models
 {
+    /// <summary>
+    /// Every product will get an ID, Name, SKU, Price, Description, and ImgUrl
+    /// </summary>
     public class Product
     {
         public int ID { get; set; }
-        
+
         [Required]
         public string Name { get; set; }
 
@@ -20,7 +19,7 @@ namespace MisterRobotoArigato.Models
 
         public string Description { get; set; }
 
-        [Display(Name="Image")]
+        [Display(Name = "Image")]
         public string ImgUrl { get; set; }
     }
 }

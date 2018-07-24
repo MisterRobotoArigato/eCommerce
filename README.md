@@ -43,10 +43,24 @@ stored in our database.  Users can have multiple orders.
 
 A special savings can be applied at checkout, but that's for you to discover!
 
-#### Database Schema
-![Database Schema]()
+#### Database Schema Visual
+![Database Schema](Screenshots/week2/misterArigatoDbSchema.png)
 
-#### Database Schema Explanation of the Tables Used
+#### Database Schema Shortened Explanation
+A user :
+* is assigned 1 basket.
+* can have multiple orders.
+* can have multiple addresses.
+
+An address can have multiple orders.
+
+A basket can have multiple BasketItems.
+
+A BasketItem can be made up of many products.
+
+An Order is comprised of multiple OrderItems.
+
+#### Database Schema Longer Explanation
 _Product_ Products will have:
 * an ID: to identify a product with a number
 * Name: name of the product
@@ -61,27 +75,27 @@ _Application User_ Users will have:
 
 _Basket_ Baskets will have:
 * an ID: to identify every basket, so that we can grab its contents later
-* CustomerEmail: baskets are given to users upon registration an is connected to 
+* CustomerEmail: baskets are given to users upon registration and is connected to 
   their email
-* List of BasketItems, which is comprised of all the products that they purchased
+* List of BasketItems: this is comprised of all the products being purchased
 
 _Basket Items_ Items in a basket will have:
 * an ID: to identify every item associated with a basket
-* Product ID: the product ID that is tied to the basket
-* Product Name: the name of the product tied to the basket
-* Customer Email: the email of the customer buying the product, so we can associate 
+* ProductID: the product ID that is tied to the basket
+* ProductName: the name of the product tied to the basket
+* CustomerEmail: the email of the customer buying the product, so we can associate 
   the customer with the product they're buying
 * Quantity: the number of times of the product they're buying
 * ImgUrl: the image tied to that product
 * UnitPrice: how much that product costs
 
 _Order_ Orders will have:
-* an ID: to identify each order
-* UserID: to tied each customer to an order
+* an ID: identifies each order
+* UserID: connect each customer to an order
 * Shipping: the address of each customer
 * List of OrderItems: ties this order to the item in the order, which is defined 
   in OrderItems
-* Address ID: ID tied to an order
+* Address ID: ID that connects an address to an order
 * Address: The address associated with the Address ID
 * DiscountName: name of the discount because we have 2 tiers
 * DiscountPercent: percentage of the discount because we have 2 tiers
@@ -97,15 +111,15 @@ _OrderItems_ Order Items are the items on an Order:
 * UnitPrice: how much that item costs
 
 _Address_ Addressses will have:
-* an ID: to identify each address
-* FirstName
-* LastName
-* Street
-* Street2
-* City
-* State
-* Country
-* Zip
+* an ID: identifies each address
+* FirstName: first name of the person this is being shipped to
+* LastName: last name of the person this is being shipped to
+* Street: street address of the customer, e.g street name
+* Street2: street address 2 of the customer, e.g apartment #
+* City: city that the person, this is being shipped, is living in 
+* State: state that the person, this is being shipped, is living in 
+* Country: country that the person, this is being shipped, is living in 
+* Zip: zipcode that the person, this is being shipped, is living in 
 * UserID: connects this address to a user
 
 ---

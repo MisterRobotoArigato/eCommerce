@@ -1,10 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace MisterRobotoArigato.Models
+﻿namespace MisterRobotoArigato.Models
 {
+    /// <summary>
+    /// every Basket object can have multiple BasketItems
+    /// this will be linked to the Basket object
+    /// </summary>
     public class BasketItem
     {
         public int ID { get; set; }
