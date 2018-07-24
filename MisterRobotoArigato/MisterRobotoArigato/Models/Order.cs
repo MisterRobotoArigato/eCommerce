@@ -5,6 +5,10 @@ using System.Threading.Tasks;
 
 namespace MisterRobotoArigato.Models
 {
+    /// <summary>
+    /// Every order is connected to a user and a user can have multiple orders
+    /// An Order will have a list of OrderItems, which is comprised of Products
+    /// </summary>
     public class Order
     {
         public int ID { get; set; }

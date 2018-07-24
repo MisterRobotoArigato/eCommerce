@@ -44,27 +44,33 @@ namespace MisterRobotoArigato
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
+
+            //Identity services for our users, claims and roles
             services.AddIdentity<ApplicationUser, IdentityRole>().AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
 
+            //this is needed to use OAUTH from Google and MS
+            //these service requests are chained as suggested by the MS Docs
             services.AddAuthentication().AddGoogle(google =>
             {
-                google.ClientId = Configuration["OAUTH:Authentication:Google:ClientId"];
-                google.ClientSecret = Configuration["OAUTH:Authentication:Google:ClientSecret"];
+                google.ClientId = Configuration["Authentication:Google:ClientId"];
+                google.ClientSecret = Configuration["Authentication:Google:ClientSecret"];
             })
             .AddMicrosoftAccount(microsoftOptions =>
             {
-                microsoftOptions.ClientId = Configuration["Microsoft:Authentication:Microsoft:ApplicationId"];
-                microsoftOptions.ClientSecret = Configuration["Microsoft:Authentication:Microsoft:Password"];
+                microsoftOptions.ClientId = Configuration["Authentication:Microsoft:ApplicationId"];
+                microsoftOptions.ClientSecret = Configuration["Authentication:Microsoft:Password"];
                 microsoftOptions.CallbackPath = new PathString("/signin-microsoft");
             });
 
+            //Which database to connect to
             services.AddDbContext<RobotoDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("ProductionConnection")));
 
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("ProductionConnection2")));
 
+            //policies being enforced by Mister Roboto Arigato
             services.AddAuthorization(options =>
             {
                 options.AddPolicy("AdminOnly", policy => policy.RequireRole(ApplicationRoles.Admin));

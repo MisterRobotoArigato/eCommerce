@@ -1,14 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using MisterRobotoArigato.Models;
 using MisterRobotoArigato.Models.ViewModel;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace MisterRobotoArigato.Controllers
 {
@@ -22,8 +21,18 @@ namespace MisterRobotoArigato.Controllers
         private readonly IEmailSender _emailSender;
         private UserManager<ApplicationUser> _userManager;
 
-        public CheckoutController(IRobotoRepo robotoRepo, IConfiguration configuration, 
-            IBasketRepo basketRepo, ICheckoutRepo checkoutRepo, 
+        /// <summary>
+        /// Bring in the information from the data layer for products, basket,
+        /// checkout, emailSender
+        /// </summary>
+        /// <param name="robotoRepo"></param>
+        /// <param name="configuration"></param>
+        /// <param name="basketRepo"></param>
+        /// <param name="checkoutRepo"></param>
+        /// <param name="emailSender"></param>
+        /// <param name="userManager"></param>
+        public CheckoutController(IRobotoRepo robotoRepo, IConfiguration configuration,
+            IBasketRepo basketRepo, ICheckoutRepo checkoutRepo,
             IEmailSender emailSender, UserManager<ApplicationUser> userManager)
         {
             _robotoRepo = robotoRepo;
@@ -34,6 +43,12 @@ namespace MisterRobotoArigato.Controllers
             Configuration = configuration;
         }
 
+        /// <summary>
+        /// Main view of the index page and a user can apply a discount
+        /// This is where they can start to put in their shipping info
+        /// </summary>
+        /// <param name="discountCoupon"></param>
+        /// <returns></returns>
         public async Task<IActionResult> Index(string discountCoupon)
         {
             var user = await _userManager.FindByEmailAsync(User.Identity.Name);
@@ -70,10 +85,14 @@ namespace MisterRobotoArigato.Controllers
             return View(datCheckoutVM);
         }
 
+        /// <summary>
+        /// Adds an address to a user
+        /// </summary>
+        /// <param name="cvm"></param>
+        /// <returns>the view of the shipping page with the CheckoutViewModel object </returns>
         [HttpPost]
         public async Task<IActionResult> AddAddress(CheckoutViewModel cvm)
         {
-
             if (cvm == null || cvm.Address == null)
             {
                 return RedirectToAction(nameof(Index));
@@ -86,6 +105,12 @@ namespace MisterRobotoArigato.Controllers
             return View("Shipping", cvm);
         }
 
+        /// <summary>
+        /// Finds the user by their email
+        /// Finds the basket associated with the user
+        /// </summary>
+        /// <param name="cvm"></param>
+        /// <returns></returns>
         public async Task<IActionResult> Shipping(CheckoutViewModel cvm)
         {
             var user = await _userManager.FindByEmailAsync(User.Identity.Name);
@@ -101,6 +126,11 @@ namespace MisterRobotoArigato.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        /// <summary>
+        /// Create a new order from the contexts of the cvm object
+        /// </summary>
+        /// <param name="cvm"></param>
+        /// <returns></returns>
         [HttpPost]
         public async Task<IActionResult> Confirm(CheckoutViewModel cvm)
         {
@@ -135,7 +165,7 @@ namespace MisterRobotoArigato.Controllers
 
             // turn basket items into order items
             List<OrderItem> demOrderItems = new List<OrderItem>();
-            foreach(var item in datBasket.BasketItems)
+            foreach (var item in datBasket.BasketItems)
             {
                 OrderItem tempOrderItem = new OrderItem
                 {
@@ -156,7 +186,8 @@ namespace MisterRobotoArigato.Controllers
             // attach orderitems to order
             datOrder.OrderItems = demOrderItems;
 
-            string htmlMessage = "Thank you for shopping with us!  You ordered: </br>"; 
+            //sends a receipt of the order information
+            string htmlMessage = "Thank you for shopping with us!  You ordered: </br>";
             foreach (var item in datOrder.OrderItems)
             {
                 htmlMessage += $"Item: {item.ProductName}, Quantity: {item.Quantity}</br>";
@@ -167,10 +198,14 @@ namespace MisterRobotoArigato.Controllers
             // empty out basket
             await _basketRepo.ClearOutBasket(cvm.Basket.BasketItems);
 
-
             return View("Confirmed", datOrder);
         }
 
+        /// <summary>
+        /// Pass the order object back to the confirm view
+        /// </summary>
+        /// <param name="order"></param>
+        /// <returns></returns>
         public IActionResult Confirmed(Order order)
         {
             return View(order);

@@ -1,14 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using MisterRobotoArigato.Models;
 using MisterRobotoArigato.Models.ViewModel;
+using System;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace MisterRobotoArigato.Controllers
 {
@@ -50,6 +48,11 @@ namespace MisterRobotoArigato.Controllers
             return View(productListVM);
         }
 
+        /// <summary>
+        /// Show the details of a product
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null) return NotFound();
@@ -61,6 +64,11 @@ namespace MisterRobotoArigato.Controllers
             return View(foundProduct);
         }
 
+        /// <summary>
+        /// Adds a product to a basket
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpPost]
         public async Task<IActionResult> Add(int? id)
         {
@@ -73,7 +81,7 @@ namespace MisterRobotoArigato.Controllers
                 {
                     CustomerEmail = user.Email
                 };
-                await _basketRepo.CreateBasket(datBasket);  
+                await _basketRepo.CreateBasket(datBasket);
             }
 
             await _basketRepo.AddProductToBasket(user.Email, product);
@@ -81,6 +89,11 @@ namespace MisterRobotoArigato.Controllers
             return RedirectToAction(nameof(MyBasket));
         }
 
+        /// <summary>
+        /// Updates the quantity of the basket
+        /// </summary>
+        /// <param name="basketItem"></param>
+        /// <returns>takes the user back to their mybasket view</returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Update([Bind("ID, ProductID, ProductName, CustomerEmail, Quantity, ImgUrl, Description, UnitPrice")]BasketItem basketItem)
@@ -98,7 +111,6 @@ namespace MisterRobotoArigato.Controllers
                         await _basketRepo.UpdateBasket(User.Identity.Name, basketItem);
                     }
                 }
-
                 catch
                 {
                     throw;
@@ -107,6 +119,11 @@ namespace MisterRobotoArigato.Controllers
             return RedirectToAction(nameof(MyBasket));
         }
 
+        /// <summary>
+        /// Delete items from a basket
+        /// </summary>
+        /// <param name="basketItem"></param>
+        /// <returns>the user to the mybasket view</returns>
         [HttpPost]
         public async Task<IActionResult> Delete(BasketItem basketItem)
         {
@@ -114,6 +131,10 @@ namespace MisterRobotoArigato.Controllers
             return RedirectToAction(nameof(MyBasket));
         }
 
+        /// <summary>
+        /// takes the user to the view for mybasket
+        /// </summary>
+        /// <returns>the basket object associated with a user</returns>
         [Authorize]
         public async Task<IActionResult> MyBasket()
         {

@@ -1,8 +1,4 @@
 ﻿using Microsoft.AspNetCore.Identity;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace MisterRobotoArigato.Models
 {
@@ -12,7 +8,10 @@ namespace MisterRobotoArigato.Models
         public string LastName { get; set; }
     }
 
-    //these roles are accessible w/o having to instantiate ApplicationUser
+    /// <summary>
+    /// these roles are accessible w/o having to instantiate ApplicationUser
+    /// these roles are used to enforce policies
+    /// </summary>
     public static class ApplicationRoles
     {
         public const string Member = "Member";

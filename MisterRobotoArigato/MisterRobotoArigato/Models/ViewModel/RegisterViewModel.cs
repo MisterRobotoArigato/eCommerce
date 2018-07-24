@@ -1,22 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace MisterRobotoArigato.Models.ViewModel
 {
+    /// <summary>
+    /// For the purposes of registering with the store
+    /// </summary>
     public class RegisterViewModel
     {
         public string Email { get; set; }
 
-        [Display(Name ="First Name")]
+        [Display(Name = "First Name")]
         public string FirstName { get; set; }
 
-        [Display(Name ="Last Name")]
+        [Display(Name = "Last Name")]
         public string LastName { get; set; }
 
-        [Display(Name="Password")]
+        [Display(Name = "Password")]
         [DataType(DataType.Password)]
         public string Password { get; set; }
 

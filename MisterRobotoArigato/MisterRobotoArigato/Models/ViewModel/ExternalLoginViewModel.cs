@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace MisterRobotoArigato.Models.ViewModel
 {
+    /// <summary>
+    /// For the purposes of using an OAUTH login
+    /// </summary>
     public class ExternalLoginViewModel
     {
         [Required]

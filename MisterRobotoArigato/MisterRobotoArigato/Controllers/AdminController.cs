@@ -1,17 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using MisterRobotoArigato.Data;
 using MisterRobotoArigato.Models;
+using MisterRobotoArigato.Models.ViewModel;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace MisterRobotoArigato.Controllers
 {
-    [Authorize(Policy="AdminOnly")]
+    [Authorize(Policy = "AdminOnly")]
     public class AdminController : Controller
     {
         private readonly IRobotoRepo _repo;
@@ -119,7 +118,7 @@ namespace MisterRobotoArigato.Controllers
         }
 
         /// <summary>
-        /// Displays the view for deleting an item.  Method finds the item and 
+        /// Displays the view for deleting an item.  Method finds the item and
         /// passes it to the view
         /// </summary>
         /// <param name="id"></param>
