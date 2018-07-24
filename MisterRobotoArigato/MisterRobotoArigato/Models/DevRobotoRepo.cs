@@ -91,7 +91,7 @@ namespace MisterRobotoArigato.Models
             {
                 _context.Update(product);
                 await _context.SaveChangesAsync();
-            }s
+            }
             catch
             {
                 return null;
