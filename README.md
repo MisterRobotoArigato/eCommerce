@@ -1,6 +1,6 @@
 # Mister Roboto Arigato Store
 Code Fellows 401 C#/ASP.NET course e-commerce store that sells ROBOTS!
-The shop lives [here](http://misterrobotoarigato.azurewebsites.net).
+The shop lives [here](https://misterrobotoarigato.azurewebsites.net).
 
 **Authors**: Jackie L, Earl Jay Caoile <br />
 **Version**: 1.0.0
