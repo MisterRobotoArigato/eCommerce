@@ -21,5 +21,7 @@ namespace MisterRobotoArigato.Models
         Task<Product> UpdateProduct(int id, Product product);
 
         Task<HttpStatusCode> DeleteProduct(int id);
+
+        Task<List<Order>> GetRecentOrdersAsync();
     }
 }
