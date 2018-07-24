@@ -50,10 +50,10 @@ namespace MisterRobotoArigato
 
             //Which database to connect to
             services.AddDbContext<RobotoDbContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("ProductionConnection")));
+                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
             services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("ProductionConnection2")));
+                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection2")));
 
             //policies being enforced by Mister Roboto Arigato
             services.AddAuthorization(options =>
