@@ -108,7 +108,7 @@
                 <div class="row">
                     <div class="col-md-5 mb-3">
                         <label asp-for="Address.Country"></label>
-                        <select asp-for="Address.Country" class="custom-select d-block w-100 
+                        <select asp-for="Address.Country" class="custom-select d-block w-100
                                 input-medium bfh-countries" id="countries_states1" data-country="US" required>
                             <option selected disabled hidden>Choose a country</option>
                         </select>
@@ -122,7 +122,7 @@
                     </div>
                     <div class="col-md-4 mb-3">
                         <label asp-for="Address.State">State/Province/Prefecture</label>
-                        <select asp-for="Address.State" class="custom-select d-block w-100 
+                        <select asp-for="Address.State" class="custom-select d-block w-100
                                 input-medium bfh-states" data-country="countries_states1" required>
                             <option value="">Please choose a state</option>
                         </select>
@@ -149,6 +149,42 @@
                     <input type="checkbox" class="custom-control-input" id="save-info">
                     <label class="custom-control-label" for="save-info">Save this information for next time</label>
                 </div>
+                <hr class="mb-4">
+                <h4 class="mb-3">Payment</h4>
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label for="cc-name">Name on card</label>
+                        <input type="text" class="form-control" id="cc-name" placeholder="" >
+                        <small class="text-muted">Full name as displayed on card</small>
+                        <div class="invalid-feedback">
+                            Name on card is required
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="cc-number">Credit card number</label>
+                        <input type="text" class="form-control" id="cc-number" placeholder="" readonly>
+                        <div class="invalid-feedback">
+                            Credit card number is required
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3 mb-3">
+                        <label for="cc-expiration">Expiration</label>
+                        <input type="text" class="form-control" id="cc-expiration" placeholder="" readonly>
+                        <div class="invalid-feedback">
+                            Expiration date required
+                        </div>
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <label for="cc-expiration">CVV</label>
+                        <input type="text" class="form-control" id="cc-cvv" placeholder="" required>
+                        <div class="invalid-feedback">
+                            Security code required
+                        </div>
+                    </div>
+                </div>
+                <hr class="mb-4">
                 <hr class="mb-4">
                 <button class="btn btn-primary btn-lg btn-block" type="submit">Continue to checkout</button>
             </form>
