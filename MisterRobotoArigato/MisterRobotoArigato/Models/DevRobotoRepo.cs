@@ -99,23 +99,5 @@ namespace MisterRobotoArigato.Models
             var datProduct = await _context.Products.FindAsync(id);
             return datProduct;
         }
-
-        public async Task<List<Order>> GetRecentOrdersAsync()
-        {
-            int amtOfOrders = _context.Orders.Count();
-            List<Order> last20Orders = new List<Order>();
-
-            if (_context.Orders.Count() < 20)
-            {
-                last20Orders = await _context.Orders.ToListAsync();
-            }
-            else
-            {
-                // Math.Max should help handle cases of less than 20, but I'm just playing it safe...
-                last20Orders = await _context.Orders.Skip(Math.Max(0, amtOfOrders - 20)).ToListAsync();
-            }
-
-            return last20Orders;
-        }
     }
 }
