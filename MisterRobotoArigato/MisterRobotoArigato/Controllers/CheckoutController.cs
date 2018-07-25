@@ -194,6 +194,10 @@ namespace MisterRobotoArigato.Controllers
                 htmlMessage += $"Item: {item.ProductName}, Quantity: {item.Quantity}</br>";
             };
 
+            //CHARGE CARD
+            Payment payment = new Payment(Configuration);
+            payment.RunPayment(cvm.Total);
+
             await _emailSender.SendEmailAsync(user.Email, "Order Information",
                         htmlMessage);
             // empty out basket

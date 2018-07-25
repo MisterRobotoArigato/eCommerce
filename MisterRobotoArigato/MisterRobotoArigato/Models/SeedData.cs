@@ -20,7 +20,7 @@ namespace MisterRobotoArigato.Models
                 {
                     Name = "BB8",
                     SKU = "11111",
-                    Price = 100.00M,
+                    Price = 1.00M,
                     Description = "Gumbo beet greens corn soko endive gumbo gourd.",
                     ImgUrl = "/Assets/bb8.png",
                 },
@@ -29,7 +29,7 @@ namespace MisterRobotoArigato.Models
                 {
                     Name = "Bending Unit",
                     SKU = "22222",
-                    Price = 1000.00M,
+                    Price = 2.00M,
                     Description = "Parsley shallot courgette tatsoi pea sprouts fava bean collard greens dandelion okra wakame tomato.",
                     ImgUrl = "/Assets/bendingunit.jpg",
                 },
@@ -38,7 +38,7 @@ namespace MisterRobotoArigato.Models
                 {
                     Name = "Gundam",
                     SKU = "33333",
-                    Price = 10000.00M,
+                    Price = 3.00M,
                     Description = "Bunya nuts black-eyed pea prairie turnip leek lentil turnip greens parsnip.",
                     ImgUrl = "/Assets/gundam.jpg",
                 },
@@ -47,7 +47,7 @@ namespace MisterRobotoArigato.Models
                 {
                     Name = "Android",
                     SKU = "44444",
-                    Price = 1000000.00M,
+                    Price = 4.00M,
                     Description = "Dandelion cucumber earthnut pea peanut soko zucchini.",
                     ImgUrl = "/Assets/humanandroid.jpg",
                 },
@@ -56,7 +56,7 @@ namespace MisterRobotoArigato.Models
                 {
                     Name = "Jukebox",
                     SKU = "55555",
-                    Price = 10.00M,
+                    Price = 5.00M,
                     Description = "Dandelion cucumber earthnut pea peanut soko zucchini.",
                     ImgUrl = "/Assets/jukebox.jpg",
                 },
@@ -65,7 +65,7 @@ namespace MisterRobotoArigato.Models
                 {
                     Name = "Killer Robot",
                     SKU = "66666",
-                    Price = 5000.00M,
+                    Price = 6.00M,
                     Description = "Nori grape silver beet broccoli kombu beet greens fava bean potato quandong celery.",
                     ImgUrl = "/Assets/killerrobot.jpg",
                 },
@@ -74,7 +74,7 @@ namespace MisterRobotoArigato.Models
                 {
                     Name = "Mars Rover",
                     SKU = "77777",
-                    Price = 500000.00M,
+                    Price = 7.00M,
                     Description = "Celery quandong swiss chard chicory earthnut pea potato.",
                     ImgUrl = "/Assets/marsrover.jpg",
                 },
@@ -83,7 +83,7 @@ namespace MisterRobotoArigato.Models
                 {
                     Name = "Iron Giant",
                     SKU = "88888",
-                    Price = 900000.00M,
+                    Price = 8.00M,
                     Description = "Nori grape silver beet broccoli kombu beet greens fava bean potato quandong celery. ",
                     ImgUrl = "/Assets/miyazakirobot.jpg",
                 },
@@ -92,7 +92,7 @@ namespace MisterRobotoArigato.Models
                 {
                     Name = "Ramen Vending Robot",
                     SKU = "99999",
-                    Price = 50.00M,
+                    Price = 9.00M,
                     Description = "Beetroot water spinach okra water chestnut ricebean pea catsear courgette summer purslane.",
                     ImgUrl = "/Assets/ramenvending.jpg",
                 },
@@ -101,7 +101,7 @@ namespace MisterRobotoArigato.Models
                 {
                     Name = "Mechanical Bee",
                     SKU = "1010101010",
-                    Price = 5.00M,
+                    Price = 10.00M,
                     Description = "Grape wattle seed kombu beetroot horseradish carrot squash brussels sprout chard.",
                     ImgUrl = "/Assets/robotbee.jpg",
                 });
