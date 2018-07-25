@@ -3,6 +3,7 @@ using AuthorizeNet.Api.Controllers;
 using AuthorizeNet.Api.Controllers.Bases;
 using Microsoft.Extensions.Configuration;
 using System;
+using System.Collections.Generic;
 
 namespace MisterRobotoArigato.Models
 {
@@ -15,7 +16,7 @@ namespace MisterRobotoArigato.Models
             Configuration = configuration;
         }
 
-        public string RunPayment(decimal amount)
+        public string RunPayment(decimal amount, Basket datBasket, Order datOrder, ApplicationUser user)
         {
             ApiOperationBase<ANetApiRequest, ANetApiResponse>.RunEnvironment = AuthorizeNet.Environment.SANDBOX;
 
@@ -24,9 +25,9 @@ namespace MisterRobotoArigato.Models
             ApiOperationBase<ANetApiRequest, ANetApiResponse>.MerchantAuthentication =
                 new merchantAuthenticationType()
                 {
-                    name = Configuration["AuthorizeNetName"],//"4MRgBW97ea"
+                    name = Configuration["AuthorizeNetName"],
                     ItemElementName = ItemChoiceType.transactionKey,
-                    Item = Configuration["AuthorizeNetItem"],// "9G39eva3SG7cA3Yq"
+                    Item = Configuration["AuthorizeNetItem"],
                 };
 
             var creditCard = new creditCardType
@@ -38,20 +39,27 @@ namespace MisterRobotoArigato.Models
 
             customerAddressType billingAddress = new customerAddressType
             {
-                firstName = "John",
-                lastName = "Doe",
-                address = "123 My St",
-                city = "OurTown",
-                zip = "98004"
+                firstName = user.FirstName,
+                lastName = user.LastName,
+                address = datOrder.Address.Street,
+                city = datOrder.Address.City,
+                zip = datOrder.Address.Zip
             };
 
             //api call to retrieve response
             var paymentType = new paymentType { Item = creditCard };
 
-            //line items to process
-            var lineItems = new lineItemType[2];
-            lineItems[0] = new lineItemType { itemId = "1", name = "BB8", quantity = 2, unitPrice = new Decimal(1.00) };
-            lineItems[1] = new lineItemType { itemId = "2", name = "Bending UNit", quantity = 1, unitPrice = new Decimal(2.00) };
+            //List<OrderItem> demOrderItems = new List<OrderItem>();
+
+            var lineItems = new lineItemType[datBasket.BasketItems.Count];
+            foreach (var item in datBasket.BasketItems)
+            {
+                //line items to process
+                for (var i = 0; i < datBasket.BasketItems.Count; i++)
+                {
+                    lineItems[i] = new lineItemType { itemId = i + 1.ToString(), name = item.ProductName, unitPrice = item.UnitPrice };
+                }
+            }
 
             var transactionRequest = new transactionRequestType
             {

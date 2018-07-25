@@ -101,7 +101,7 @@ namespace MisterRobotoArigato.Controllers
             var user = await _userManager.FindByEmailAsync(User.Identity.Name);
             Basket datBasket = _basketRepo.GetUserBasketByEmail(user.Email).Result;
 
-            cvm.Basket = datBasket;
+            cvm.Basket = datBasket; ;
             return View("Shipping", cvm);
         }
 
@@ -196,7 +196,7 @@ namespace MisterRobotoArigato.Controllers
 
             //CHARGE CARD
             Payment payment = new Payment(Configuration);
-            payment.RunPayment(cvm.Total);
+            payment.RunPayment(cvm.Total, datBasket, datOrder, user);
 
             await _emailSender.SendEmailAsync(user.Email, "Order Information",
                         htmlMessage);
