@@ -23,6 +23,12 @@ namespace MisterRobotoArigato.Models
 
         Task<HttpStatusCode> DeleteOrderAsync(string id);
 
-        Task<List<Order>> GetRecentOrdersAsync();
+        Task<List<Order>> GetRecentOrdersAsync(int n);
+
+        Task<List<Order>> GetRecentOrdersAsync(int n, string userID);
+
+        Task<Address> GetAddressByIDAsync(int id);
+
+        Task<List<OrderItem>> GetOrderItemsByOrderIDAsync(int id);
     }
 }
