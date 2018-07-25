@@ -20,6 +20,12 @@ namespace MisterRobotoArigato.Pages
         [BindProperty]
         public List<Order> Orders { get; set; }
 
+        [BindProperty]
+        public string FirstName { get; set; }
+
+        [BindProperty]
+        public string LastName { get; set; }
+
         public OrdersModel(UserManager<ApplicationUser> userManager, 
             SignInManager<ApplicationUser> signInManager, IOrderRepo orderRepo)
         {
@@ -32,6 +38,10 @@ namespace MisterRobotoArigato.Pages
         public async Task OnGet()
         {
             var user = await _userManager.GetUserAsync(User);
+
+            FirstName = user.FirstName;
+            LastName = user.LastName;
+
             Orders = await _orderRepo.GetRecentOrdersAsync(3, user.Id);
             foreach (Order order in Orders)
             {
