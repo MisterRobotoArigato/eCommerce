@@ -149,6 +149,7 @@ namespace MisterRobotoArigato.Controllers
                 UserID = user.Id,
                 AddressID = cvm.Address.ID,
                 Address = cvm.Address,
+                OrderDate = DateTime.Now.ToString("MMM d, yyyy (ddd) @ HH:mm tt"),
                 Shipping = cvm.Shipping,
                 DiscountName = cvm.DiscountName,
                 DiscountPercent = cvm.DiscountPercent,

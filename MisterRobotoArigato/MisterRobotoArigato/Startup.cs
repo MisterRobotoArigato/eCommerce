@@ -65,6 +65,7 @@ namespace MisterRobotoArigato
             services.AddScoped<IRobotoRepo, DevRobotoRepo>();
             services.AddScoped<IBasketRepo, DevBasketRepo>();
             services.AddScoped<ICheckoutRepo, DevCheckoutRepo>();
+            services.AddScoped<IOrderRepo, DevOrderRepo>();
 
             services.AddSingleton<IAuthorizationHandler, IsDogeHandler>();
             services.AddScoped<IEmailSender, EmailSender>();

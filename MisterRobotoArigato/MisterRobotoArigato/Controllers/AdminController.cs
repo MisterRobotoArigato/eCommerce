@@ -15,11 +15,13 @@ namespace MisterRobotoArigato.Controllers
     {
         private readonly IRobotoRepo _robotoRepo;
         private readonly IConfiguration Configuration;
-        private readonly ICheckoutRepo _checkoutRepo;
+        private readonly IOrderRepo _orderRepo;
+        //private readonly ICheckoutRepo _checkoutRepo;
 
-        public AdminController(IRobotoRepo robotoRepo, IConfiguration configuration)
+        public AdminController(IRobotoRepo robotoRepo, IConfiguration configuration, IOrderRepo orderRepo)
         {
             _robotoRepo = robotoRepo;
+            _orderRepo = orderRepo;
             Configuration = configuration;
         }
 
@@ -154,9 +156,9 @@ namespace MisterRobotoArigato.Controllers
             return RedirectToAction("ViewAll");
         }
         
-        public async Task<IActionResult> OrderLog()
+        public async Task<IActionResult> RecentOrders()
         {
-            List<Order> recentOrders = await _robotoRepo.GetRecentOrdersAsync();
+            List<Order> recentOrders = await _orderRepo.GetRecentOrdersAsync();
             OrderListViewModel datOrderListVM = new OrderListViewModel
             {
                 Orders = recentOrders,
@@ -164,6 +166,7 @@ namespace MisterRobotoArigato.Controllers
 
             return View(datOrderListVM);
         }
+
         /// <summary>
         /// Checks if a product exists.  If it does, return a true value
         /// </summary>
