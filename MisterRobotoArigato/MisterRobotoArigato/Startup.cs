@@ -38,13 +38,13 @@ namespace MisterRobotoArigato
             //these service requests are chained as suggested by the MS Docs
             services.AddAuthentication().AddGoogle(google =>
             {
-                google.ClientId = Configuration["Authentication:Google:ClientId"];
-                google.ClientSecret = Configuration["Authentication:Google:ClientSecret"];
+                google.ClientId = Configuration["OAUTH:Authentication:Google:ClientId"];
+                google.ClientSecret = Configuration["OAUTH:Authentication:Google:ClientSecret"];
             })
             .AddMicrosoftAccount(microsoftOptions =>
             {
-                microsoftOptions.ClientId = Configuration["Authentication:Microsoft:ApplicationId"];
-                microsoftOptions.ClientSecret = Configuration["Authentication:Microsoft:Password"];
+                microsoftOptions.ClientId = Configuration["Microsoft:Authentication:Microsoft:ApplicationId"];
+                microsoftOptions.ClientSecret = Configuration["Microsoft:Authentication:Microsoft:Password"];
                 microsoftOptions.CallbackPath = new PathString("/signin-microsoft");
             });
 
@@ -64,7 +64,7 @@ namespace MisterRobotoArigato
 
             services.AddScoped<IRobotoRepo, DevRobotoRepo>();
             services.AddScoped<IBasketRepo, DevBasketRepo>();
-            services.AddScoped<ICheckoutRepo, DevCheckoutRepo>();
+            services.AddScoped<IOrderRepo, DevOrderRepo>();
 
             services.AddSingleton<IAuthorizationHandler, IsDogeHandler>();
             services.AddScoped<IEmailSender, EmailSender>();

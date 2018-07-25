@@ -4,5 +4,15 @@
 
 <h2>Admin Dashboard</h2>
 
-<a asp-controller="Admin" asp-action="ViewAll">View All Products</a>
-<a asp-controller="Admin" asp-action="Create">Add a product</a>
+@*<form asp-action="ViewAll" asp-controller="Admin">
+    <button class="btn btn-primary" type="submit">View All Products</button>
+</form>
+<form asp-action="Create" asp-controller="Admin">
+    <button class="btn btn-info" type="submit">Add a Product</button>
+</form>
+<form asp-action="RecentOrders" asp-controller="Admin">
+    <button class="btn btn-info" type="submit">View Recent Orders</button>
+</form>*@
+<a class="btn btn-info btn-lg btn-block" asp-controller="Admin" asp-action="ViewAll">View All Products</a>
+<a class="btn btn-success btn-lg btn-block" asp-controller="Admin" asp-action="Create">Add a Product</a>
+<a class="btn btn-warning btn-lg btn-block" asp-controller="Admin" asp-action="RecentOrders">View Recent Orders</a>

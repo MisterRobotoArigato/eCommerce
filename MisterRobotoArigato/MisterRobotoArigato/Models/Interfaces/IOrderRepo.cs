@@ -9,7 +9,7 @@ namespace MisterRobotoArigato.Models
     /// <summary>
     /// Interface layer to communicate with the Checkout model
     /// </summary>
-    public interface ICheckoutRepo
+    public interface IOrderRepo
     {
         Task<HttpStatusCode> CreateAddress(Address address);
 
@@ -22,5 +22,7 @@ namespace MisterRobotoArigato.Models
         Task<HttpStatusCode> UpdateOrderAsync(Order order);
 
         Task<HttpStatusCode> DeleteOrderAsync(string id);
+
+        Task<List<Order>> GetRecentOrdersAsync();
     }
 }

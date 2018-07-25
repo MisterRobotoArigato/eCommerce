@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MisterRobotoArigato.Data;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -7,11 +8,11 @@ using System.Threading.Tasks;
 
 namespace MisterRobotoArigato.Models
 {
-    public class DevCheckoutRepo : ICheckoutRepo
+    public class DevOrderRepo : IOrderRepo
     {
         private RobotoDbContext _context;
 
-        public DevCheckoutRepo(RobotoDbContext context)
+        public DevOrderRepo(RobotoDbContext context)
         {
             _context = context;
         }
@@ -121,6 +122,12 @@ namespace MisterRobotoArigato.Models
             {
                 return HttpStatusCode.BadRequest;
             }
+        }
+
+        public async Task<List<Order>> GetRecentOrdersAsync()
+        {
+            List<Order> last20Orders = await _context.Orders.Skip(Math.Max(0, _context.Orders.Count() - 20)).ToListAsync();
+            return last20Orders;
         }
     }
 }

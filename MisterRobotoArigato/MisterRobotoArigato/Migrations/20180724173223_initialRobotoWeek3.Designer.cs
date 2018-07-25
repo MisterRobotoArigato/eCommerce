@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MisterRobotoArigato.Data;
 
 namespace MisterRobotoArigato.Migrations
 {
     [DbContext(typeof(RobotoDbContext))]
-    partial class RobotoDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180724173223_initialRobotoWeek3")]
+    partial class initialRobotoWeek3
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -109,8 +111,6 @@ namespace MisterRobotoArigato.Migrations
                     b.Property<string>("DiscountName");
 
                     b.Property<decimal>("DiscountPercent");
-
-                    b.Property<string>("OrderDate");
 
                     b.Property<string>("Shipping");
 

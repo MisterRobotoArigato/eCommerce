@@ -1,0 +1,64 @@
+﻿@using Microsoft.AspNetCore.Identity;
+@using MisterRobotoArigato.Models;
+@inject UserManager<ApplicationUser> UserManager
+@model OrderListViewModel
+@{
+    ViewData["Title"] = "RecentOrders";
+    Layout = "_Layout";
+
+}
+
+<h2>Recent Orders</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Orders[0].ID)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Orders[0].UserID)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Orders[0].OrderDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Orders[0].TotalItemQty)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Orders[0].Total)
+            </th>
+            <th>
+                Options
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Orders)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ID)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UserID)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.OrderDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TotalItemQty)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Total)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.ID">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.ID">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.ID">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<input type="button" class="btn btn-info" value="Return to Admin Dashboard" onclick="window.location.href='/Admin'" />
