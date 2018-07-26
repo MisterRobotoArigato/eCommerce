@@ -158,7 +158,7 @@ namespace MisterRobotoArigato.Controllers
         
         public async Task<IActionResult> RecentOrders()
         {
-            List<Order> recentOrders = await _orderRepo.GetRecentOrdersAsync();
+            List<Order> recentOrders = await _orderRepo.GetRecentOrdersAsync(20);
             OrderListViewModel datOrderListVM = new OrderListViewModel
             {
                 Orders = recentOrders,
