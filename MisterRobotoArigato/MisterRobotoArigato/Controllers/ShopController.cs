@@ -59,7 +59,7 @@ namespace MisterRobotoArigato.Controllers
 
             var foundProduct = await _robotoRepo.GetProductById(id);
 
-            if (foundProduct == null) NotFound();
+            if (foundProduct == null) return NotFound();
 
             return View(foundProduct);
         }

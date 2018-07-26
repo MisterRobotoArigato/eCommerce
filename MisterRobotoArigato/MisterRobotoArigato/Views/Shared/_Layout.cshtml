@@ -40,6 +40,9 @@
                         <li class="nav-item">
                             <a class="nav-link" asp-controller="Checkout" asp-action="Index">Checkout</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-controller="Profile" asp-action="Index">My Profile</a>
+                        </li>
                     }
                     <li class="nav-item">
                         <a class="nav-link" asp-controller="Orders" asp-action="Index">Recent Orders</a>
@@ -113,8 +116,8 @@
                                 <a class="dropdown-item" asp-action="Index" asp-controller="Doge">Doge Portal</a>
 
                             }
-                            <a class="dropdown-item" href="#">Account Info</a>
-                            <a class="dropdown-item" href="#">Shopping Cart</a>
+                            <a class="dropdown-item" asp-controller="Profile" asp-action="Index">Account Info</a>
+                            <a class="dropdown-item" asp-controller="Shop" asp-action="MyBasket">My Basket</a>
                             <div class="dropdown-divider"></div>
                             <div class="logout-container">
                                 <a asp-controller="Account" asp-action="Logout" class="btn btn-danger" id="logout-btn">Log out</a>
@@ -143,16 +146,6 @@
 
     <main>
         @RenderBody()
-        @*<div class="wrapper">
-            @if (SignInManager.IsSignedIn(User))
-            {
-                @await Component.InvokeAsync("ShoppingCart");
-            }
-            else
-            {
-                <p>Login to see your basket</p>
-            }
-        </div>*@
     </main>
     <footer class="footer">
         <div class="container">
