@@ -95,6 +95,9 @@ namespace MisterRobotoArigato.Models
             try
             {
                 Order orderToRemove = await _context.Orders.FirstOrDefaultAsync(o => o.UserID == id);
+                List<OrderItem> orderItemsToRemove = await _context.OrderItems.Where(i => i.OrderID == orderToRemove.ID).ToListAsync();
+
+                _context.Remove(orderItemsToRemove);
                 _context.Remove(orderToRemove);
                 await _context.SaveChangesAsync();
                 return HttpStatusCode.Created;
@@ -124,10 +127,28 @@ namespace MisterRobotoArigato.Models
             }
         }
 
-        public async Task<List<Order>> GetRecentOrdersAsync()
+        public async Task<List<Order>> GetRecentOrdersAsync(int n)
         {
-            List<Order> last20Orders = await _context.Orders.Skip(Math.Max(0, _context.Orders.Count() - 20)).ToListAsync();
-            return last20Orders;
+            List<Order> lastNOrders = await _context.Orders.Skip(Math.Max(0, _context.Orders.Count() - n)).ToListAsync();
+            return lastNOrders;
+        }
+
+        public async Task<List<Order>> GetRecentOrdersAsync(int n, string userID)
+        {
+            List<Order> lastNOrders = await _context.Orders.Where(o => o.UserID == userID).Skip(Math.Max(0, _context.Orders.Count() - n)).ToListAsync();
+            return lastNOrders;
+        }
+
+        public async Task<Address> GetAddressByIDAsync(int id)
+        {
+            Address address = await _context.Addresses.FirstOrDefaultAsync(a => a.ID == id);
+            return address;
+        }
+
+        public async Task<List<OrderItem>> GetOrderItemsByOrderIDAsync(int id)
+        {
+            List<OrderItem> orderItems = await _context.OrderItems.Where(i => i.OrderID == id).ToListAsync();
+            return orderItems;
         }
     }
 }

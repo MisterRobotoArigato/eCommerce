@@ -158,7 +158,7 @@ namespace MisterRobotoArigato.Controllers
         
         public async Task<IActionResult> RecentOrders()
         {
-            List<Order> recentOrders = await _orderRepo.GetRecentOrdersAsync();
+            List<Order> recentOrders = await _orderRepo.GetRecentOrdersAsync(20);
             OrderListViewModel datOrderListVM = new OrderListViewModel
             {
                 Orders = recentOrders,
@@ -167,6 +167,12 @@ namespace MisterRobotoArigato.Controllers
             return View(datOrderListVM);
         }
 
+        public async Task<IActionResult> OrderDetails(int id)
+        {
+            Order datOrder = await _orderRepo.GetOrderByIDAsync(id);
+            datOrder.Address = await _orderRepo.GetAddressByIDAsync(datOrder.AddressID);
+            return View(datOrder);
+        }
         /// <summary>
         /// Checks if a product exists.  If it does, return a true value
         /// </summary>
