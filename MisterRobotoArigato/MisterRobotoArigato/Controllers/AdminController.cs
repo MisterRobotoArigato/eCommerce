@@ -178,6 +178,12 @@ namespace MisterRobotoArigato.Controllers
             return View(datOrderListVM);
         }
 
+        public async Task<IActionResult> OrderDetails(int id)
+        {
+            Order datOrder = await _orderRepo.GetOrderByIDAsync(id);
+            datOrder.Address = await _orderRepo.GetAddressByIDAsync(datOrder.AddressID);
+            return View(datOrder);
+        }
         /// <summary>
         /// Checks if a product exists.  If it does, return a true value
         /// </summary>
