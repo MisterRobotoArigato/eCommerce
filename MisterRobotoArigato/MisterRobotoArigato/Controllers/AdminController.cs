@@ -85,6 +85,17 @@ namespace MisterRobotoArigato.Controllers
             return View(product);
         }
 
+        public async Task<IActionResult> Details(int? id)
+        {
+            if (id == null) return NotFound();
+
+            var foundProduct = await _robotoRepo.GetProductById(id);
+
+            if (foundProduct == null) return NotFound();
+
+            return View(foundProduct);
+        }
+
         /// <summary>
         /// Updates an existing product, otherwise user is redirected back to ViewAllProducts
         /// </summary>
