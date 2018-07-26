@@ -90,14 +90,14 @@ namespace MisterRobotoArigato.Models
         /// </summary>
         /// <param name="id"></param>
         /// <returns>HTTP Status Code</returns>
-        public async Task<HttpStatusCode> DeleteOrderAsync(string id)
+        public async Task<HttpStatusCode> DeleteOrderAsync(int id)
         {
             try
             {
-                Order orderToRemove = await _context.Orders.FirstOrDefaultAsync(o => o.UserID == id);
+                Order orderToRemove = await _context.Orders.FirstOrDefaultAsync(o => o.ID == id);
                 List<OrderItem> orderItemsToRemove = await _context.OrderItems.Where(i => i.OrderID == orderToRemove.ID).ToListAsync();
 
-                _context.Remove(orderItemsToRemove);
+                _context.RemoveRange(orderItemsToRemove);
                 _context.Remove(orderToRemove);
                 await _context.SaveChangesAsync();
                 return HttpStatusCode.Created;
