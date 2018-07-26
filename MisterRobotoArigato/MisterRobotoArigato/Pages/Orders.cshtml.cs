@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
@@ -21,9 +22,10 @@ namespace MisterRobotoArigato.Pages
         public List<Order> Orders { get; set; }
 
         [BindProperty]
+        [Display(Name="First Name")]
         public string FirstName { get; set; }
 
-        [BindProperty]
+        [BindProperty, Display(Name = "First Name")]
         public string LastName { get; set; }
 
         public OrdersModel(UserManager<ApplicationUser> userManager, 
