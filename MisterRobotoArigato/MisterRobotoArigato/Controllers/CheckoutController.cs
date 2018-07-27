@@ -136,6 +136,10 @@ namespace MisterRobotoArigato.Controllers
         {
             var user = await _userManager.FindByEmailAsync(User.Identity.Name);
             Basket datBasket = _basketRepo.GetUserBasketByEmail(user.Email).Result;
+
+            if (datBasket.BasketItems.Count == 0)
+                return RedirectToAction(nameof(Index));
+
             cvm.Basket = datBasket;
 
             if (!ModelState.IsValid)
