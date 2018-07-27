@@ -57,7 +57,7 @@ namespace MisterRobotoArigato.Models
                 //line items to process
                 for (var i = 0; i < datBasket.BasketItems.Count; i++)
                 {
-                    lineItems[i] = new lineItemType { itemId = (i + 1).ToString(), name = item.ProductName, unitPrice = item.UnitPrice };
+                    lineItems[i] = new lineItemType { itemId = (item.ID).ToString(), name = item.ProductName, quantity = item.Quantity, unitPrice = item.UnitPrice };
                 }
             }
 
