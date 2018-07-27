@@ -16,7 +16,7 @@ namespace MisterRobotoArigato.Models
             Configuration = configuration;
         }
 
-        public string RunPayment(decimal amount, Basket datBasket, Order datOrder, ApplicationUser user)
+        public string RunPayment(decimal amount, Order datOrder, ApplicationUser user)
         {
             ApiOperationBase<ANetApiRequest, ANetApiResponse>.RunEnvironment = AuthorizeNet.Environment.SANDBOX;
 
@@ -51,14 +51,14 @@ namespace MisterRobotoArigato.Models
 
             //List<OrderItem> demOrderItems = new List<OrderItem>();
 
-            var lineItems = new lineItemType[datBasket.BasketItems.Count];
-            foreach (var item in datBasket.BasketItems)
+            var lineItems = new lineItemType[datOrder.OrderItems.Count];
+            int count = 0;
+            foreach (var item in datOrder.OrderItems)
             {
                 //line items to process
-                for (var i = 0; i < datBasket.BasketItems.Count; i++)
-                {
-                    lineItems[i] = new lineItemType { itemId = (item.ID).ToString(), name = item.ProductName, quantity = item.Quantity, unitPrice = item.UnitPrice };
-                }
+                lineItems[count] = new lineItemType { itemId = (item.ProductID).ToString(),
+                    name = item.ProductName, quantity = item.Quantity, unitPrice = item.UnitPrice };
+                count++;
             }
 
             var transactionRequest = new transactionRequestType

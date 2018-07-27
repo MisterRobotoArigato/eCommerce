@@ -196,7 +196,7 @@ namespace MisterRobotoArigato.Controllers
 
             //CHARGE CARD
             Payment payment = new Payment(Configuration);
-            payment.RunPayment(cvm.Total, datBasket, datOrder, user);
+            payment.RunPayment(cvm.Total, datOrder, user);
 
             await _emailSender.SendEmailAsync(user.Email, "Order Information",
                         htmlMessage);
