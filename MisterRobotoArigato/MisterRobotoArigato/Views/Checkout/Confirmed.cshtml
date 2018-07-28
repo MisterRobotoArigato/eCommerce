@@ -30,7 +30,7 @@
                             <h6 class="my-0">@orderItem.ProductName</h6>
                             <small class="text-muted">Quantity: @orderItem.Quantity</small>
                         </div>
-                        <img src="@orderItem.ImgUrl" class="icon-img">
+                        <img src="@orderItem.ImgUrl" class="checkout-img">
                         <span class="text-muted">@totalItemPrice</span>
                     </li>
                 }
@@ -47,7 +47,7 @@
                             <h6 class="my-0">Promo code</h6>
                             <small>@Model.DiscountName</small>
                         </div>
-                        <span class="text-success">-$@Model.DiscountAmt</span>
+                        <span class="text-success">-$@Math.Round(Model.DiscountAmt, 2)</span>
                     </li>
                 }
                 <li class="list-group-item d-flex justify-content-between">

@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MisterRobotoArigato.Data;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -7,11 +8,11 @@ using System.Threading.Tasks;
 
 namespace MisterRobotoArigato.Models
 {
-    public class DevCheckoutRepo : ICheckoutRepo
+    public class DevOrderRepo : IOrderRepo
     {
         private RobotoDbContext _context;
 
-        public DevCheckoutRepo(RobotoDbContext context)
+        public DevOrderRepo(RobotoDbContext context)
         {
             _context = context;
         }
@@ -89,11 +90,14 @@ namespace MisterRobotoArigato.Models
         /// </summary>
         /// <param name="id"></param>
         /// <returns>HTTP Status Code</returns>
-        public async Task<HttpStatusCode> DeleteOrderAsync(string id)
+        public async Task<HttpStatusCode> DeleteOrderAsync(int id)
         {
             try
             {
-                Order orderToRemove = await _context.Orders.FirstOrDefaultAsync(o => o.UserID == id);
+                Order orderToRemove = await _context.Orders.FirstOrDefaultAsync(o => o.ID == id);
+                List<OrderItem> orderItemsToRemove = await _context.OrderItems.Where(i => i.OrderID == orderToRemove.ID).ToListAsync();
+
+                _context.RemoveRange(orderItemsToRemove);
                 _context.Remove(orderToRemove);
                 await _context.SaveChangesAsync();
                 return HttpStatusCode.Created;
@@ -121,6 +125,30 @@ namespace MisterRobotoArigato.Models
             {
                 return HttpStatusCode.BadRequest;
             }
+        }
+
+        public async Task<List<Order>> GetRecentOrdersAsync(int n)
+        {
+            List<Order> lastNOrders = await _context.Orders.Skip(Math.Max(0, _context.Orders.Count() - n)).ToListAsync();
+            return lastNOrders;
+        }
+
+        public async Task<List<Order>> GetRecentOrdersAsync(int n, string userID)
+        {
+            List<Order> lastNOrders = await _context.Orders.Where(o => o.UserID == userID).Skip(Math.Max(0, _context.Orders.Count() - n)).ToListAsync();
+            return lastNOrders;
+        }
+
+        public async Task<Address> GetAddressByIDAsync(int id)
+        {
+            Address address = await _context.Addresses.FirstOrDefaultAsync(a => a.ID == id);
+            return address;
+        }
+
+        public async Task<List<OrderItem>> GetOrderItemsByOrderIDAsync(int id)
+        {
+            List<OrderItem> orderItems = await _context.OrderItems.Where(i => i.OrderID == id).ToListAsync();
+            return orderItems; 
         }
     }
 }

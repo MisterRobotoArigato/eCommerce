@@ -42,7 +42,7 @@
                             <h6 class="my-0">@basketItem.ProductName</h6>
                             <small class="text-muted">Quantity: @basketItem.Quantity</small>
                         </div>
-                        <img src="@basketItem.ImgUrl" class="icon-img">
+                        <img src="@basketItem.ImgUrl" class="checkout-img">
                         <span class="text-muted">@totalItemPrice</span>
                     </li>
                 }
@@ -85,49 +85,51 @@
             <form asp-action="AddAddress" asp-controller="Checkout" method="post">
                 <div class="row">
                     <div class="col-md-6 mb-3">
-                        <label asp-for="Address.FirstName">First name</label>
+                        <label asp-for="Address.FirstName"></label>
                         <input asp-for="Address.FirstName" type="text" class="form-control" title="First Name" placeholder="First Name" required>
                         <span asp-validation-for="Address.FirstName" class="text-danger"></span>
                     </div>
                     <div class="col-md-6 mb-3">
-                        <label asp-for="Address.LastName">Last name</label>
+                        <label asp-for="Address.LastName"></label>
                         <input asp-for="Address.LastName" type="text" class="form-control" title="Last Name" placeholder="Last Name" required>
                         <span asp-validation-for="Address.LastName" class="text-danger"></span>
                     </div>
                 </div>
                 <div class="mb-3">
-                    <label asp-for="Address.Street">Address</label>
+                    <label asp-for="Address.Street"></label>
                     <input asp-for="Address.Street" type="text" class="form-control" title="Street # and Name" placeholder="1234 Main Street" required>
                     <span asp-validation-for="Address.Street" class="text-danger"></span>
                 </div>
                 <div class="mb-3">
-                    <label asp-for="Address.Street2">Address 2 <span class="text-muted">(Optional)</span></label>
+                    <label asp-for="Address.Street2"></label> <span class="text-muted">(Optional)</span>
                     <input asp-for="Address.Street2" type="text" class="form-control" title="Apt or Bldg #" placeholder="Apt. #555">
                     <span asp-validation-for="Address.Street2" class="text-danger"></span>
                 </div>
                 <div class="row">
                     <div class="col-md-5 mb-3">
-                        <label asp-for="Address.Country">Country</label>
-                        <select asp-for="Address.Country" class="custom-select d-block w-100 input-medium bfh-countries" id="countries_states1" data-country="US" required>
+                        <label asp-for="Address.Country"></label>
+                        <select asp-for="Address.Country" class="custom-select d-block w-100
+                                input-medium bfh-countries" id="countries_states1" data-country="US" required>
                             <option selected disabled hidden>Choose a country</option>
                         </select>
                         <span asp-validation-for="Address.Country" class="text-danger"></span>
                     </div>
                     <div class="col-md-3 mb-3">
-                        <label asp-for="Address.City">City</label>
-                        <input asp-for="Address.City" type="text" class="form-control" id="city" placeholder="Townsville" required>
+                        <label asp-for="Address.City"></label>
+                        <input asp-for="Address.City" type="text" class="form-control" id="city"
+                               placeholder="Townsville" required>
                         <span asp-validation-for="Address.City" class="text-danger"></span>
                     </div>
                     <div class="col-md-4 mb-3">
                         <label asp-for="Address.State">State/Province/Prefecture</label>
-                        <select asp-for="Address.State" class="custom-select d-block w-100 input-medium bfh-states" data-country="countries_states1" required>
+                        <select asp-for="Address.State" class="custom-select d-block w-100
+                                input-medium bfh-states" data-country="countries_states1" required>
                             <option value="">Please choose a state</option>
                         </select>
                         <span asp-validation-for="Address.State" class="text-danger"></span>
-
                     </div>
                     <div class="col-md-3 mb-3">
-                        <label asp-for="Address.Zip">Zip</label>
+                        <label asp-for="Address.Zip"></label>
                         <input asp-for="Address.Zip" type="text" class="form-control" id="zip" placeholder="55555" required>
                         <span asp-validation-for="Address.Zip" class="text-danger"></span>
                     </div>
@@ -148,12 +150,48 @@
                     <label class="custom-control-label" for="save-info">Save this information for next time</label>
                 </div>
                 <hr class="mb-4">
+                <h4 class="mb-3">Payment</h4>
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label for="cc-name">Name on card</label>
+                        <input type="text" class="form-control" id="cc-name" placeholder="Bob Gunderson" >
+                        <small class="text-muted">Full name as displayed on card</small>
+                        <div class="invalid-feedback">
+                            Name on card is required
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="cc-number">Credit card number</label>
+                        <input type="text" class="form-control" id="cc-number" placeholder="4111111111111111" value="4111111111111111" readonly>
+                        <div class="invalid-feedback">
+                            Credit card number is required
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3 mb-3">
+                        <label for="cc-expiration">Expiration</label>
+                        <input type="text" class="form-control" id="cc-expiration" placeholder="0718" readonly>
+                        <div class="invalid-feedback">
+                            Expiration date required
+                        </div>
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <label for="cc-expiration">CVV</label>
+                        <input type="text" class="form-control" id="cc-cvv" placeholder="123" readonly>
+                        <div class="invalid-feedback">
+                            Security code required
+                        </div>
+                    </div>
+                </div>
+                <hr class="mb-4">
+                <hr class="mb-4">
                 <button class="btn btn-primary btn-lg btn-block" type="submit">Continue to checkout</button>
             </form>
         </div>
     </div>
 </div>
-<script src="https://js.nicdn.de/bootstrap/formhelpers/docs/assets/js/bootstrap-formhelpers-selectbox.jss"></script>
+<script src="https://js.nicdn.de/bootstrap/formhelpers/docs/assets/js/bootstrap-formhelpers-selectbox.js"></script>
 <script src="https://js.nicdn.de/bootstrap/formhelpers/docs/assets/js/bootstrap-formhelpers-countries.en_US.js
 "></script>
 <script src="https://js.nicdn.de/bootstrap/formhelpers/docs/assets/js/bootstrap-formhelpers-countries.js">

@@ -14,14 +14,17 @@ namespace MisterRobotoArigato.Controllers
     {
         private readonly IRobotoRepo _robotoRepo;
         private readonly IBasketRepo _basketRepo;
+        private readonly IOrderRepo _orderRepo;
+
         private readonly IConfiguration Configuration;
         private UserManager<ApplicationUser> _userManager;
 
-        public ShopController(IRobotoRepo robotoRepo, IConfiguration configuration, IBasketRepo basketRepo,
-            UserManager<ApplicationUser> userManager)
+        public ShopController(IRobotoRepo robotoRepo, IConfiguration configuration, 
+            IBasketRepo basketRepo, IOrderRepo orderRepo, UserManager<ApplicationUser> userManager)
         {
             _robotoRepo = robotoRepo;
             _basketRepo = basketRepo;
+            _orderRepo = orderRepo;
             _userManager = userManager;
             Configuration = configuration;
         }
@@ -59,7 +62,7 @@ namespace MisterRobotoArigato.Controllers
 
             var foundProduct = await _robotoRepo.GetProductById(id);
 
-            if (foundProduct == null) NotFound();
+            if (foundProduct == null) return NotFound();
 
             return View(foundProduct);
         }
@@ -142,6 +145,13 @@ namespace MisterRobotoArigato.Controllers
             Basket datBasket = _basketRepo.GetUserBasketByEmail(user.Email).Result;
 
             return View(datBasket);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> DeleteOrder(int id)
+        {
+            await _orderRepo.DeleteOrderAsync(id);
+            return RedirectToAction("Index", "Orders");
         }
     }
 }

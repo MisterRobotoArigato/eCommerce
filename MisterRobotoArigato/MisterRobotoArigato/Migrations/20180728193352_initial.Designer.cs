@@ -10,8 +10,8 @@ using MisterRobotoArigato.Data;
 namespace MisterRobotoArigato.Migrations
 {
     [DbContext(typeof(RobotoDbContext))]
-    [Migration("20180723191735_sprint2")]
-    partial class sprint2
+    [Migration("20180728193352_initial")]
+    partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -111,6 +111,8 @@ namespace MisterRobotoArigato.Migrations
                     b.Property<string>("DiscountName");
 
                     b.Property<decimal>("DiscountPercent");
+
+                    b.Property<string>("OrderDate");
 
                     b.Property<string>("Shipping");
 

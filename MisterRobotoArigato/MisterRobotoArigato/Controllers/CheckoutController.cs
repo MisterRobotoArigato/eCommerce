@@ -16,7 +16,7 @@ namespace MisterRobotoArigato.Controllers
     {
         private readonly IRobotoRepo _robotoRepo;
         private readonly IBasketRepo _basketRepo;
-        private readonly ICheckoutRepo _checkoutRepo;
+        private readonly IOrderRepo _orderRepo;
         private readonly IConfiguration Configuration;
         private readonly IEmailSender _emailSender;
         private UserManager<ApplicationUser> _userManager;
@@ -28,16 +28,16 @@ namespace MisterRobotoArigato.Controllers
         /// <param name="robotoRepo"></param>
         /// <param name="configuration"></param>
         /// <param name="basketRepo"></param>
-        /// <param name="checkoutRepo"></param>
+        /// <param name="orderRepo"></param>
         /// <param name="emailSender"></param>
         /// <param name="userManager"></param>
         public CheckoutController(IRobotoRepo robotoRepo, IConfiguration configuration,
-            IBasketRepo basketRepo, ICheckoutRepo checkoutRepo,
+            IBasketRepo basketRepo, IOrderRepo orderRepo,
             IEmailSender emailSender, UserManager<ApplicationUser> userManager)
         {
             _robotoRepo = robotoRepo;
             _basketRepo = basketRepo;
-            _checkoutRepo = checkoutRepo;
+            _orderRepo = orderRepo;
             _userManager = userManager;
             _emailSender = emailSender;
             Configuration = configuration;
@@ -101,7 +101,7 @@ namespace MisterRobotoArigato.Controllers
             var user = await _userManager.FindByEmailAsync(User.Identity.Name);
             Basket datBasket = _basketRepo.GetUserBasketByEmail(user.Email).Result;
 
-            cvm.Basket = datBasket;
+            cvm.Basket = datBasket; ;
             return View("Shipping", cvm);
         }
 
@@ -136,12 +136,16 @@ namespace MisterRobotoArigato.Controllers
         {
             var user = await _userManager.FindByEmailAsync(User.Identity.Name);
             Basket datBasket = _basketRepo.GetUserBasketByEmail(user.Email).Result;
+
+            if (datBasket.BasketItems.Count == 0)
+                return RedirectToAction(nameof(Index));
+
             cvm.Basket = datBasket;
 
             if (!ModelState.IsValid)
                 return RedirectToAction(nameof(Shipping));
             // add address to database
-            await _checkoutRepo.CreateAddress(cvm.Address);
+            await _orderRepo.CreateAddress(cvm.Address);
 
             // create an new order object and load the order items onto it
             Order datOrder = new Order
@@ -149,6 +153,7 @@ namespace MisterRobotoArigato.Controllers
                 UserID = user.Id,
                 AddressID = cvm.Address.ID,
                 Address = cvm.Address,
+                OrderDate = DateTime.Now.ToString("MMM d, yyyy (ddd) @ HH:mm tt"),
                 Shipping = cvm.Shipping,
                 DiscountName = cvm.DiscountName,
                 DiscountPercent = cvm.DiscountPercent,
@@ -161,7 +166,7 @@ namespace MisterRobotoArigato.Controllers
             // add order to the database table
             // I'm doing this first in hopes that the order generates an ID that
             // I can add to the order items. Here's hoping...
-            await _checkoutRepo.AddOrderAsync(datOrder);
+            await _orderRepo.AddOrderAsync(datOrder);
 
             // turn basket items into order items
             List<OrderItem> demOrderItems = new List<OrderItem>();
@@ -179,7 +184,7 @@ namespace MisterRobotoArigato.Controllers
                 };
 
                 // add order item to the database table
-                await _checkoutRepo.AddOrderItemToOrderAsync(tempOrderItem);
+                await _orderRepo.AddOrderItemToOrderAsync(tempOrderItem);
                 demOrderItems.Add(tempOrderItem);
             }
 
@@ -192,6 +197,10 @@ namespace MisterRobotoArigato.Controllers
             {
                 htmlMessage += $"Item: {item.ProductName}, Quantity: {item.Quantity}</br>";
             };
+
+            //CHARGE CARD
+            Payment payment = new Payment(Configuration);
+            payment.RunPayment(cvm.Total, datOrder, user);
 
             await _emailSender.SendEmailAsync(user.Email, "Order Information",
                         htmlMessage);

@@ -8,7 +8,7 @@ The shop lives [here](https://misterrobotoarigato.azurewebsites.net).
 ---
 ## Overview
 This project is a full stack web application that serves as an e-commerce website 
-selling robots. 
+selling robots. The shop lives [here](https://misterrobotoarigato.azurewebsites.net).
 
 #### Registration, Login, and External Login (OAUTH)
 The following tutorial was followed to add external logins: [Google](https://docs.microsoft.com/en-us/aspnet/core/security/authentication/social/google-logins?view=aspnetcore-2.1&tabs=aspnetcore2x)
@@ -42,6 +42,11 @@ After shopping, a user will be asked for their shipping information.  This will 
 stored in our database.  Users can have multiple orders.  
 
 A special savings can be applied at checkout, but that's for you to discover!
+
+#### Payment
+Customers can pay with a fake credit card number upon checkout.  
+
+Credit Card transactions are completed using the [Authorize.Net Sandbox.](https://sandbox.authorize.net/) 
 
 #### Database Schema Visual
 ![Database Schema](Screenshots/week2/misterArigatoDbSchema.png)
@@ -146,6 +151,43 @@ This application is created using ASP.NET Core 2.1 Web Application <br />
 *Languages*: C#, HTML, CSS, SCSS <br />
 *Tools*: Azure, Visual Studio Team Services, SQL Database, SendGrid Bootstrap <br />
 *Type of Application*: Web Application <br />
+
+---
+## Walk Through Sprint 3
+Mister Roboto Arigato has a new landing site!
+
+![New Landing Site](Screenshots/week3/newLandingSite.png)
+
+Users can now view their account information.  
+They can make changes to their first and last name.  
+The dropdown link will reflect the change:
+
+![Account Profile Change](Screenshots/week3/accountProfileChange.png)
+
+Upon checkout, customers can pay with a fake credit card that we've 
+memorized for them:
+
+![Payment](Screenshots/week3/payment.png)
+
+Additionally, customers can see their purchase history:
+
+![Purchase History](Screenshots/week3/customerLog.png)
+
+On the admin side, there is new admin dashboard:
+
+![Admin Dashboard](Screenshots/week3/newAdminDashboard.png)
+
+"View Recent Orders" will show the admin the most recent 20 orders:
+
+![Admin Recent Orders](Screenshots/week3/newAdminDashboard.png)
+
+The transaction appears on Authorize Net:
+
+![Auth Net Copy](Screenshots/week3/authNetCopy.png)
+
+The merchant will be emailed a copy of the transaction:
+
+![Merchant Copy](Screenshots/week3/merchantCopy.png)
 
 ---
 ## Walk Through Sprint 2

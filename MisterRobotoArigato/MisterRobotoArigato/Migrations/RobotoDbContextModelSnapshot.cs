@@ -110,6 +110,8 @@ namespace MisterRobotoArigato.Migrations
 
                     b.Property<decimal>("DiscountPercent");
 
+                    b.Property<string>("OrderDate");
+
                     b.Property<string>("Shipping");
 
                     b.Property<decimal>("Subtotal");
