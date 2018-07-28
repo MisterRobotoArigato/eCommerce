@@ -185,7 +185,6 @@ namespace MisterRobotoArigato.Controllers
             return View(datOrder);
         }
 
-        [HttpGet]
         public async Task<IActionResult> DeleteOrder(int id)
         {
             Order datOrder = await _orderRepo.GetOrderByIDAsync(id);
@@ -193,6 +192,7 @@ namespace MisterRobotoArigato.Controllers
             return View(datOrder);
         }
 
+        [HttpPost]
         public async Task<IActionResult> DeleteOrderConfirmed(int id)
         {
             await _orderRepo.DeleteOrderAsync(id);

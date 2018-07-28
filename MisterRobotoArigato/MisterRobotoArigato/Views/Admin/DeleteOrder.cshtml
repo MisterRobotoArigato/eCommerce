@@ -95,7 +95,10 @@
                 </div>
             </div>
             <hr class="mb-4">
-            <a class="btn btn-danger btn-lg btn-block" method="post" asp-controller="Admin" asp-action="DeleteOrderConfirmed" asp-route-id="@Model.ID">Delete Order</a>
+            <form method="post" asp-controller="Admin" asp-action="DeleteOrderConfirmed">
+                <input type="hidden" asp-for="ID" />
+                <input type="submit" value="Delete Order" class="btn btn-danger btn-lg btn-block" />
+            </form>
         </div>
     </div>
         <a class="btn btn-info btn-lg btn-block" asp-controller="Admin" asp-action="RecentOrders">Return to Order Log</a>

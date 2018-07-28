@@ -10,7 +10,6 @@ using System.Threading.Tasks;
 
 namespace MisterRobotoArigato.Models
 {
-    [Authorize]
     public class DevOrderRepo : IOrderRepo
     {
         private RobotoDbContext _context;
