@@ -184,6 +184,21 @@ namespace MisterRobotoArigato.Controllers
             datOrder.Address = await _orderRepo.GetAddressByIDAsync(datOrder.AddressID);
             return View(datOrder);
         }
+
+        [HttpGet]
+        public async Task<IActionResult> DeleteOrder(int id)
+        {
+            Order datOrder = await _orderRepo.GetOrderByIDAsync(id);
+            datOrder.Address = await _orderRepo.GetAddressByIDAsync(datOrder.AddressID);
+            return View(datOrder);
+        }
+
+        public async Task<IActionResult> DeleteOrderConfirmed(int id)
+        {
+            await _orderRepo.DeleteOrderAsync(id);
+            return RedirectToAction(nameof(RecentOrders));
+        }
+
         /// <summary>
         /// Checks if a product exists.  If it does, return a true value
         /// </summary>

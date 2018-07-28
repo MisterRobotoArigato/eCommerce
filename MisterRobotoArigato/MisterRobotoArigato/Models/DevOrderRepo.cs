@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using MisterRobotoArigato.Data;
 using System;
 using System.Collections.Generic;
@@ -8,13 +10,17 @@ using System.Threading.Tasks;
 
 namespace MisterRobotoArigato.Models
 {
+    [Authorize]
     public class DevOrderRepo : IOrderRepo
     {
         private RobotoDbContext _context;
 
-        public DevOrderRepo(RobotoDbContext context)
+        private UserManager<ApplicationUser> _userManager;
+
+        public DevOrderRepo(RobotoDbContext context, UserManager<ApplicationUser> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
         /// <summary>
@@ -24,7 +30,7 @@ namespace MisterRobotoArigato.Models
         /// <returns>the new order object</returns>
         public async Task<Order> GetOrderByIDAsync(int id)
         {
-            List<OrderItem> demItems = _context.OrderItems.Where(i => i.OrderID == id).ToList();
+            List<OrderItem> demItems = await _context.OrderItems.Where(i => i.OrderID == id).ToListAsync();
             Order datOrder = await _context.Orders.FirstOrDefaultAsync(o => o.ID == id);
 
             if (datOrder != null)
@@ -92,6 +98,7 @@ namespace MisterRobotoArigato.Models
         /// <returns>HTTP Status Code</returns>
         public async Task<HttpStatusCode> DeleteOrderAsync(int id)
         {
+
             try
             {
                 Order orderToRemove = await _context.Orders.FirstOrDefaultAsync(o => o.ID == id);

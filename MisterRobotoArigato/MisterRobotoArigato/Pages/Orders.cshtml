@@ -94,9 +94,6 @@
                             </div>
                         </div>
                         <hr class="mb-4">
-                        @*<form method="post" asp-action="DeleteOrder" asp-controller="Shop">
-                            <button class="btn btn-danger btn-lg btn-block" type="submit" asp-route-id="@order.ID">Cancel Order</button>
-                        </form>*@
                         <a class="btn btn-danger btn-lg btn-block" asp-controller="Shop" asp-action="DeleteOrder" asp-route-id="@order.ID">Cancel Order</a>
 
                     </div>
