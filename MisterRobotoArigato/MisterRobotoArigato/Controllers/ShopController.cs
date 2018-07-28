@@ -150,6 +150,14 @@ namespace MisterRobotoArigato.Controllers
         [HttpGet]
         public async Task<IActionResult> DeleteOrder(int id)
         {
+            var user = await _userManager.FindByEmailAsync(User.Identity.Name);
+            Order order = await _orderRepo.GetOrderByIDAsync(id);
+
+            // Safeguard to prevent user from cancelling another user's order.
+            // Not sure how effective this is, though...
+            if (order.UserID != user.Id)
+                return RedirectToAction("Index", "Orders");
+
             await _orderRepo.DeleteOrderAsync(id);
             return RedirectToAction("Index", "Orders");
         }

@@ -36,6 +36,6 @@ section {
     }
 }
 
-section.order {
-    margin-bottom:8em;
+section.order:not(:last-child) {
+    margin-bottom: 8em;
 }
