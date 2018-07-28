@@ -66,8 +66,8 @@
                             <div class="d-inline-block">
                                 @{
                                     var user = await UserManager.FindByEmailAsync(User.Identity.Name);
-
-                                    <strong>Customer:</strong> @user.FirstName @user.LastName<br />
+                                    string fullName = $"{user.FirstName} {user.LastName}";
+                                    <strong>Customer:</strong> @fullName<br />
                                 }
                                 <strong>Order Date:</strong> @Model.OrderDate<br />
                             </div>
