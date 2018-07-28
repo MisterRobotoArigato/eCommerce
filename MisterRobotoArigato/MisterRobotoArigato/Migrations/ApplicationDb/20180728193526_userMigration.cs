@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace MisterRobotoArigato.Migrations.ApplicationDb
 {
-    public partial class sprint2Users : Migration
+    public partial class userMigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
