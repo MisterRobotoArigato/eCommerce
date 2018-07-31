@@ -5,26 +5,28 @@
     Layout = "_Layout";
 }
 
-<h2>Account Profile</h2>
 
-<div class="container">
+<div class="container ">
+<h2>Account Profile</h2>
     <div class="row">
         <div class="col-md-6">
-            <form method="post">
-            <div>
-                <label asp-for="FirstName"></label>
-                <input asp-for="FirstName" />
+        <form method="post">
+            <div class="form-group">
+                <label asp-for="FirstName" class="control-label"></label>
+                <input asp-for="FirstName" class="form-control" />
             </div>
-            <div>
-                <label asp-for="LastName"></label>
-                <input asp-for="LastName" />
+            <div class="form-group">
+                <label asp-for="LastName" class="control-label"></label>
+                <input asp-for="LastName" class="form-control" />
             </div>
-            <div>
-                <label asp-for="Email"></label>
-                <input readonly="readonly" asp-for="Email" />
+            <div class="form-group">
+                <label asp-for="Email" class="control-label"></label>
+                <input readonly="readonly" asp-for="Email" class="form-control" />
             </div>
-                <button type="submit">Update</button>
-            </form>
+            <div class="form-group">
+                <button type="submit" class="btn btn-warning btn-lg btn-block">Update</button>
+            </div>
+        </form>
         </div>
     </div>
 </div>
