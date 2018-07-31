@@ -76,6 +76,11 @@ namespace MisterRobotoArigato.Models
             }
         }
 
+        /// <summary>
+        /// Takes in an order object and updates that order
+        /// </summary>
+        /// <param name="order"></param>
+        /// <returns>HTTP Status Code</returns>
         public async Task<HttpStatusCode> UpdateOrderAsync(Order order)
         {
             try
@@ -133,24 +138,45 @@ namespace MisterRobotoArigato.Models
             }
         }
 
+        /// <summary>
+        /// The logic only adds the last n number of orders to a list of lastNOrders
+        /// </summary>
+        /// <param name="n"></param>
+        /// <returns>list of orders that is n from the end of the list</returns>
         public async Task<List<Order>> GetRecentOrdersAsync(int n)
         {
             List<Order> lastNOrders = await _context.Orders.Skip(Math.Max(0, _context.Orders.Count() - n)).ToListAsync();
             return lastNOrders;
         }
 
+        /// <summary>
+        /// The logic only adds the last n number of orders to a list of lastNOrders
+        /// </summary>
+        /// <param name="n"></param>
+        /// <param name="userID"></param>
+        /// <returns>list of orders that is n from the end of the list and is associated with a user</returns>
         public async Task<List<Order>> GetRecentOrdersAsync(int n, string userID)
         {
             List<Order> lastNOrders = await _context.Orders.Where(o => o.UserID == userID).Skip(Math.Max(0, _context.Orders.Count() - n)).ToListAsync();
             return lastNOrders;
         }
 
+        /// <summary>
+        /// finds an address associated with a user id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>address</returns>
         public async Task<Address> GetAddressByIDAsync(int id)
         {
             Address address = await _context.Addresses.FirstOrDefaultAsync(a => a.ID == id);
             return address;
         }
 
+        /// <summary>
+        /// finds all the orderItems associated with a user id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>a list orderItems associated with the user id</returns>
         public async Task<List<OrderItem>> GetOrderItemsByOrderIDAsync(int id)
         {
             List<OrderItem> orderItems = await _context.OrderItems.Where(i => i.OrderID == id).ToListAsync();

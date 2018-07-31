@@ -10,6 +10,9 @@ The shop lives [here](https://misterrobotoarigato.azurewebsites.net).
 This project is a full stack web application that serves as an e-commerce website 
 selling robots. The shop lives [here](https://misterrobotoarigato.azurewebsites.net).
 
+#### Vulnerability Report
+A report can be found [here](/vulnerability-report.md).
+
 #### Registration, Login, and External Login (OAUTH)
 The following tutorial was followed to add external logins: [Google](https://docs.microsoft.com/en-us/aspnet/core/security/authentication/social/google-logins?view=aspnetcore-2.1&tabs=aspnetcore2x)
 and [Microsoft](https://docs.microsoft.com/en-us/aspnet/core/security/authentication/social/microsoft-logins?view=aspnetcore-2.1&tabs=aspnetcore2x)
