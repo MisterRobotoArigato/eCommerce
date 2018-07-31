@@ -43,8 +43,8 @@ namespace MisterRobotoArigato
             })
             .AddMicrosoftAccount(microsoftOptions =>
             {
-                microsoftOptions.ClientId = Configuration["Microsoft:Authentication:Microsoft:ApplicationId"];
-                microsoftOptions.ClientSecret = Configuration["Microsoft:Authentication:Microsoft:Password"];
+                microsoftOptions.ClientId = Configuration["Authentication:Microsoft:ApplicationId"];
+                microsoftOptions.ClientSecret = Configuration["Authentication:Microsoft:Password"];
                 microsoftOptions.CallbackPath = new PathString("/signin-microsoft");
             });
 
