@@ -37,13 +37,19 @@ namespace MisterRobotoArigato.Pages
 
         }
 
+        /// <summary>
+        /// on page load, the most recent 3 orders, associated with a user, will be fetched
+        /// </summary>
+        /// <returns>no returns</returns>
         public async Task OnGet()
         {
+            //finds the user and the orders associated with them
             var user = await _userManager.GetUserAsync(User);
 
             FirstName = user.FirstName;
             LastName = user.LastName;
 
+            //fetches the last 3 that matches the user id and stores it
             Orders = await _orderRepo.GetRecentOrdersAsync(3, user.Id);
             foreach (Order order in Orders)
             {
