@@ -38,8 +38,8 @@ namespace MisterRobotoArigato
             //these service requests are chained as suggested by the MS Docs
             services.AddAuthentication().AddGoogle(google =>
             {
-                google.ClientId = Configuration["OAUTH:Authentication:Google:ClientId"];
-                google.ClientSecret = Configuration["OAUTH:Authentication:Google:ClientSecret"];
+                google.ClientId = Configuration["Authentication:Google:ClientId"];
+                google.ClientSecret = Configuration["Authentication:Google:ClientSecret"];
             })
             .AddMicrosoftAccount(microsoftOptions =>
             {
@@ -50,10 +50,10 @@ namespace MisterRobotoArigato
 
             //Which database to connect to
             services.AddDbContext<RobotoDbContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+                options.UseSqlServer(Configuration.GetConnectionString("ProductionConnection")));
 
             services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection2")));
+                options.UseSqlServer(Configuration.GetConnectionString("ProductionConnection2")));
 
             //policies being enforced by Mister Roboto Arigato
             services.AddAuthorization(options =>
