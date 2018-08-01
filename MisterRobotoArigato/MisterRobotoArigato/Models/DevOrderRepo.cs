@@ -157,7 +157,9 @@ namespace MisterRobotoArigato.Models
         /// <returns>list of orders that is n from the end of the list and is associated with a user</returns>
         public async Task<List<Order>> GetRecentOrdersAsync(int n, string userID)
         {
-            List<Order> lastNOrders = await _context.Orders.Where(o => o.UserID == userID).Skip(Math.Max(0, _context.Orders.Count() - n)).ToListAsync();
+            var orderQuery = _context.Orders.Where(o => o.UserID == userID);
+            int orderCount = orderQuery.Count();
+            List<Order> lastNOrders = await orderQuery.Skip(Math.Max(0, orderCount - n)).ToListAsync();
             return lastNOrders;
         }
 
