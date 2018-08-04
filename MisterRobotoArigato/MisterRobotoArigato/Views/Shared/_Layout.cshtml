@@ -65,18 +65,16 @@
                                 @{
                                     if (User.Identity.Name.Contains("doge"))
                                     {
-                                        <img src="https://t7.rbxcdn.com/1c24a8301e8180247a36ed01ca871309" alt="doge icon" class="float-left" id="doge-icon" />
+                                        <img src="~/Assets/doge.png" alt="doge icon" class="float-left" id="doge-icon" />
 
                                     }
                                     else if (isAdmin)
                                     {
-                                        @*<img src="https://cdn1.iconfinder.com/data/icons/ninja-things-1/1772/ninja-simple-512.png" alt="admin icon" class="fas fa-user-ninja float-left" id="big-user-icon" />*@
                                         <i class="fas fa-user-edit big-user-icon"></i>
                                     }
                                     else
                                     {
 
-                                        @*<img src="http://www.stickpng.com/assets/images/585e4bf3cb11b227491c339a.png" alt="user icon" class="float-left" id="big-user-icon" />*@
                                         <i class="fas fa-user big-user-icon"></i>
                                     }
                                 }
