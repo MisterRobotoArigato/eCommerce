@@ -182,7 +182,7 @@ On the admin side, there is new admin dashboard:
 
 "View Recent Orders" will show the admin the most recent 20 orders:
 
-![Admin Recent Orders](Screenshots/week3/newAdminDashboard.png)
+![Admin Recent Orders](Screenshots/week3/adminRecentOrderDashboard.png)
 
 The transaction appears on Authorize Net:
 
