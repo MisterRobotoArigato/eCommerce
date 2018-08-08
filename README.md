@@ -17,7 +17,7 @@ A report can be found [here](/vulnerability-report.md).
 The following tutorial was followed to add external logins: [Google](https://docs.microsoft.com/en-us/aspnet/core/security/authentication/social/google-logins?view=aspnetcore-2.1&tabs=aspnetcore2x)
 and [Microsoft](https://docs.microsoft.com/en-us/aspnet/core/security/authentication/social/microsoft-logins?view=aspnetcore-2.1&tabs=aspnetcore2x)
 
-After registration, they will receive a welcome email.  Users can still register 
+After registration, users will receive a welcome email.  Users can still register 
 and directly log in through the website rather than with an external party.
 
 #### Claims
@@ -152,7 +152,7 @@ dotnet run
 ## Architecture
 This application is created using ASP.NET Core 2.1 Web Application <br />
 *Languages*: C#, HTML, CSS, SCSS <br />
-*Tools*: Azure, Visual Studio Team Services, SQL Database, SendGrid Bootstrap <br />
+*Tools*: Azure, Visual Studio Team Services, SQL Database, SendGrid, Authorize.Net, Bootstrap <br />
 *Type of Application*: Web Application <br />
 
 ---
