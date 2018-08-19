@@ -10,7 +10,7 @@
 }
 <div class="container">
     <div class="row">
-        <div class="col-md-6" >
+        <div class="col-md-6">
             <h2>Login</h2>
             <div class="row">
                 <div class="col-lg-2">
@@ -30,9 +30,11 @@
                     </form>
                 </div>
             </div>
+            <p>Don't have an account? Register <a asp-action="Register" asp-controller="Account">here</a>!</p>
         </div>
         <div class="col-md-6">
             <h2>Login With an External Account</h2>
+            <br/>
             @{
                 var loginProviders = (await SignInManager.GetExternalAuthenticationSchemesAsync()).ToList();
                 if (loginProviders.Count > 0)
