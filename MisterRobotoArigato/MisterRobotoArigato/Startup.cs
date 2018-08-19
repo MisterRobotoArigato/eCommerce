@@ -38,13 +38,13 @@ namespace MisterRobotoArigato
             //these service requests are chained as suggested by the MS Docs
             services.AddAuthentication().AddGoogle(google =>
             {
-                google.ClientId = Configuration["OAUTH:Authentication:Google:ClientId"];
-                google.ClientSecret = Configuration["OAUTH:Authentication:Google:ClientSecret"];
+                google.ClientId = Configuration["Authentication:Google:ClientId"];
+                google.ClientSecret = Configuration["Authentication:Google:ClientSecret"];
             })
             .AddMicrosoftAccount(microsoftOptions =>
             {
-                microsoftOptions.ClientId = Configuration["Microsoft:Authentication:Microsoft:ApplicationId"];
-                microsoftOptions.ClientSecret = Configuration["Microsoft:Authentication:Microsoft:Password"];
+                microsoftOptions.ClientId = Configuration["Authentication:Microsoft:ApplicationId"];
+                microsoftOptions.ClientSecret = Configuration["Authentication:Microsoft:Password"];
                 microsoftOptions.CallbackPath = new PathString("/signin-microsoft");
             });
 
@@ -81,19 +81,6 @@ namespace MisterRobotoArigato
             app.UseAuthentication();
             app.UseStaticFiles();
             app.UseMvcWithDefaultRoute();
-
-            //app.UseMvc(route =>
-            //{
-            //    route.MapRoute(
-            //        name: "default",
-            //        template: "{controller=Home}/{action=Index}/{id?}");
-            //});
-
-            //app.Run((context) =>
-            //{
-            //    context.Response.Redirect("/");
-            //    return Task.FromResult<object>(null);
-            //});
 
             app.Run(async (context) =>
             {
