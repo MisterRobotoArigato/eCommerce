@@ -29,121 +29,138 @@
             </button>
             <div class="navbar-collapse collapse" id="navbar7">
                 <ul class="navbar-nav">
-                    <li class="nav-item">
-                        <a class="nav-link" asp-controller="Shop" asp-action="Index">Shop</a>
-                    </li>
                     @if (SignInManager.IsSignedIn(User))
                     {
-                        <li class="nav-item">
-                            <a class="nav-link" asp-controller="Shop" asp-action="MyBasket">My Basket</a>
+                        <li class="nav-item dropdown">
+                            <a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown">Shopping Options<b class="caret"></b></a>
+                            <div class="dropdown-menu user-menu" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" asp-controller="Shop" asp-action="Index">Shop <i class="fas fa-lg fa-shopping-basket"></i></a>
+
+                                <a class="dropdown-item" asp-controller="Checkout" asp-action="Index">Checkout <i class="fas fa-shopping-bag"></i></a>
+                                <a class="dropdown-item" asp-controller="Orders" asp-action="Index">Recent Orders <i class="fas fa-archive"></i></a>
+                            </div>
                         </li>
+                        <noscript>
+                            <li class="nav-item">
+                                <a class="nav-link" asp-controller="Shop" asp-action="Index">Shop</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" asp-controller="Shop" asp-action="MyBasket">My Basket</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" asp-controller="Checkout" asp-action="Index">Checkout</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" asp-controller="Orders" asp-action="Index">Recent Orders</a>
+                            </li>
+                        </noscript>
+                    }
+                    else
+                    {
                         <li class="nav-item">
-                            <a class="nav-link" asp-controller="Checkout" asp-action="Index">Checkout</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" asp-controller="Profile" asp-action="Index">My Profile</a>
+                            <a class="nav-link" asp-controller="Shop" asp-action="Index">Shop</a>
                         </li>
                     }
-                    <li class="nav-item">
-                        <a class="nav-link" asp-controller="Orders" asp-action="Index">Recent Orders</a>
-                    </li>
                 </ul>
             </div>
-            <ul class="nav navbar-nav navbar-right">
-                @if (SignInManager.IsSignedIn(User))
-                {
-                    var user = await UserManager.FindByEmailAsync(User.Identity.Name);
-                    bool isAdmin = await UserManager.IsInRoleAsync(user, ApplicationRoles.Admin);
+                <ul class="navbar-nav navbar-right">
+                    @if (SignInManager.IsSignedIn(User))
+                    {
+                        var user = await UserManager.FindByEmailAsync(User.Identity.Name);
+                        bool isAdmin = await UserManager.IsInRoleAsync(user, ApplicationRoles.Admin);
 
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <i class="fas fa-user"></i>
-                            <strong>Hi, @User.Claims.FirstOrDefault(c => c.Type == "FirstName").Value!</strong>
-                        </a>
-                        <div class="dropdown-menu user-menu" aria-labelledby="navbarDropdown">
-                            <div class="dropdown-item disabled">
-                                @{
-                                    if (User.Identity.Name.Contains("doge"))
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fas fa-user"></i>
+                                <strong>Hi, @User.Claims.FirstOrDefault(c => c.Type == "FirstName").Value!</strong>
+                            </a>
+                            <div class="dropdown-menu user-menu" aria-labelledby="navbarDropdown">
+                                <div class="dropdown-item disabled">
+                                    @{
+                                        if (User.Identity.Name.Contains("doge"))
+                                        {
+                                            <img src="~/Assets/doge.png" alt="doge icon" class="float-left" id="doge-icon" />
+
+                                        }
+                                        else if (isAdmin)
+                                        {
+                                            <i class="fas fa-user-edit big-user-icon"></i>
+                                        }
+                                        else
+                                        {
+
+                                            <i class="fas fa-user big-user-icon"></i>
+                                        }
+                                    }
+                                    <div class="d-inline-block" id="user-attr">
+                                        <strong>@User.Claims.FirstOrDefault(c => c.Type == "FullName").Value</strong>
+                                        @if (isAdmin)
+                                        {
+                                            <i class="fas fa-star"></i>
+                                        }
+                                        <p>@User.Identity.Name</p>
+                                    </div>
+                                    @if (User.Identity.Name == "doge@gmail.com")
                                     {
-                                        <img src="~/Assets/doge.png" alt="doge icon" class="float-left" id="doge-icon" />
-
+                                        <div class="d-block">
+                                            <i>Supreme Overlord Admin</i>
+                                        </div>
                                     }
                                     else if (isAdmin)
                                     {
-                                        <i class="fas fa-user-edit big-user-icon"></i>
+                                        <div class="d-block">
+                                            <i>Admin</i>
+                                        </div>
                                     }
                                     else
                                     {
-
-                                        <i class="fas fa-user big-user-icon"></i>
+                                        <div class="d-block">
+                                            <i>Member</i>
+                                        </div>
                                     }
-                                }
-                                <div class="d-inline-block" id="user-attr">
-                                    <strong>@User.Claims.FirstOrDefault(c => c.Type == "FullName").Value</strong>
-                                    @if (isAdmin)
-                                    {
-                                        <i class="fas fa-star"></i>
-                                    }
-                                    <p>@User.Identity.Name</p>
                                 </div>
-                                @if (User.Identity.Name == "doge@gmail.com")
+                                @if (isAdmin)
                                 {
-                                    <div class="d-block">
-                                        <i>Supreme Overlord Admin</i>
-                                    </div>
+                                    <a class="dropdown-item" asp-controller="Admin" asp-action="Index">Admin Dashboard</a>
                                 }
-                                else if (isAdmin)
+                                @if (User.Identity.Name.Contains("doge"))
                                 {
-                                    <div class="d-block">
-                                        <i>Admin</i>
-                                    </div>
-                                }
-                                else
-                                {
-                                    <div class="d-block">
-                                        <i>Member</i>
-                                    </div>
-                                }
-                            </div>
-                            @if (isAdmin)
-                            {
-                                <a class="dropdown-item" asp-controller="Admin" asp-action="Index">Admin Dashboard</a>
-                            }
-                            @if (User.Identity.Name.Contains("doge"))
-                            {
-                                <a class="dropdown-item" asp-action="Index" asp-controller="Doge">Doge Portal</a>
+                                    <a class="dropdown-item" asp-action="Index" asp-controller="Doge">Doge Portal</a>
 
-                            }
-                            <a class="dropdown-item" asp-controller="Profile" asp-action="Index">Account Info</a>
-                            <a class="dropdown-item" asp-controller="Shop" asp-action="MyBasket">My Basket</a>
-                            <div class="dropdown-divider"></div>
-                            <div class="logout-container">
-                                <a asp-controller="Account" asp-action="Logout" class="btn btn-danger" id="logout-btn">Log out</a>
+                                }
+                                <a class="dropdown-item" asp-controller="Profile" asp-action="Index">My Profile</a>
+                                <a class="dropdown-item" asp-controller="Shop" asp-action="MyBasket">My Basket</a>
+                                <div class="dropdown-divider"></div>
+                                <div class="logout-container">
+                                    <a asp-controller="Account" asp-action="Logout" class="btn btn-danger" id="logout-btn">Log out</a>
+                                </div>
                             </div>
-                        </div>
-                    </li>
-                }
-                else
-                {
+                        </li>
+                    }
+                    else
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link" asp-controller="Account" asp-action="Register">Register</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-controller="Account" asp-action="Login">Login</a>
+                        </li>
+                    }
                     <li class="nav-item">
-                        <a class="nav-link" asp-controller="Account" asp-action="Register">Register</a>
+                        <form class="form-inline mt-2 mt-md-0" asp-controller="Shop" asp-action="Index" method="get">
+                            <input id="product-search" class="form-control mr-sm-2" type="text" name="SearchString" placeholder="Search for a Product" aria-label="Search">
+                            <button class="btn btn-outline-light my-2 my-sm-0" type="submit">Search</button>
+                        </form>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" asp-controller="Account" asp-action="Login">Login</a>
-                    </li>
-                }
-                <li class="nav-item">
-                    <form class="form-inline mt-2 mt-md-0" asp-controller="Shop" asp-action="Index" method="get">
-                        <input class="form-control mr-sm-2" type="text" name="SearchString" placeholder="Search for a Product" aria-label="Search">
-                        <button class="btn btn-outline-light my-2 my-sm-0" type="submit">Search</button>
-                    </form>
-                </li>
-            </ul>
-        </nav>
+                </ul>
+            </nav>
     </header>
-
     <main>
-        @RenderBody()
+        @if (!SignInManager.IsSignedIn(User))
+        {
+            <br/>
+        }
+            @RenderBody()
     </main>
     <footer class="footer">
         <div class="container">
