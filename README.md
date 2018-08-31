@@ -281,7 +281,7 @@ When a user is on this page, an email receipt is on its way to their inbox:
 
 _Landing Page_
 
-![MRA Store Visual 1](Screenshots/MRA-SS1.jpg)
+![MRA Store Visual 1](Screenshots/MRA-SS1.JPG)
 
 _Register An Account_
 
@@ -310,7 +310,8 @@ _Admin Portal_
 
 Any member who has an email with "doge" in it, will be an admin.
 
-![MRA Store Visual 2](Screenshots/MRA-SS2.jpg)
+![
+Store Visual 2](Screenshots/MRA-SS2.JPG)
 
 _Admin Dashboard_
 
