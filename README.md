@@ -321,7 +321,7 @@ Admins can view the entire inventory or add a product.
 _Admin View All_
 
 From View All, admins can edit the product description or delete the product.
-![Admin View All](Screenshots/AdminViewAll.png)
+![Admin View All](Screenshots/adminViewAll.png)
 
 _Admin Edit Product Info_
 
